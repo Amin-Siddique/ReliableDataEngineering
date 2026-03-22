@@ -10,24 +10,43 @@ type Props = {
 
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
-const { title, description, ...props } = data;
+const { title, description, ogImage, ...props } = data;
+
+// Get image URL
+let imageUrl: string | undefined;
+if (typeof ogImage === "string") {
+  imageUrl = ogImage;
+} else if (ogImage?.src) {
+  imageUrl = ogImage.src;
+}
 ---
 
 <li class="my-6">
   <a
     href={getPath(id, filePath)}
-    class:list={[
-      "inline-block text-lg font-medium text-accent",
-      "decoration-dashed underline-offset-4 hover:underline",
-      "focus-visible:no-underline focus-visible:underline-offset-0",
-    ]}
+    class="group flex flex-col gap-4 sm:flex-row sm:items-start"
   >
-    <Heading
-      style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
-    >
-      {title}
-    </Heading>
+    {
+      imageUrl && (
+        <img
+          src={imageUrl}
+          alt={title}
+          class="h-32 w-full rounded-lg object-cover sm:h-24 sm:w-40 flex-shrink-0 transition-opacity group-hover:opacity-80"
+        />
+      )
+    }
+    <div class="flex-1">
+      <Heading
+        class:list={[
+          "text-lg font-medium text-accent",
+          "decoration-dashed underline-offset-4 group-hover:underline",
+        ]}
+        style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+      >
+        {title}
+      </Heading>
+      <Datetime {...props} />
+      <p class="mt-1 text-foreground/80">{description}</p>
+    </div>
   </a>
-  <Datetime {...props} />
-  <p>{description}</p>
 </li>

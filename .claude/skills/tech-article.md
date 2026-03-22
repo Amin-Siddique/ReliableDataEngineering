@@ -15,7 +15,7 @@ tags:
   - primary-topic
   - secondary-topic
   - category
-ogImage: /assets/article-slug-og.png  # Optional, 1200x630px recommended
+ogImage: "https://images.unsplash.com/photo-XXXXX?w=1200&h=630&fit=crop"
 ---
 ```
 
@@ -123,13 +123,24 @@ tool-name do-something --flag value
 
 ## Image Guidelines
 
+**REQUIRED: Always include an ogImage in frontmatter.**
+
 For OG/social images (`ogImage` in frontmatter):
 
-- Dimensions: 1200x630px (Twitter/LinkedIn optimal)
-- Style: Dark background (#1a1a2e or similar), bold text, tool logo if available
-- Include: Tool name, one key visual (terminal, diagram, or icon), tagline
-- Format: PNG or WebP
-- Location: `/public/assets/` or `/src/assets/`
+- Use Unsplash URLs with parameters: `?w=1200&h=630&fit=crop`
+- Choose images that match the article topic:
+
+| Topic | Search terms |
+| ----- | ------------ |
+| Terminal/CLI tools | "terminal", "command line", "code dark" |
+| AI/ML | "artificial intelligence", "neural network", "robot" |
+| Data engineering | "data center", "server", "database" |
+| DevOps/Infrastructure | "server room", "network", "cloud computing" |
+| Code/Programming | "code", "programming", "software development" |
+| Graphs/Networks | "network", "connections", "nodes" |
+
+- Format: `"https://images.unsplash.com/photo-XXXXX?w=1200&h=630&fit=crop"`
+- Always wrap URL in quotes in YAML
 
 For inline images:
 
@@ -142,6 +153,7 @@ For inline images:
 - [ ] Title is specific and makes a claim (not "Introduction to X")
 - [ ] Description works as a standalone tweet
 - [ ] 3-5 relevant tags
+- [ ] **ogImage included** (Unsplash URL, 1200x630)
 - [ ] ~10-15 min read (2500-4000 words)
 - [ ] At least one code example
 - [ ] At least one table
