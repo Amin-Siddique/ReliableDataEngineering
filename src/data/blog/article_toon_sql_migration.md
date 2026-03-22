@@ -1,0 +1,263 @@
+---
+title: "How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression"
+description: "Feeding 200K-character SQL files to an LLM is expensive and unreliable. We built TOON — a compact AST notation that gives the model structural awareness at a fraction of the token cost."
+pubDatetime: 2026-03-22
+tags:
+  - sql
+  - llm
+  - data-engineering
+  - migration
+ogImage: "/images/blog/ast.png"
+---
+
+# How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression
+
+*Feeding 200K-character SQL files to an LLM is expensive and unreliable. We built TOON — a compact AST notation that gives the model structural awareness at a fraction of the token cost.*
+
+---
+
+*Data Engineering | SQL Migration | LLM Optimization | March 2026*
+*~12 min read*
+
+---
+
+## The problem: enterprise SQL doesn't fit in a context window
+
+Enterprise data warehouses accumulate SQL that no one anticipated an LLM would ever need to read. A single ETL procedure from an Oracle Data Integrator (ODI) pipeline can easily reach 200,000 characters — that is roughly 60,000 tokens before the LLM has even received its instructions.
+
+When tasked with migrating these SQL files from one dialect to another (say, Exasol to Databricks), the naive approach is straightforward: paste the entire SQL into a prompt, ask the model to rewrite it, and hope for the best. This approach fails in three predictable ways:
+
+**Context overflow.** Many production SQL files exceed the model's input window. Even models with 200K-token context windows struggle when the SQL alone consumes 60K tokens and the prompt, examples, and output reserve need the rest.
+
+**Cost.** At current API pricing, sending 60K input tokens per migration adds up quickly across hundreds of tables. Multiply by retry attempts when the model produces invalid output, and costs become a real concern.
+
+**Quality degradation.** LLMs perform worse on longer inputs. Buried in 200K characters of nested subqueries, the model loses track of column references, misses join conditions, and hallucinates table aliases. The signal-to-noise ratio of raw SQL is remarkably low.
+
+The engineering question becomes: how do you give an LLM the structural understanding it needs to perform a correct migration without sending it the full verbatim SQL?
+
+---
+
+## Two complementary strategies
+
+The solution combines two techniques that operate at different levels of the migration pipeline:
+
+1. **sqlglot AST for mechanical dialect conversion** — handle the deterministic, rule-based transformations (function names, date formats, syntax differences) without involving the LLM at all.
+
+2. **TOON (Token-Oriented Object Notation) for structural context** — compress the SQL's structure into a compact notation that the LLM can read at a fraction of the original token cost.
+
+Together, these techniques change the LLM's role from "rewrite this entire SQL file" to "apply intelligence to this structural blueprint, using the pre-transpiled SQL as a reference." The LLM does less mechanical work and more of what it is actually good at: understanding intent, restructuring logic, and applying idiomatic patterns.
+
+---
+
+## Strategy 1: sqlglot handles the mechanical work
+
+sqlglot is an open-source SQL parser, transpiler, and optimizer that supports over 20 SQL dialects. It parses SQL into an abstract syntax tree, transforms it, and regenerates SQL in a different dialect — all deterministically, with no LLM involved.
+
+For a migration from Exasol to Databricks, sqlglot handles transformations like:
+
+```sql
+-- Exasol (source)
+SELECT NVL(col, 0), SYSTIMESTAMP, TRUNC(dt, 'MM')
+FROM DDH_BUSINESS.my_table
+
+-- Databricks (sqlglot output)
+SELECT COALESCE(col, 0), current_timestamp(), date_trunc('month', dt)
+FROM catalog.schema.my_table
+```
+
+Function mappings (NVL → COALESCE, SYSTIMESTAMP → current_timestamp()), date format conversions, identifier quoting, and basic syntax normalization are all handled at the AST level. These are transformations with deterministic correct answers — there is no reason to spend tokens asking an LLM to figure them out.
+
+The transpiled SQL is then passed to the LLM as a "reference" rather than the primary input. The LLM's job shifts from dialect conversion to structural optimization: flattening nested subqueries into CTEs, applying dbt conventions, adding Jinja templating, and fixing patterns that sqlglot's rule-based engine cannot address.
+
+> **Design principle:** Use deterministic tools for deterministic problems. Reserve LLM tokens for tasks that require judgment.
+
+---
+
+## Strategy 2: TOON — a compact AST for LLM consumption
+
+Even after sqlglot handles dialect conversion, the LLM still needs to understand the SQL's structure to restructure it. Sending the full transpiled SQL works for small files, but for a 1,700-line query with 14 nested subqueries, the model needs a map.
+
+TOON (Token-Oriented Object Notation) is a custom serialization format that compresses a SQL AST into a compact, human-readable notation. It is generated by parsing the SQL with sqlglot and walking the AST, emitting only the structural skeleton: what tables are joined, how many columns are selected, where subqueries are nested, and what anti-patterns are present.
+
+### What TOON looks like
+
+Consider a moderately complex SQL statement with CTEs, joins, and nested subqueries. The raw SQL might be 800 lines. Its TOON representation looks like this:
+
+```
+STATS cols:47 tbls:8 subs:3 joins:5 ctes:2 chars:24680
+INSERT catalog.schema.target_table (47 cols)
+  cols: [col1 col2 col3 col4 ...]
+  WITH:
+    base_data:
+      SEL |12|
+        ~src.[col1 col2 col3]
+        expr -> col1
+        $s:'N' -> change_type
+        from: catalog.schema.source_table @src
+        where: AND(3)
+          & src.ghost_flag = 0
+          & src.valid_to > current_date()
+          & src.partition_date = __pit_date__
+    enriched:
+      SEL |47|
+        ~b.[col1 col2 change_type ...]
+        expr -> full_name
+        from: base_data @b
+        JOIN(LEFT) catalog.schema.ref_table ON: b.kim = r.kim
+        SUB @latest_record
+  body:
+    SEL |47|
+      ~e.*
+      from: enriched @e
+ISSUES |2|
+  [H] DEEP_NESTING: subquery nested 3 levels at SUB @latest_record
+  [M] PASSTHROUGH_SUBQUERY: CTE 'enriched' passes through all base_data columns
+```
+
+This TOON representation is roughly 40 lines and ~1,500 characters compared to the original 800 lines and 24,680 characters. That is a **94% reduction** in character count. The token savings are similar: approximately 500 tokens versus 7,700 tokens.
+
+### The notation explained
+
+TOON uses a handful of compact conventions:
+
+| Symbol | Meaning |
+| ------ | ------- |
+| `SEL \|N\|` | SELECT with N columns |
+| `~alias.[cols]` | Columns passed through from alias |
+| `$s:'value'` | String literal |
+| `@alias` | Table alias |
+| `JOIN(type)` | Join with type (LEFT, INNER, etc.) |
+| `SUB @name` | Subquery with alias |
+| `AND(N)` | N-condition AND clause |
+| `[H]` / `[M]` | High/Medium severity issue |
+
+The STATS line at the top gives the LLM a quick numeric summary it can use for self-validation: "My output should have 47 columns, reference 8 tables, and include 5 joins." The ISSUES section explicitly flags anti-patterns that the LLM should fix during migration.
+
+### How TOON is generated
+
+The generation pipeline uses sqlglot's AST traversal:
+
+1. Parse the SQL into an AST using `sqlglot.parse_one(sql, read=dialect)`.
+2. Walk the tree recursively, emitting the compact TOON notation for each node type (SELECT, JOIN, WHERE, CTE, subquery).
+3. Detect anti-patterns by analyzing the AST structure: nesting depth, passthrough subqueries, correlated EXISTS, SELECT *, and excessive NULL padding.
+4. Emit stats by counting AST node types (columns, tables, joins, subqueries, CTEs, window functions, unions).
+
+The entire generation is deterministic and runs in milliseconds. No LLM is involved in creating the TOON — it is purely an AST serialization step.
+
+---
+
+## The combined architecture
+
+With both strategies in place, the migration pipeline operates as follows:
+
+```
+┌─────────────────┐
+│  Source SQL     │
+│  (Exasol)       │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐
+│  sqlglot        │ ─── Mechanical dialect conversion
+│  transpile      │
+└────────┬────────┘
+         │
+         ├──────────────────┐
+         ▼                  ▼
+┌─────────────────┐  ┌─────────────────┐
+│  TOON           │  │  Transpiled SQL │
+│  (structural)   │  │  (reference)    │
+└────────┬────────┘  └────────┬────────┘
+         │                    │
+         └─────────┬──────────┘
+                   ▼
+         ┌─────────────────┐
+         │  LLM            │ ─── Structural optimization
+         │  (Claude/GPT)   │
+         └────────┬────────┘
+                  │
+                  ▼
+         ┌─────────────────┐
+         │  Output SQL     │
+         │  (Databricks)   │
+         └─────────────────┘
+```
+
+The LLM receives three inputs: the system prompt with migration instructions, the TOON as its primary structural guide (wrapped in `<toon_analysis>` tags), and the transpiled SQL as a reference. The TOON tells the model what to build; the transpiled SQL shows how the mechanical conversion looks.
+
+---
+
+## Handling SQL that still doesn't fit: CTE-aware chunking
+
+Even with TOON compression, some SQL files are genuinely enormous. A single query with 30 CTEs and a 2,000-line final SELECT can still exceed the context budget after transpilation. For these cases, the pipeline includes a CTE-aware chunking strategy.
+
+The chunking algorithm:
+
+1. Parse CTE boundaries using sqlglot's AST (with regex fallback for malformed SQL).
+2. Group CTEs into chunks that fit within a target token budget (default: 40K tokens per chunk).
+3. Give each chunk the full TOON for structural context — since TOON is compact (~500–2,000 tokens), it fits alongside every chunk without significant overhead.
+4. Migrate chunks in parallel (up to 3 concurrent LLM calls via asyncio).
+5. Stitch results by extracting CTEs from each migrated chunk and combining them with the final SELECT from the last chunk.
+
+This is where TOON's compactness provides a secondary benefit. Because the structural overview is small, every chunk can carry it without blowing the token budget. The LLM migrating chunk 2 (CTEs 4–6) still knows the overall query structure, column counts, and anti-patterns from the full TOON — even though it only sees a subset of the actual SQL.
+
+---
+
+## Measured results
+
+The token savings vary by SQL complexity, but the pattern is consistent across a corpus of 150+ migrated tables:
+
+| SQL Complexity | Raw Tokens | TOON Tokens | Reduction |
+| -------------- | ---------- | ----------- | --------- |
+| Simple (< 500 lines) | ~3,000 | ~400 | 87% |
+| Medium (500-1500 lines) | ~12,000 | ~800 | 93% |
+| Complex (1500+ lines) | ~45,000 | ~2,000 | 96% |
+
+The quality improvement is harder to quantify but consistently observed. When the LLM receives the TOON with explicit anti-pattern flags (DEEP_NESTING, PASSTHROUGH_SUBQUERY), it is significantly more likely to flatten nested subqueries into CTEs and eliminate redundant intermediate queries. Without the TOON, the model tends to preserve the original nesting structure — producing technically correct but poorly structured output.
+
+---
+
+## What the LLM actually does now
+
+With sqlglot handling dialect mechanics and TOON providing structural context, the LLM's responsibilities narrow to tasks that genuinely require language understanding:
+
+- **CTE restructuring** — flattening nested subqueries into named CTEs with descriptive names.
+- **dbt conventions** — adding `{{ config() }}` blocks, converting ODI variables to `{% set %}` + `var()` patterns with fallback defaults.
+- **Anti-pattern remediation** — rewriting CORRELATED_EXISTS as LEFT SEMI JOIN, replacing SELECT * with explicit column lists, simplifying NULL_PADDING with COALESCE.
+- **Documentation** — adding section headers and inline comments explaining business logic.
+
+These are tasks where LLMs excel — pattern recognition, idiomatic rewriting, and applying conventions from training data. They are also tasks where the TOON's anti-pattern annotations provide direct, actionable instructions rather than leaving the model to discover issues buried in thousands of lines of SQL.
+
+---
+
+## Lessons learned
+
+### 1. AST tools and LLMs are complementary, not competing
+
+The instinct when adopting LLMs is to feed them everything and let them figure it out. For structured inputs like SQL, this leaves significant efficiency on the table. sqlglot can handle dialect conversion with 100% determinism; the LLM should handle the remaining 20% that requires judgment.
+
+### 2. Compact structural representations outperform raw text for LLM context
+
+This is the core insight behind TOON. LLMs do not need to see every column alias and every WHERE clause predicate to understand a query's structure. A compressed notation with column counts, join types, and anti-pattern flags gives the model better structural awareness than the raw SQL — at 5–10% of the token cost.
+
+### 3. Anti-pattern detection should be explicit, not implicit
+
+Rather than hoping the LLM notices that a subquery is nested 5 levels deep, the TOON's ISSUES section explicitly says `[H] DEEP_NESTING: subquery nested 5 levels`. This transforms a quality aspiration into a concrete instruction. The LLM's compliance rate with explicit anti-pattern flags is materially higher than with raw SQL.
+
+### 4. Chunking needs structural awareness
+
+Naive chunking (split at line N) breaks SQL semantics. CTE-aware chunking preserves query boundaries and gives each chunk enough context (via TOON) to produce independently valid output. The stitching step is mechanical — extract CTEs from each chunk and combine them.
+
+---
+
+## Conclusion
+
+The combination of AST-based mechanical transpilation and compact structural notation for LLM context addresses a fundamental tension in LLM-assisted code migration: the models need to understand structure, but sending the full source is expensive and degrades quality.
+
+TOON is not a general-purpose technique — it works because SQL has a well-defined grammar that tools like sqlglot can parse reliably. The approach generalizes to any domain where the input has a parseable structure: configuration files, API schemas, infrastructure-as-code templates, or any structured language where an AST can be extracted and compressed.
+
+The principle is straightforward: **parse what you can, compress the structure, and reserve LLM tokens for the parts that actually require intelligence.**
+
+---
+
+*Disclaimer: This article describes a technical approach used in an internal migration project. The specific token reduction percentages, retry rates, and performance metrics cited are based on observations from a particular corpus of enterprise SQL and may not generalize to all workloads or SQL dialects. TOON is a custom internal format, not a published standard. sqlglot is an open-source project maintained independently. The techniques described here involve LLM-assisted code generation, which should always be validated by qualified engineers before deployment to production systems. This article represents the views of its authors and does not constitute an endorsement of any specific product or service.*

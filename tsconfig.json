@@ -1,6 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
+  "include": [".astro/types.d.ts", "**/*", ".astro/st.ts"],
   "exclude": ["dist", "public/pagefind"],
   "compilerOptions": {
     "baseUrl": ".",
