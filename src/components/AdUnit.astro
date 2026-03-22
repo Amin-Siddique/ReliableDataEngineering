@@ -1,0 +1,33 @@
+---
+type Props = {
+  slot: "header" | "in-article" | "sidebar" | "footer";
+  class?: string;
+};
+
+const { slot, class: className } = Astro.props;
+---
+
+<!-- Ad slot: {slot} — replace data-ad-slot with real AdSense/Carbon IDs once approved -->
+<div
+  class:list={[
+    "ad-unit my-6 flex items-center justify-center",
+    className,
+  ]}
+  data-ad-slot={slot}
+>
+  <!-- Google AdSense -->
+  <!--
+  <ins class="adsbygoogle"
+    style="display:block"
+    data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+    data-ad-slot="XXXXXXXXXX"
+    data-ad-format="auto"
+    data-full-width-responsive="true"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  -->
+
+  <!-- Carbon Ads (alternative) -->
+  <!--
+  <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=XXXXX&placement=reliable-data-engineeringnetlifyapp" id="_carbonads_js"></script>
+  -->
+</div>
