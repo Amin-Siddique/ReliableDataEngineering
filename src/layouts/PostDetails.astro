@@ -9,6 +9,7 @@ import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
+import AdUnit from "@/components/AdUnit.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -125,6 +126,9 @@ const nextPost =
     <BackToTopButton />
 
     <ShareLinks />
+
+    <!-- Ad placement after article -->
+    <AdUnit slot="in-article" class="my-8" />
 
     <hr class="my-6 border-dashed" />
 

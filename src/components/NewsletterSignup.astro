@@ -4,6 +4,8 @@ type Props = {
 };
 
 const { class: className } = Astro.props;
+
+const mediumUrl = "https://medium.com/@reliabledataengineering";
 ---
 
 <div
@@ -12,29 +14,27 @@ const { class: className } = Astro.props;
     className,
   ]}
 >
-  <h3 class="mb-2 text-lg font-semibold">Stay in the loop</h3>
+  <h3 class="mb-2 text-lg font-semibold">Follow on Medium</h3>
   <p class="mb-4 text-sm text-foreground/70">
-    Get weekly data engineering insights delivered to your inbox. No spam.
+    Get notified when new articles drop. Join the data engineering community.
   </p>
-  <!-- Replace action URL with Buttondown or your newsletter provider -->
-  <form
-    action="https://buttondown.com/api/emails/embed-subscribe/reliable-data-engineering"
-    method="post"
-    target="popupwindow"
-    class="flex flex-col items-center gap-2 sm:flex-row sm:justify-center"
+  <a
+    href={mediumUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex items-center gap-2 rounded bg-accent px-6 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
   >
-    <input
-      type="email"
-      name="email"
-      placeholder="you@example.com"
-      required
-      class="w-full rounded border border-border bg-background px-4 py-2 text-sm sm:w-64"
-    />
-    <button
-      type="submit"
-      class="rounded bg-accent px-6 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="currentColor"
     >
-      Subscribe
-    </button>
-  </form>
+      <path
+        d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"
+      />
+    </svg>
+    Follow on Medium
+  </a>
 </div>
