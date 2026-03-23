@@ -16,7 +16,6 @@ import ViewCounter from "@/components/ViewCounter.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
 import RelatedPosts from "@/components/RelatedPosts.astro";
 import CopyLinkButton from "@/components/CopyLinkButton.astro";
-import BookmarkButton from "@/components/BookmarkButton.astro";
 import KofiButton from "@/components/KofiButton.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
@@ -148,7 +147,6 @@ const nextPost =
     <div class="flex flex-wrap items-center gap-3 mb-4">
       <ShareLinks />
       <CopyLinkButton />
-      <BookmarkButton slug={post.id} title={title} />
     </div>
 
     <div class="flex flex-wrap items-center gap-3 my-4">

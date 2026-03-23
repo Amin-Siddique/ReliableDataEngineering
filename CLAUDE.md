@@ -44,7 +44,17 @@ tags:
 2. Italic deck + metadata + read time
 3. 8-12 H2 sections mixing problem/solution/examples/limitations
 4. "Try it" section with install commands and links
-5. Italicized disclaimer
+5. Affiliate book recommendation (see below)
+6. Italicized disclaimer
+
+**Affiliate links (add relevant one before disclaimer):**
+
+| Book | Link | Use for |
+| ---- | ---- | ------- |
+| Designing Data-Intensive Applications | `https://amzn.to/4lPlcr4` | Databases, distributed systems, storage |
+| Fundamentals of Data Engineering | `https://amzn.to/4sruUCi` | Pipelines, ETL, data lifecycle |
+| The Data Warehouse Toolkit | `https://amzn.to/4rNlq3m` | Warehouses, dimensional modeling |
+| Spark: The Definitive Guide | `https://amzn.to/41mM3RP` | Spark, big data processing |
 
 **Style notes:**
 

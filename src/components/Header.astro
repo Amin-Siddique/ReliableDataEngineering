@@ -5,7 +5,6 @@ import IconSearch from "@/assets/icons/IconSearch.svg";
 import IconArchive from "@/assets/icons/IconArchive.svg";
 import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
 import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
-import IconBookmark from "@/assets/icons/IconBookmark.svg";
 import IconKofi from "@/assets/icons/IconKofi.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
@@ -118,20 +117,6 @@ const isActive = (path: string) => {
           >
             <IconKofi />
             <span class="sr-only">Buy me a coffee</span>
-          </LinkButton>
-        </li>
-        <li class="col-span-1 flex items-center justify-center">
-          <LinkButton
-            href="/reading-list"
-            class:list={[
-              "focus-outline flex p-3 sm:p-1",
-              { "[&>svg]:stroke-accent": isActive("/reading-list") },
-            ]}
-            title="Reading List"
-            aria-label="reading list"
-          >
-            <IconBookmark />
-            <span class="sr-only">Reading List</span>
           </LinkButton>
         </li>
         <li class="col-span-1 flex items-center justify-center">

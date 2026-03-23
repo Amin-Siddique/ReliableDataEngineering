@@ -85,6 +85,33 @@ ogImage: "https://images.unsplash.com/photo-XXXXX?w=1200&h=630&fit=crop"
 - Emojis
 - Apologetic hedging ("it might be useful for some people")
 
+## Recommended Resources Section
+
+Before the disclaimer, add a relevant book recommendation with affiliate link. Keep it natural and match the book to the article topic.
+
+```markdown
+---
+
+*[Contextual sentence about going deeper on topic]. [Book Title](AFFILIATE_LINK) [brief reason why it's relevant to this article].*
+```
+
+**Available affiliate links (pick the most relevant):**
+
+| Book | Link | Best for articles about |
+| ---- | ---- | ----------------------- |
+| Designing Data-Intensive Applications | `https://amzn.to/4lPlcr4` | Distributed systems, databases, storage, replication, encoding |
+| Fundamentals of Data Engineering | `https://amzn.to/4sruUCi` | Data pipelines, ETL, data lifecycle, career advice |
+| The Data Warehouse Toolkit | `https://amzn.to/4rNlq3m` | Dimensional modeling, warehouses, analytics, BI |
+| Spark: The Definitive Guide | `https://amzn.to/41mM3RP` | Spark, big data, distributed processing |
+
+**Example:**
+
+```markdown
+---
+
+*Want to understand how storage engines and encoding formats actually work? [Designing Data-Intensive Applications](https://amzn.to/4lPlcr4) covers the fundamentals that make formats like this possible.*
+```
+
 ## Required Disclaimer
 
 End every article with an italicized disclaimer:
@@ -159,6 +186,7 @@ For inline images:
 - [ ] At least one table
 - [ ] Limitations section is honest
 - [ ] Links to source repo/docs
+- [ ] **Affiliate book recommendation** (pick most relevant from table above)
 - [ ] Disclaimer at the end
 - [ ] No broken links
 - [ ] Date is accurate
