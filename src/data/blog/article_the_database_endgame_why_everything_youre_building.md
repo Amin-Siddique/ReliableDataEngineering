@@ -685,3 +685,7 @@ Communities:
 Disagree with everything I wrote? Good. That means you’re thinking critically. Drop a comment with your counter-predictions — I want to know where YOU think this is all heading.
 
 And if you found this valuable, share it with someone who needs to think about the future of their career in data.
+
+---
+
+*To understand where databases are going, you need to understand where they came from. [Designing Data-Intensive Applications](https://amzn.to/4lPlcr4) is the definitive guide to how storage engines, replication, and distributed systems actually work. Essential reading for anyone building data infrastructure.*

@@ -438,3 +438,7 @@ Currently migrating our $2M lakehouse back to PostgreSQL. It’ll take 3 months 
 P.S. — “But what about when you need to scale?” We won’t. 99% of companies never hit the scale where PostgreSQL fails. We’ll worry about it if we become Google. Spoiler: We won’t become Google.
 
 P.P.S. — The executive who pushed for lakehouse? He’s at another company now, building another lakehouse. The cycle of complexity continues. His new title? “Chief Data Lakehouse Officer.” I’m not making this up.
+
+---
+
+*If you want to understand why simple beats complex, [Fundamentals of Data Engineering](https://amzn.to/4sruUCi) covers the entire data lifecycle without the vendor hype. And [The Data Warehouse Toolkit](https://amzn.to/4rNlq3m) proves that Kimball’s dimensional modeling from 1996 still works better than most “modern” approaches.*

@@ -198,3 +198,7 @@ Reference: Zeng, X., Meng, R., Prammer, M., McKinney, W., Patel, J.M., Pavlo, A.
 Further Reading:
 - GitHub: https://github.com/future-file-format/F3
 - Research Paper: https://db.cs.cmu.edu/papers/2025/zeng-sigmod2025.pdf
+
+---
+
+*Want to go deeper on file formats and data systems? [Designing Data-Intensive Applications](https://amzn.to/4lPlcr4) is the best resource for understanding how storage engines, encoding formats, and distributed systems actually work under the hood.*

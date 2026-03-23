@@ -1,113 +1,74 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
 ---
 
 <Layout title="Resources | Reliable Data Engineering">
   <Header />
   <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12">
-    <h1 class="text-3xl font-bold text-foreground mt-8 mb-4">Resources</h1>
+    <h1 class="text-3xl font-bold text-foreground mt-8 mb-4">Resources That Actually Made Me Better</h1>
     <p class="text-foreground/80 mb-8">
-      Tools, books, and services I use and recommend for data engineering. Some links are affiliate links — they help support this blog at no extra cost to you.
+      Not a generic list. These are the books I've dog-eared, the tools I use daily, and the courses that actually stuck. If you're serious about data engineering, start here.
     </p>
 
-    <!-- Cloud & Infrastructure -->
+    <!-- Books -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Cloud & Infrastructure</h2>
+      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Books Worth Your Time</h2>
       <div class="grid gap-4">
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">Vultr</h3>
-          <p class="text-foreground/70 text-sm mt-1">High-performance cloud compute. I use it for spinning up quick test environments and running benchmarks.</p>
-          <a href="YOUR_VULTR_REFERRAL_LINK" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Get $100 in free credits →</a>
+        <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
+          <h3 class="font-semibold text-foreground">Designing Data-Intensive Applications</h3>
+          <p class="text-foreground/70 text-sm mt-1">The one book every data engineer should read. Martin Kleppmann explains distributed systems, replication, partitioning, and consistency models in a way that finally makes sense. I re-read chapters before every system design interview.</p>
+          <a href="https://amzn.to/4lPlcr4" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book →</a>
         </div>
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">Cloudways</h3>
-          <p class="text-foreground/70 text-sm mt-1">Managed cloud hosting. Good for deploying web apps without managing servers yourself.</p>
-          <a href="YOUR_CLOUDWAYS_AFFILIATE_LINK" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Try Cloudways →</a>
+        <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
+          <h3 class="font-semibold text-foreground">Fundamentals of Data Engineering</h3>
+          <p class="text-foreground/70 text-sm mt-1">If DDIA is the deep dive, this is the complete map. Covers the entire data engineering lifecycle from ingestion to serving. Perfect if you're transitioning into data engineering or want to fill gaps in your knowledge.</p>
+          <a href="https://amzn.to/4sruUCi" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book →</a>
+        </div>
+        <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
+          <h3 class="font-semibold text-foreground">The Data Warehouse Toolkit</h3>
+          <p class="text-foreground/70 text-sm mt-1">Kimball's dimensional modeling is still relevant 25 years later. Star schemas, slowly changing dimensions, conformed dimensions - this book is why your data warehouse actually makes sense to analysts.</p>
+          <a href="https://amzn.to/4rNlq3m" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book →</a>
+        </div>
+        <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
+          <h3 class="font-semibold text-foreground">Spark: The Definitive Guide</h3>
+          <p class="text-foreground/70 text-sm mt-1">Co-authored by the creator of Spark. Goes from basics to advanced optimizations. The chapters on partitioning and shuffle operations alone saved me hours of debugging slow jobs.</p>
+          <a href="https://amzn.to/41mM3RP" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book →</a>
         </div>
       </div>
     </section>
 
     <!-- Databases -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Databases</h2>
+      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Databases I Trust</h2>
       <div class="grid gap-4">
-        <div class="p-4 border border-border rounded-lg">
+        <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Neon</h3>
-          <p class="text-foreground/70 text-sm mt-1">Serverless Postgres with branching. This blog uses Neon for the backend.</p>
-          <a href="https://neon.tech" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Try Neon (free tier) →</a>
+          <p class="text-foreground/70 text-sm mt-1">Serverless Postgres that scales to zero. This blog runs on Neon. Branch your database like git, pay only for what you use. The free tier is generous enough for most side projects.</p>
+          <a href="https://neon.tech" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free →</a>
         </div>
-        <div class="p-4 border border-border rounded-lg">
+        <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">PlanetScale</h3>
-          <p class="text-foreground/70 text-sm mt-1">Serverless MySQL with branching and deploy requests. Great developer experience.</p>
-          <a href="https://planetscale.com" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Try PlanetScale →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Books -->
-    <section class="mb-10">
-      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Books</h2>
-      <div class="grid gap-4">
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">Designing Data-Intensive Applications</h3>
-          <p class="text-foreground/70 text-sm mt-1">By Martin Kleppmann. The bible for understanding distributed systems and data architecture.</p>
-          <a href="https://amzn.to/4lPlcr4" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Get on Amazon →</a>
-        </div>
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">Fundamentals of Data Engineering</h3>
-          <p class="text-foreground/70 text-sm mt-1">By Joe Reis & Matt Housley. Comprehensive guide covering the entire data engineering lifecycle.</p>
-          <a href="https://amzn.to/4sruUCi" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Get on Amazon →</a>
-        </div>
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">The Data Warehouse Toolkit</h3>
-          <p class="text-foreground/70 text-sm mt-1">By Ralph Kimball. Essential for dimensional modeling and data warehouse design.</p>
-          <a href="https://amzn.to/4rNlq3m" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Get on Amazon →</a>
-        </div>
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">Spark: The Definitive Guide</h3>
-          <p class="text-foreground/70 text-sm mt-1">By Bill Chambers & Matei Zaharia. Everything you need to know about Apache Spark.</p>
-          <a href="https://amzn.to/41mM3RP" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Get on Amazon →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Learning Platforms -->
-    <section class="mb-10">
-      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Learning</h2>
-      <div class="grid gap-4">
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">DataCamp</h3>
-          <p class="text-foreground/70 text-sm mt-1">Interactive courses on SQL, Python, Spark, and data engineering fundamentals.</p>
-          <a href="YOUR_DATACAMP_AFFILIATE_LINK" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Start learning →</a>
-        </div>
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">Udemy</h3>
-          <p class="text-foreground/70 text-sm mt-1">Affordable courses on specific tools like Airflow, dbt, Kafka, and more.</p>
-          <a href="YOUR_UDEMY_AFFILIATE_LINK" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Browse courses →</a>
+          <p class="text-foreground/70 text-sm mt-1">MySQL with the best DX I've seen. Deploy requests work like pull requests for your schema. Non-blocking schema changes mean no more 3am maintenance windows.</p>
+          <a href="https://planetscale.com" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free →</a>
         </div>
       </div>
     </section>
 
     <!-- Tools -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Tools I Use</h2>
+      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Tools I Use Daily</h2>
       <div class="grid gap-4">
-        <div class="p-4 border border-border rounded-lg">
+        <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Cursor</h3>
-          <p class="text-foreground/70 text-sm mt-1">AI-powered code editor. My daily driver for writing code.</p>
-          <a href="https://cursor.sh" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Try Cursor →</a>
+          <p class="text-foreground/70 text-sm mt-1">VS Code fork with AI that actually understands your codebase. Tab-complete that works, chat that can edit multiple files. I write code 2x faster now. Not exaggerating.</p>
+          <a href="https://cursor.sh" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Download free →</a>
         </div>
-        <div class="p-4 border border-border rounded-lg">
+        <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Claude</h3>
-          <p class="text-foreground/70 text-sm mt-1">AI assistant for coding, writing, and research. Powers a lot of my workflow.</p>
-          <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Try Claude →</a>
-        </div>
-        <div class="p-4 border border-border rounded-lg">
-          <h3 class="font-semibold text-foreground">Notion</h3>
-          <p class="text-foreground/70 text-sm mt-1">Where I organize notes, drafts, and project documentation.</p>
-          <a href="YOUR_NOTION_AFFILIATE_LINK" target="_blank" rel="noopener noreferrer" class="inline-block mt-2 text-sm text-accent hover:underline">Try Notion →</a>
+          <p class="text-foreground/70 text-sm mt-1">My go-to for complex reasoning, code review, and writing. Handles long documents better than GPT. Most of my blog drafts start as Claude conversations.</p>
+          <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free →</a>
         </div>
       </div>
     </section>
@@ -115,7 +76,7 @@ import Footer from "@components/Footer.astro";
     <!-- Disclaimer -->
     <section class="mt-12 p-4 bg-muted/30 rounded-lg border border-border">
       <p class="text-foreground/60 text-sm">
-        <strong>Disclosure:</strong> Some links on this page are affiliate links. If you purchase through them, I may earn a small commission at no additional cost to you. I only recommend tools and resources I personally use or believe provide genuine value.
+        <strong>Disclosure:</strong> Some links are affiliate links. You pay the same price; I get a small commission that helps keep this blog running. I only recommend things I actually use.
       </p>
     </section>
   </main>
