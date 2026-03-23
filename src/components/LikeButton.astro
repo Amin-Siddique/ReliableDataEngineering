@@ -8,8 +8,8 @@ const { slug } = Astro.props;
 
 <div class="like-button-container" data-slug={slug}>
   <button class="like-button" aria-label="Like this article">
-    <svg class="heart-icon" viewBox="0 0 24 24" width="24" height="24">
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    <svg class="thumb-icon" viewBox="0 0 24 24" width="24" height="24">
+      <path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66-.23-.45-.52-.86-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.84C7 18.95 8.05 20 9.34 20h8.11c.7 0 1.36-.37 1.72-.97l2.66-6.15z"/>
     </svg>
     <span class="like-count">0</span>
   </button>
@@ -37,23 +37,23 @@ const { slug } = Astro.props;
   }
 
   .like-button:hover {
-    border-color: #ef4444;
-    color: #ef4444;
+    border-color: #3b82f6;
+    color: #3b82f6;
   }
 
   .like-button.liked {
-    border-color: #ef4444;
-    color: #ef4444;
+    border-color: #3b82f6;
+    color: #3b82f6;
   }
 
-  .like-button.liked .heart-icon {
-    fill: #ef4444;
+  .like-button.liked .thumb-icon {
+    fill: #3b82f6;
   }
 
-  .heart-icon {
+  .thumb-icon {
     fill: none;
     stroke: currentColor;
-    stroke-width: 2;
+    stroke-width: 1;
     transition: fill 0.2s ease;
   }
 
