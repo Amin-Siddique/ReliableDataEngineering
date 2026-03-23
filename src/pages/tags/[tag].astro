@@ -1,0 +1,56 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Card from "@/components/Card.astro";
+import { SITE } from "@/config";
+import { slugifyStr } from "@/utils/slugify";
+import getSortedPosts from "@/utils/getSortedPosts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+  // Get all unique tags
+  const tags = new Set<string>();
+  posts.forEach(post => {
+    post.data.tags.forEach(tag => tags.add(tag));
+  });
+
+  return Array.from(tags).map(tag => ({
+    params: { tag: slugifyStr(tag) },
+    props: { tag, tagSlug: slugifyStr(tag) },
+  }));
+}
+
+const { tag, tagSlug } = Astro.props;
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+const sortedPosts = getSortedPosts(posts);
+
+// Filter posts by tag
+const tagPosts = sortedPosts.filter(post =>
+  post.data.tags.some(t => slugifyStr(t) === tagSlug)
+);
+---
+
+<Layout title={`${tag} | ${SITE.title}`}>
+  <Header />
+  <main id="main-content" class="app-layout py-12">
+    <div class="mb-8">
+      <a href="/tags" class="text-sm text-muted hover:text-accent">&larr; All tags</a>
+    </div>
+
+    <h1 class="text-2xl font-bold text-accent sm:text-3xl mb-2">
+      #{tag}
+    </h1>
+    <p class="text-muted mb-8">{tagPosts.length} article{tagPosts.length !== 1 ? "s" : ""}</p>
+
+    <ul class="space-y-6">
+      {tagPosts.map(post => (
+        <Card {...post} />
+      ))}
+    </ul>
+  </main>
+  <Footer />
+</Layout>

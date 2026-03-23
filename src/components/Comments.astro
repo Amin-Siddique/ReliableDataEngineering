@@ -184,9 +184,11 @@ const { slug } = Astro.props;
   }
 
   function initComments() {
-    const sections = document.querySelectorAll<HTMLDivElement>(".comments-section");
+    const sections = document.querySelectorAll<HTMLDivElement>(".comments-section:not([data-initialized])");
 
     sections.forEach(section => {
+      section.dataset.initialized = "true";
+
       const slug = section.dataset.slug;
       if (!slug) return;
 
@@ -251,9 +253,6 @@ const { slug } = Astro.props;
     });
   }
 
-  // Run on initial load
-  initComments();
-
-  // Re-run after Astro page transitions
+  // Run on initial load and after Astro page transitions
   document.addEventListener("astro:page-load", initComments);
 </script>

@@ -1,0 +1,136 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<aside class:list={["toc-container", className]} data-toc>
+  <div class="toc-wrapper">
+    <h4 class="toc-title">On this page</h4>
+    <nav class="toc-nav">
+      <ul class="toc-list"></ul>
+    </nav>
+  </div>
+</aside>
+
+<style>
+  .toc-container {
+    display: none;
+  }
+
+  @media (min-width: 1280px) {
+    .toc-container {
+      display: block;
+      position: fixed;
+      right: max(1rem, calc((100vw - 80rem) / 2 - 14rem));
+      top: 6rem;
+      width: 14rem;
+      max-height: calc(100vh - 8rem);
+      overflow-y: auto;
+    }
+  }
+
+  .toc-wrapper {
+    padding: 1rem;
+    border-left: 1px solid var(--border-color, #374151);
+  }
+
+  .toc-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, #6b7280);
+    margin-bottom: 0.75rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8125rem;
+  }
+
+  .toc-list :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .toc-list :global(a) {
+    color: var(--text-muted, #9ca3af);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: block;
+    line-height: 1.4;
+  }
+
+  .toc-list :global(a:hover),
+  .toc-list :global(a.active) {
+    color: var(--accent-color, #3b82f6);
+  }
+
+  .toc-list :global(.toc-h3) {
+    padding-left: 0.75rem;
+  }
+
+  .toc-list :global(.toc-h4) {
+    padding-left: 1.5rem;
+  }
+</style>
+
+<script>
+  function initTableOfContents() {
+    const tocContainers = document.querySelectorAll<HTMLElement>("[data-toc]:not([data-initialized])");
+
+    tocContainers.forEach(container => {
+      container.dataset.initialized = "true";
+
+      const tocList = container.querySelector<HTMLUListElement>(".toc-list");
+      if (!tocList) return;
+
+      const article = document.getElementById("article");
+      if (!article) return;
+
+      const headings = article.querySelectorAll<HTMLHeadingElement>("h2, h3, h4");
+      if (headings.length === 0) {
+        container.style.display = "none";
+        return;
+      }
+
+      // Build TOC
+      headings.forEach(heading => {
+        if (!heading.id) return;
+
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = `#${heading.id}`;
+        a.textContent = heading.textContent?.replace(/#$/, "").trim() || "";
+        a.classList.add(`toc-${heading.tagName.toLowerCase()}`);
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+
+      // Highlight active section on scroll
+      const links = tocList.querySelectorAll<HTMLAnchorElement>("a");
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const id = entry.target.id;
+              links.forEach(link => {
+                link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+              });
+            }
+          });
+        },
+        { rootMargin: "-80px 0px -80% 0px" }
+      );
+
+      headings.forEach(heading => observer.observe(heading));
+    });
+  }
+
+  document.addEventListener("astro:page-load", initTableOfContents);
+</script>

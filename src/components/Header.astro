@@ -5,6 +5,7 @@ import IconSearch from "@/assets/icons/IconSearch.svg";
 import IconArchive from "@/assets/icons/IconArchive.svg";
 import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
 import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
+import IconBookmark from "@/assets/icons/IconBookmark.svg";
 import LinkButton from "./LinkButton.astro";
 import { SITE } from "@/config";
 
@@ -77,6 +78,11 @@ const isActive = (path: string) => {
           </a>
         </li>
         <li class="col-span-2">
+          <a href="/tags" class:list={{ "active-nav": isActive("/tags") }}>
+            Tags
+          </a>
+        </li>
+        <li class="col-span-2">
           <a href="/about" class:list={{ "active-nav": isActive("/about") }}>
             About
           </a>
@@ -101,6 +107,20 @@ const isActive = (path: string) => {
             </li>
           )
         }
+        <li class="col-span-1 flex items-center justify-center">
+          <LinkButton
+            href="/reading-list"
+            class:list={[
+              "focus-outline flex p-3 sm:p-1",
+              { "[&>svg]:stroke-accent": isActive("/reading-list") },
+            ]}
+            title="Reading List"
+            aria-label="reading list"
+          >
+            <IconBookmark />
+            <span class="sr-only">Reading List</span>
+          </LinkButton>
+        </li>
         <li class="col-span-1 flex items-center justify-center">
           <LinkButton
             href="/search"

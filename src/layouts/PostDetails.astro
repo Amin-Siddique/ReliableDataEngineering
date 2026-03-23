@@ -12,6 +12,12 @@ import BackToTopButton from "@/components/BackToTopButton.astro";
 import AdUnit from "@/components/AdUnit.astro";
 import LikeButton from "@/components/LikeButton.astro";
 import Comments from "@/components/Comments.astro";
+import ViewCounter from "@/components/ViewCounter.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
+import RelatedPosts from "@/components/RelatedPosts.astro";
+import CopyLinkButton from "@/components/CopyLinkButton.astro";
+import BookmarkButton from "@/components/BookmarkButton.astro";
+import KofiButton from "@/components/KofiButton.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -99,12 +105,14 @@ const nextPost =
     >
       {title}
     </h1>
-    <div class="my-2 flex items-center gap-2">
+    <div class="my-2 flex flex-wrap items-center gap-2 text-sm">
       <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+      <span aria-hidden="true" class="text-muted">|</span>
+      <ViewCounter slug={post.id} />
       <span
         aria-hidden="true"
         class:list={[
-          "max-sm:hidden",
+          "max-sm:hidden text-muted",
           { hidden: !SITE.editPost.enabled || hideEditPost },
         ]}>|</span
       >
@@ -137,7 +145,11 @@ const nextPost =
 
     <BackToTopButton />
 
-    <ShareLinks />
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      <ShareLinks />
+      <CopyLinkButton />
+      <BookmarkButton slug={post.id} title={title} />
+    </div>
 
     <LikeButton slug={post.id} />
 
@@ -145,6 +157,13 @@ const nextPost =
     <AdUnit slot="in-article" class="my-8" />
 
     <Comments slug={post.id} />
+
+    <RelatedPosts currentPost={post} allPosts={posts} />
+
+    <div class="my-8 p-6 bg-card rounded-lg border border-border text-center">
+      <p class="text-muted mb-4">If you found this article helpful, consider supporting my work</p>
+      <KofiButton />
+    </div>
 
     <hr class="my-6 border-dashed" />
 
@@ -180,6 +199,7 @@ const nextPost =
       }
     </div>
   </main>
+  <TableOfContents />
   <Footer />
 </Layout>
 

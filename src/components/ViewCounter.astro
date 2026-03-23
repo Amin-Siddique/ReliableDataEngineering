@@ -1,0 +1,67 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<span class="view-counter" data-slug={slug}>
+  <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+  </svg>
+  <span class="view-count">-</span> views
+</span>
+
+<style>
+  .view-counter {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--text-muted, #6b7280);
+  }
+</style>
+
+<script>
+  function initViewCounters() {
+    const counters = document.querySelectorAll<HTMLSpanElement>(".view-counter:not([data-initialized])");
+
+    counters.forEach(counter => {
+      counter.dataset.initialized = "true";
+
+      const slug = counter.dataset.slug;
+      if (!slug) return;
+
+      const countSpan = counter.querySelector<HTMLSpanElement>(".view-count");
+      if (!countSpan) return;
+
+      // Check if we've already counted this view in this session
+      const viewedKey = `viewed_${slug}`;
+      const hasViewed = sessionStorage.getItem(viewedKey);
+
+      if (!hasViewed) {
+        // Increment view count
+        fetch(`/api/views?slug=${encodeURIComponent(slug)}`, {
+          method: "POST",
+        })
+          .then(res => res.json())
+          .then(data => {
+            countSpan.textContent = data.count.toString();
+            sessionStorage.setItem(viewedKey, "true");
+          })
+          .catch(console.error);
+      } else {
+        // Just fetch current count
+        fetch(`/api/views?slug=${encodeURIComponent(slug)}`)
+          .then(res => res.json())
+          .then(data => {
+            countSpan.textContent = data.count.toString();
+          })
+          .catch(console.error);
+      }
+    });
+  }
+
+  document.addEventListener("astro:page-load", initViewCounters);
+</script>

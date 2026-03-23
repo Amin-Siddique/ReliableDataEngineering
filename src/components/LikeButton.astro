@@ -73,9 +73,11 @@ const { slug } = Astro.props;
   }
 
   function initLikeButtons() {
-    const containers = document.querySelectorAll<HTMLDivElement>(".like-button-container");
+    const containers = document.querySelectorAll<HTMLDivElement>(".like-button-container:not([data-initialized])");
 
     containers.forEach(container => {
+      container.dataset.initialized = "true";
+
       const slug = container.dataset.slug;
       if (!slug) return;
 
@@ -119,9 +121,6 @@ const { slug } = Astro.props;
     });
   }
 
-  // Run on initial load
-  initLikeButtons();
-
-  // Re-run after Astro page transitions
+  // Run on initial load and after Astro page transitions
   document.addEventListener("astro:page-load", initLikeButtons);
 </script>
