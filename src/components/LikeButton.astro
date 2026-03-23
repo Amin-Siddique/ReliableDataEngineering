@@ -1,0 +1,127 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<div class="like-button-container" data-slug={slug}>
+  <button class="like-button" aria-label="Like this article">
+    <svg class="heart-icon" viewBox="0 0 24 24" width="24" height="24">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+    </svg>
+    <span class="like-count">0</span>
+  </button>
+</div>
+
+<style>
+  .like-button-container {
+    display: inline-flex;
+    align-items: center;
+    margin: 1rem 0;
+  }
+
+  .like-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color, #374151);
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--text-color, #9ca3af);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+  }
+
+  .like-button:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+
+  .like-button.liked {
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+
+  .like-button.liked .heart-icon {
+    fill: #ef4444;
+  }
+
+  .heart-icon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    transition: fill 0.2s ease;
+  }
+
+  .like-count {
+    font-weight: 500;
+  }
+</style>
+
+<script>
+  function getFingerprint(): string {
+    const stored = localStorage.getItem("fp");
+    if (stored) return stored;
+
+    const fp = Math.random().toString(36).substring(2) + Date.now().toString(36);
+    localStorage.setItem("fp", fp);
+    return fp;
+  }
+
+  function initLikeButtons() {
+    const containers = document.querySelectorAll<HTMLDivElement>(".like-button-container");
+
+    containers.forEach(container => {
+      const slug = container.dataset.slug;
+      if (!slug) return;
+
+      const button = container.querySelector<HTMLButtonElement>(".like-button");
+      const countSpan = container.querySelector<HTMLSpanElement>(".like-count");
+      if (!button || !countSpan) return;
+
+      const fp = getFingerprint();
+
+      // Fetch initial state
+      fetch(`/api/likes?slug=${encodeURIComponent(slug)}&fp=${encodeURIComponent(fp)}`)
+        .then(res => res.json())
+        .then(data => {
+          countSpan.textContent = data.count.toString();
+          if (data.hasLiked) {
+            button.classList.add("liked");
+          }
+        })
+        .catch(console.error);
+
+      // Handle click
+      button.addEventListener("click", async () => {
+        button.disabled = true;
+
+        try {
+          const res = await fetch(`/api/likes?slug=${encodeURIComponent(slug)}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ fingerprint: fp }),
+          });
+
+          const data = await res.json();
+          countSpan.textContent = data.count.toString();
+          button.classList.toggle("liked", data.hasLiked);
+        } catch (err) {
+          console.error(err);
+        } finally {
+          button.disabled = false;
+        }
+      });
+    });
+  }
+
+  // Run on initial load
+  initLikeButtons();
+
+  // Re-run after Astro page transitions
+  document.addEventListener("astro:page-load", initLikeButtons);
+</script>

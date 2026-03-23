@@ -1,0 +1,259 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<div class="comments-section" data-slug={slug}>
+  <h3 class="comments-title">Comments</h3>
+
+  <form class="comment-form">
+    <div class="form-group">
+      <input
+        type="text"
+        name="authorName"
+        placeholder="Your name"
+        maxlength="100"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <textarea
+        name="content"
+        placeholder="Write a comment..."
+        maxlength="2000"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+    <button type="submit" class="submit-btn">Post Comment</button>
+    <p class="form-error"></p>
+  </form>
+
+  <div class="comments-list">
+    <p class="loading">Loading comments...</p>
+  </div>
+</div>
+
+<style>
+  .comments-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color, #374151);
+  }
+
+  .comments-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--heading-color, #f3f4f6);
+  }
+
+  .comment-form {
+    margin-bottom: 2rem;
+  }
+
+  .form-group {
+    margin-bottom: 1rem;
+  }
+
+  .comment-form input,
+  .comment-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color, #374151);
+    border-radius: 0.5rem;
+    background: var(--input-bg, #1f2937);
+    color: var(--text-color, #d1d5db);
+    font-family: inherit;
+    font-size: 0.875rem;
+  }
+
+  .comment-form input:focus,
+  .comment-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-color, #3b82f6);
+  }
+
+  .submit-btn {
+    padding: 0.625rem 1.25rem;
+    background: var(--accent-color, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .submit-btn:hover {
+    opacity: 0.9;
+  }
+
+  .submit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .form-error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    display: none;
+  }
+
+  .form-error.visible {
+    display: block;
+  }
+
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .loading {
+    color: var(--text-muted, #6b7280);
+    font-style: italic;
+  }
+
+  .no-comments {
+    color: var(--text-muted, #6b7280);
+  }
+
+  .comment {
+    padding: 1rem;
+    background: var(--card-bg, #111827);
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color, #374151);
+  }
+
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .comment-author {
+    font-weight: 600;
+    color: var(--heading-color, #f3f4f6);
+  }
+
+  .comment-date {
+    font-size: 0.75rem;
+    color: var(--text-muted, #6b7280);
+  }
+
+  .comment-content {
+    color: var(--text-color, #d1d5db);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+</style>
+
+<script>
+  function escapeHtml(text: string): string {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  function formatDate(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  }
+
+  function renderComment(comment: { id: number; author_name: string; content: string; created_at: string }): string {
+    return `
+      <div class="comment">
+        <div class="comment-header">
+          <span class="comment-author">${escapeHtml(comment.author_name)}</span>
+          <span class="comment-date">${formatDate(comment.created_at)}</span>
+        </div>
+        <div class="comment-content">${escapeHtml(comment.content)}</div>
+      </div>
+    `;
+  }
+
+  function initComments() {
+    const sections = document.querySelectorAll<HTMLDivElement>(".comments-section");
+
+    sections.forEach(section => {
+      const slug = section.dataset.slug;
+      if (!slug) return;
+
+      const form = section.querySelector<HTMLFormElement>(".comment-form");
+      const list = section.querySelector<HTMLDivElement>(".comments-list");
+      const errorEl = section.querySelector<HTMLParagraphElement>(".form-error");
+      if (!form || !list || !errorEl) return;
+
+      // Fetch comments
+      fetch(`/api/comments?slug=${encodeURIComponent(slug)}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.comments.length === 0) {
+            list.innerHTML = '<p class="no-comments">No comments yet. Be the first to comment!</p>';
+          } else {
+            list.innerHTML = data.comments.map(renderComment).join("");
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          list.innerHTML = '<p class="no-comments">Failed to load comments.</p>';
+        });
+
+      // Handle form submit
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const authorName = formData.get("authorName") as string;
+        const content = formData.get("content") as string;
+
+        const submitBtn = form.querySelector<HTMLButtonElement>(".submit-btn");
+        if (submitBtn) submitBtn.disabled = true;
+        errorEl.classList.remove("visible");
+
+        try {
+          const res = await fetch(`/api/comments?slug=${encodeURIComponent(slug)}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ authorName, content }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || "Failed to post comment");
+          }
+
+          // Add new comment to top of list
+          const noComments = list.querySelector(".no-comments");
+          if (noComments) noComments.remove();
+
+          list.insertAdjacentHTML("afterbegin", renderComment(data.comment));
+          form.reset();
+        } catch (err) {
+          errorEl.textContent = err instanceof Error ? err.message : "Failed to post comment";
+          errorEl.classList.add("visible");
+        } finally {
+          if (submitBtn) submitBtn.disabled = false;
+        }
+      });
+    });
+  }
+
+  // Run on initial load
+  initComments();
+
+  // Re-run after Astro page transitions
+  document.addEventListener("astro:page-load", initComments);
+</script>
