@@ -7,7 +7,7 @@ const { slug } = Astro.props;
 ---
 
 <div class="comments-section" data-slug={slug}>
-  <h3 class="comments-title">Comments</h3>
+  <h3 class="comments-title text-foreground">Comments</h3>
 
   <form class="comment-form">
     <div class="form-group">
@@ -33,7 +33,7 @@ const { slug } = Astro.props;
   </form>
 
   <div class="comments-list">
-    <p class="loading">Loading comments...</p>
+    <p class="loading text-foreground/70">Loading comments...</p>
   </div>
 </div>
 

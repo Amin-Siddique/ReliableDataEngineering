@@ -151,7 +151,10 @@ const nextPost =
       <BookmarkButton slug={post.id} title={title} />
     </div>
 
-    <LikeButton slug={post.id} />
+    <div class="flex flex-wrap items-center gap-3 my-4">
+      <LikeButton slug={post.id} />
+      <KofiButton />
+    </div>
 
     <!-- Ad placement after article -->
     <AdUnit slot="in-article" class="my-8" />
@@ -159,11 +162,6 @@ const nextPost =
     <Comments slug={post.id} />
 
     <RelatedPosts currentPost={post} allPosts={posts} />
-
-    <div class="my-8 p-6 bg-card rounded-lg border border-border text-center">
-      <p class="text-foreground/70 mb-4">If you found this article helpful, consider supporting my work</p>
-      <KofiButton />
-    </div>
 
     <hr class="my-6 border-dashed" />
 
