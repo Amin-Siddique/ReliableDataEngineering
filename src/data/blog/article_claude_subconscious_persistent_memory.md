@@ -167,7 +167,7 @@ Claude Subconscious runs as a hook in Claude Code's configuration. The hook fire
 pip install letta
 
 # Clone and configure Claude Subconscious
-git clone https://github.com/anthropics/claude-subconscious.git
+git clone https://github.com/letta-ai/claude-subconscious.git
 cd claude-subconscious
 cp config.example.yaml config.yaml
 # Edit config.yaml with your preferences
@@ -259,13 +259,13 @@ The AI coding assistant space is converging on this pattern. Cursor has persiste
 ## Try It
 
 ```bash
-git clone https://github.com/anthropics/claude-subconscious.git
+git clone https://github.com/letta-ai/claude-subconscious.git
 cd claude-subconscious
 pip install -r requirements.txt
 python -m subconscious.setup
 ```
 
-- [GitHub](https://github.com/anthropics/claude-subconscious), MIT License
+- [GitHub](https://github.com/letta-ai/claude-subconscious), MIT License
 - Requires Claude Code and Letta
 - Python 3.10+
 - Local SQLite storage
