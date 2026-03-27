@@ -145,7 +145,7 @@ export default async (req: Request) => {
     // Send welcome email (fire and forget)
     sendWelcomeEmail(email.toLowerCase(), unsubscribeToken);
 
-    return jsonResponse({ message: "Subscribed successfully! Check your inbox for a welcome email." }, 201);
+    return jsonResponse({ message: "Subscribed successfully!" }, 201);
   }
 
   return jsonResponse({ error: "Method not allowed" }, 405);

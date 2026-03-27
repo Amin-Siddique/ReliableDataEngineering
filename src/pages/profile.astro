@@ -106,10 +106,24 @@ import { SITE } from "@/config";
                    class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-foreground/80 mb-1">Custom Avatar URL</label>
-            <input type="url" name="customAvatarUrl" maxlength="500" placeholder="https://... (leave empty to use OAuth avatar)"
-                   class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none" />
-            <p class="text-xs text-foreground/40 mt-1">Override your Google/GitHub avatar with a custom image URL</p>
+            <label class="block text-sm font-medium text-foreground/80 mb-1">Profile Photo</label>
+            <div class="flex items-center gap-4">
+              <img id="avatar-preview" src="" alt="Avatar preview" width="56" height="56"
+                   class="rounded-full border border-border object-cover flex-shrink-0" />
+              <div class="flex-1">
+                <label class="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm font-medium text-foreground cursor-pointer hover:border-accent transition-colors">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  Upload image
+                  <input type="file" id="avatar-file-input" accept="image/jpeg,image/png,image/gif,image/webp" class="hidden" />
+                </label>
+                <p class="text-xs text-foreground/40 mt-1.5">JPEG, PNG, GIF, or WebP. Max 512 KB.</p>
+                <p id="avatar-upload-status" class="text-xs mt-1 hidden"></p>
+              </div>
+            </div>
           </div>
           <div class="flex items-center gap-3 pt-2">
             <button type="submit"
@@ -197,7 +211,10 @@ import { SITE } from "@/config";
             bioCount.textContent = p.bio.length.toString();
             (form.querySelector('[name="website"]') as HTMLInputElement).value = p.website;
             (form.querySelector('[name="location"]') as HTMLInputElement).value = p.location;
-            (form.querySelector('[name="customAvatarUrl"]') as HTMLInputElement).value = p.avatarUrl !== p.oauthAvatarUrl ? (p.avatarUrl || "") : "";
+
+            // Set avatar preview
+            const preview = document.getElementById("avatar-preview") as HTMLImageElement;
+            if (preview) preview.src = avatarSrc;
           })
           .catch(() => {});
       });
@@ -262,13 +279,61 @@ import { SITE } from "@/config";
       }
     });
 
-    // Change avatar button just focuses the URL input
+    // Avatar file upload
+    const avatarFileInput = document.getElementById("avatar-file-input") as HTMLInputElement;
+    const avatarPreview = document.getElementById("avatar-preview") as HTMLImageElement;
+    const avatarUploadStatus = document.getElementById("avatar-upload-status")!;
+
     document.getElementById("change-avatar-btn")?.addEventListener("click", () => {
-      const input = form.querySelector<HTMLInputElement>('[name="customAvatarUrl"]');
-      if (input) {
-        input.scrollIntoView({ behavior: "smooth", block: "center" });
-        input.focus();
+      avatarFileInput?.click();
+    });
+
+    avatarFileInput?.addEventListener("change", async () => {
+      const file = avatarFileInput.files?.[0];
+      if (!file) return;
+
+      if (file.size > 512 * 1024) {
+        avatarUploadStatus.textContent = "File too large. Max 512 KB.";
+        avatarUploadStatus.style.color = "#ef4444";
+        avatarUploadStatus.classList.remove("hidden");
+        return;
       }
+
+      avatarUploadStatus.textContent = "Uploading...";
+      avatarUploadStatus.style.color = "var(--accent)";
+      avatarUploadStatus.classList.remove("hidden");
+
+      const formUpload = new FormData();
+      formUpload.append("avatar", file);
+
+      try {
+        const res = await fetch("/api/avatar-upload", {
+          method: "POST",
+          body: formUpload,
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Upload failed");
+        }
+
+        // Update all avatar images on the page
+        avatar.src = data.avatarUrl;
+        avatarPreview.src = data.avatarUrl;
+        const headerAvatar = document.querySelector<HTMLImageElement>(".auth-avatar");
+        if (headerAvatar) headerAvatar.src = data.avatarUrl;
+
+        avatarUploadStatus.textContent = "Photo updated!";
+        avatarUploadStatus.style.color = "var(--accent)";
+        setTimeout(() => avatarUploadStatus.classList.add("hidden"), 3000);
+      } catch (err) {
+        avatarUploadStatus.textContent = err instanceof Error ? err.message : "Upload failed";
+        avatarUploadStatus.style.color = "#ef4444";
+      }
+
+      // Reset the input so re-selecting the same file triggers change
+      avatarFileInput.value = "";
     });
 
     loadProfile();
