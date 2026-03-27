@@ -42,92 +42,90 @@ const href = getPath(post.id, post.filePath);
 {
   featured ? (
     <article class="featured-card">
-      <a href={href} class="featured-link">
-        {imageUrl && (
+      {imageUrl && (
+        <a href={href} class="featured-image-link">
           <img
             src={imageUrl}
             alt={title}
             class="featured-image"
             loading="eager"
           />
-        )}
-        <div class="featured-body">
-          {primaryTag && (
-            <a
-              href={`/tags/${slugifyStr(primaryTag)}`}
-              class="card-tag"
-              data-stop-propagation
-            >
-              {primaryTag}
-            </a>
-          )}
-          <h2
-            class="featured-title"
-            style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+        </a>
+      )}
+      <div class="featured-body">
+        {primaryTag && (
+          <a
+            href={`/tags/${slugifyStr(primaryTag)}`}
+            class="card-tag"
           >
-            {title}
-          </h2>
-          <p class="featured-desc">{description}</p>
-          <div class="card-meta">
-            <time datetime={datetime.toISOString()}>{date}</time>
-            <span class="card-dot" aria-hidden="true" />
-            <span>{readTime} min read</span>
-          </div>
+            {primaryTag}
+          </a>
+        )}
+        <h2
+          class="featured-title"
+          style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+        >
+          <a href={href} class="featured-title-link">{title}</a>
+        </h2>
+        <p class="featured-desc">{description}</p>
+        <div class="card-meta">
+          <time datetime={datetime.toISOString()}>{date}</time>
+          <span class="card-dot" aria-hidden="true" />
+          <span>{readTime} min read</span>
         </div>
-      </a>
+      </div>
     </article>
   ) : (
     <article class="feed-card">
-      <a href={href} class="feed-link">
-        <div class="feed-body">
-          {primaryTag && (
-            <div class="card-meta">
-              <a
-                href={`/tags/${slugifyStr(primaryTag)}`}
-                class="card-tag-inline"
-                data-stop-propagation
-              >
-                {primaryTag}
-              </a>
-            </div>
-          )}
-          <h3
-            class="feed-title"
-            style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
-          >
-            {title}
-          </h3>
-          <p class="feed-desc">{description}</p>
-          <div class="card-meta card-meta-bottom">
-            <time datetime={datetime.toISOString()}>{date}</time>
-            <span class="card-dot" aria-hidden="true" />
-            <span>{readTime} min read</span>
-            <span
-              class="card-bookmark-indicator hidden"
-              data-card-slug={post.id}
+      <div class="feed-body">
+        {primaryTag && (
+          <div class="card-meta">
+            <a
+              href={`/tags/${slugifyStr(primaryTag)}`}
+              class="card-tag-inline"
             >
-              <svg
-                viewBox="0 0 24 24"
-                width="14"
-                height="14"
-                fill="currentColor"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-              </svg>
-            </span>
+              {primaryTag}
+            </a>
           </div>
+        )}
+        <h3
+          class="feed-title"
+          style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+        >
+          <a href={href} class="feed-title-link">{title}</a>
+        </h3>
+        <p class="feed-desc">{description}</p>
+        <div class="card-meta card-meta-bottom">
+          <time datetime={datetime.toISOString()}>{date}</time>
+          <span class="card-dot" aria-hidden="true" />
+          <span>{readTime} min read</span>
+          <span
+            class="card-bookmark-indicator hidden"
+            data-card-slug={post.id}
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="14"
+              height="14"
+              fill="currentColor"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+            </svg>
+          </span>
         </div>
-        {imageUrl && (
+      </div>
+      {imageUrl && (
+        <a href={href} class="feed-image-link">
           <img
             src={imageUrl}
             alt={title}
             class="feed-image"
             loading="lazy"
           />
-        )}
-      </a>
+        </a>
+      )}
     </article>
   )
 }
@@ -140,10 +138,8 @@ const href = getPath(post.id, post.filePath);
     padding-bottom: 2rem;
   }
 
-  .featured-link {
+  .featured-image-link {
     display: block;
-    text-decoration: none;
-    color: inherit;
   }
 
   .featured-image {
@@ -168,7 +164,12 @@ const href = getPath(post.id, post.filePath);
     letter-spacing: -0.02em;
   }
 
-  .featured-link:hover .featured-title {
+  .featured-title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .featured-title-link:hover {
     color: var(--accent);
   }
 
@@ -187,18 +188,13 @@ const href = getPath(post.id, post.filePath);
   .feed-card {
     padding: 1.25rem 0;
     border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
   }
 
   .feed-card:first-child {
     padding-top: 0;
-  }
-
-  .feed-link {
-    display: flex;
-    gap: 1.25rem;
-    align-items: flex-start;
-    text-decoration: none;
-    color: inherit;
   }
 
   .feed-body {
@@ -221,8 +217,17 @@ const href = getPath(post.id, post.filePath);
     overflow: hidden;
   }
 
-  .feed-link:hover .feed-title {
+  .feed-title-link {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .feed-title-link:hover {
     color: var(--accent);
+  }
+
+  .feed-image-link {
+    flex-shrink: 0;
   }
 
   .feed-desc {
@@ -327,9 +332,3 @@ const href = getPath(post.id, post.filePath);
     display: none !important;
   }
 </style>
-
-<script>
-  document.querySelectorAll("[data-stop-propagation]").forEach(el => {
-    el.addEventListener("click", e => e.stopPropagation());
-  });
-</script>

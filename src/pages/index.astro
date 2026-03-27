@@ -5,7 +5,6 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import ArticleCard from "@/components/ArticleCard.astro";
 import TrendingPosts from "@/components/TrendingPosts.astro";
-import PopularTags from "@/components/PopularTags.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import WelcomeBanner from "@/components/WelcomeBanner.astro";
 import ContinueReading from "@/components/ContinueReading.astro";
@@ -44,10 +43,6 @@ const feedPosts = sortedPosts.filter(p => p !== featuredPost);
       <aside class="sidebar-column">
         <div class="sidebar-sticky">
           <TrendingPosts posts={sortedPosts} />
-
-          <div class="sidebar-divider" />
-
-          <PopularTags posts={sortedPosts} />
 
           <div class="sidebar-divider" />
 
