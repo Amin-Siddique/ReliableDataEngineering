@@ -191,7 +191,7 @@ const { slug } = Astro.props;
     const indent = Math.min(depth, 3) * 1.5;
 
     return `
-      <div class="comment" data-comment-id="${comment.id}" style="margin-left: ${indent}rem">
+      <div class="comment" id="comment-${comment.id}" data-comment-id="${comment.id}" style="margin-left: ${indent}rem">
         <div class="comment-header" style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
           <img src="${escapeHtml(avatarUrl)}" alt="" width="28" height="28"
                style="border-radius:50%;flex-shrink:0" />

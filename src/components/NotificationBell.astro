@@ -297,7 +297,8 @@
         list.innerHTML = notifications.slice(0, 10).map(n => {
           const icon = n.type === "like" ? "like" : n.type === "reply" ? "reply" : "comment";
           const emoji = n.type === "like" ? "&#10084;" : n.type === "reply" ? "&#8617;" : "&#128172;";
-          const href = n.post_slug ? `/posts/${n.post_slug}/` : "#";
+          const anchor = n.comment_id ? `#comment-${n.comment_id}` : "";
+          const href = n.post_slug ? `/posts/${n.post_slug}/${anchor}` : "#";
 
           // Bold the user name in the message
           const sourceName = n.source_user_name ? escapeHtml(n.source_user_name) : "";

@@ -1,5 +1,5 @@
 function L(t){const r=document.createElement("div");return r.textContent=t,r.innerHTML}function $(t){return new Date(t).toLocaleDateString("en-US",{year:"numeric",month:"short",day:"numeric"})}function q(t,r,m=0){const i=t.user_display_name||t.author_name,d=t.user_avatar_url||`https://ui-avatars.com/api/?name=${encodeURIComponent(i)}&background=374151&color=9ca3af&size=40`,o=r&&t.user_id===r,u=!!t.user_id,y=t.updated_at?' <span style="font-size:0.7rem;opacity:0.5">(edited)</span>':"",h=Math.min(m,3)*1.5;return`
-      <div class="comment" data-comment-id="${t.id}" style="margin-left: ${h}rem">
+      <div class="comment" id="comment-${t.id}" data-comment-id="${t.id}" style="margin-left: ${h}rem">
         <div class="comment-header" style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
           <img src="${L(d)}" alt="" width="28" height="28"
                style="border-radius:50%;flex-shrink:0" />

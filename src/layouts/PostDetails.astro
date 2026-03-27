@@ -10,7 +10,6 @@ import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
 import AdUnit from "@/components/AdUnit.astro";
-import LikeButton from "@/components/LikeButton.astro";
 import Comments from "@/components/Comments.astro";
 import ViewCounter from "@/components/ViewCounter.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
@@ -160,7 +159,6 @@ const nextPost =
     <Reactions slug={post.id} />
 
     <div class="flex flex-wrap items-center gap-3 my-4">
-      <LikeButton slug={post.id} />
       <BookmarkButton slug={post.id} />
       <KofiButton />
     </div>

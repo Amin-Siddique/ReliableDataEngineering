@@ -50,6 +50,17 @@ const { slug } = Astro.props;
     </div>
   </div>
 
+  <!-- Community notes popover -->
+  <div class="cn-popover cn-hidden" id="cn-popover">
+    <div class="cn-popover-header">
+      <img class="cn-popover-avatar" id="cn-popover-avatar" src="" alt="" />
+      <span class="cn-popover-name" id="cn-popover-name"></span>
+      <span class="cn-popover-date" id="cn-popover-date"></span>
+    </div>
+    <div class="cn-popover-quote" id="cn-popover-quote"></div>
+    <div class="cn-popover-note" id="cn-popover-note"></div>
+  </div>
+
   <!-- Note input modal -->
   <div class="hl-note-modal hidden" id="hl-note-modal">
     <div class="hl-note-modal-content">
@@ -136,7 +147,7 @@ const { slug } = Astro.props;
   mark[data-hl-id].hl-pink { background: rgba(249, 168, 212, 0.4); }
   mark[data-hl-id].hl-purple { background: rgba(196, 181, 253, 0.4); }
 
-  /* Has note indicator */
+  /* Has note indicator (own highlights) */
   mark[data-hl-id][data-has-note]::after {
     content: "";
     display: inline-block;
@@ -147,6 +158,107 @@ const { slug } = Astro.props;
     margin-left: 2px;
     vertical-align: super;
     font-size: 0;
+  }
+
+  /* Community note marks */
+  mark[data-cn-id] {
+    background: rgba(45, 212, 191, 0.12);
+    border-bottom: 2px dotted var(--accent);
+    cursor: pointer;
+    border-radius: 0;
+    padding: 0;
+    transition: background 0.15s;
+  }
+
+  mark[data-cn-id]:hover {
+    background: rgba(45, 212, 191, 0.22);
+  }
+
+  /* Community note badge */
+  .cn-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
+    color: var(--background);
+    font-size: 0.625rem;
+    font-weight: 700;
+    border-radius: 50%;
+    margin-left: 2px;
+    vertical-align: super;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  /* Community note popover */
+  .cn-popover {
+    position: fixed;
+    z-index: 62;
+    width: 320px;
+    max-width: calc(100vw - 2rem);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  .cn-popover-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cn-popover-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .cn-popover-name {
+    font-weight: 600;
+    font-size: 0.8125rem;
+    color: var(--foreground);
+  }
+
+  .cn-popover-date {
+    font-size: 0.6875rem;
+    color: var(--foreground);
+    opacity: 0.4;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  .cn-popover-quote {
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    opacity: 0.5;
+    font-style: italic;
+    border-left: 3px solid var(--accent);
+    padding: 0.375rem 0.75rem;
+    margin: 0.75rem 1rem 0;
+    max-height: 60px;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+
+  .cn-popover-note {
+    font-size: 0.875rem;
+    color: var(--foreground);
+    line-height: 1.5;
+    padding: 0.75rem 1rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .cn-popover.cn-hidden {
+    display: none !important;
   }
 
   /* Popover */
@@ -337,7 +449,9 @@ const { slug } = Astro.props;
     opacity: 0.9;
   }
 
-  .hidden {
+  .hl-toolbar.hidden,
+  .hl-popover.hidden,
+  .hl-note-modal.hidden {
     display: none !important;
   }
 </style>
@@ -353,6 +467,19 @@ const { slug } = Astro.props;
     end_offset: number;
     container_path: string;
     created_at: string;
+  }
+
+  interface CommunityNote {
+    id: number;
+    selected_text: string;
+    note: string;
+    color: string;
+    start_offset: number;
+    end_offset: number;
+    container_path: string;
+    created_at: string;
+    display_name: string;
+    avatar_url: string | null;
   }
 
   function initHighlighter() {
@@ -735,6 +862,113 @@ const { slug } = Astro.props;
         if (e.detail) loadHighlights();
       }) as EventListener);
       if (window.__authUser) loadHighlights();
+
+      // --- Community Notes (visible to all users) ---
+      const cnPopover = document.getElementById("cn-popover")!;
+      const cnAvatar = document.getElementById("cn-popover-avatar") as HTMLImageElement;
+      const cnName = document.getElementById("cn-popover-name")!;
+      const cnDate = document.getElementById("cn-popover-date")!;
+      const cnQuote = document.getElementById("cn-popover-quote")!;
+      const cnNote = document.getElementById("cn-popover-note")!;
+      let communityNotes: CommunityNote[] = [];
+
+      function applyCommunityNote(cn: CommunityNote): boolean {
+        try {
+          const node = getNodeByPath(cn.container_path);
+          if (!node || !node.textContent) return false;
+
+          const textNode = findTextNode(node, cn.selected_text, cn.start_offset);
+          if (!textNode) return false;
+
+          const startIdx = textNode.textContent!.indexOf(cn.selected_text, 0);
+          if (startIdx === -1) return false;
+
+          // Don't overlap with user's own highlights
+          if (textNode.parentElement?.closest("mark[data-hl-id]")) return false;
+
+          const range = document.createRange();
+          range.setStart(textNode, startIdx);
+          range.setEnd(textNode, startIdx + cn.selected_text.length);
+
+          const mark = document.createElement("mark");
+          mark.dataset.cnId = cn.id.toString();
+
+          // Add a small badge showing note count
+          range.surroundContents(mark);
+
+          const badge = document.createElement("span");
+          badge.className = "cn-badge";
+          badge.textContent = "\u270E"; // pencil icon
+          badge.title = `Note by ${cn.display_name}`;
+          mark.appendChild(badge);
+
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      function hideCnPopover() {
+        cnPopover.classList.add("cn-hidden");
+      }
+
+      function formatCnDate(dateStr: string): string {
+        return new Date(dateStr).toLocaleDateString("en-US", {
+          month: "short", day: "numeric", year: "numeric",
+        });
+      }
+
+      // Click on community note mark
+      article.addEventListener("click", (e) => {
+        const mark = (e.target as HTMLElement).closest<HTMLElement>("mark[data-cn-id]");
+        if (!mark) {
+          if (!(e.target as HTMLElement).closest(".cn-popover")) {
+            hideCnPopover();
+          }
+          return;
+        }
+
+        const id = parseInt(mark.dataset.cnId || "0");
+        const cn = communityNotes.find(n => n.id === id);
+        if (!cn) return;
+
+        cnAvatar.src = cn.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(cn.display_name)}&background=374151&color=9ca3af&size=56`;
+        cnAvatar.alt = cn.display_name;
+        cnName.textContent = cn.display_name;
+        cnDate.textContent = formatCnDate(cn.created_at);
+        cnQuote.textContent = cn.selected_text.length > 150 ? cn.selected_text.slice(0, 150) + "..." : cn.selected_text;
+        cnNote.textContent = cn.note;
+
+        const rect = mark.getBoundingClientRect();
+        cnPopover.style.left = `${Math.max(16, Math.min(rect.left, window.innerWidth - 340))}px`;
+        cnPopover.style.top = `${rect.bottom + 10}px`;
+        cnPopover.classList.remove("cn-hidden");
+      });
+
+      // Close community note popover on outside click
+      document.addEventListener("click", (e) => {
+        if (!cnPopover.contains(e.target as Node) && !(e.target as HTMLElement).closest?.("mark[data-cn-id]")) {
+          hideCnPopover();
+        }
+      });
+
+      // Load community notes for all visitors
+      function loadCommunityNotes() {
+        fetch(`/api/public-notes?slug=${encodeURIComponent(slug)}`)
+          .then(res => res.json())
+          .then(data => {
+            communityNotes = data.notes || [];
+            // Filter out own highlights (already shown via user highlights)
+            const ownIds = new Set(savedHighlights.map(h => h.id));
+            communityNotes
+              .filter(cn => !ownIds.has(cn.id))
+              .forEach(cn => applyCommunityNote(cn));
+          })
+          .catch(() => {});
+      }
+
+      // Load community notes after a short delay to let user highlights render first
+      setTimeout(loadCommunityNotes, 500);
     });
   }
 
