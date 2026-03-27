@@ -33,7 +33,6 @@ export async function upsertUser(provider: string, providerId: string, email: st
     VALUES (${provider}, ${providerId}, ${email}, ${displayName}, ${avatarUrl})
     ON CONFLICT (provider, provider_id)
     DO UPDATE SET email = COALESCE(EXCLUDED.email, users.email),
-                  display_name = EXCLUDED.display_name,
                   avatar_url = EXCLUDED.avatar_url
     RETURNING id, provider, provider_id, email, display_name, avatar_url
   `;
@@ -91,6 +90,34 @@ export function jsonResponse(data: object, status = 200, extraHeaders: Record<st
     status,
     headers: { "Content-Type": "application/json", ...extraHeaders },
   });
+}
+
+export async function createNotification(
+  userId: number,
+  type: string,
+  message: string,
+  options: {
+    sourceUserId?: number | null;
+    sourceUserName?: string;
+    commentId?: number | null;
+    postSlug?: string;
+  } = {}
+) {
+  // Don't notify yourself
+  if (options.sourceUserId && options.sourceUserId === userId) return;
+
+  await sql`
+    INSERT INTO notifications (user_id, type, source_user_id, source_user_name, comment_id, post_slug, message)
+    VALUES (
+      ${userId},
+      ${type},
+      ${options.sourceUserId || null},
+      ${options.sourceUserName || null},
+      ${options.commentId || null},
+      ${options.postSlug || null},
+      ${message}
+    )
+  `;
 }
 
 export function redirectResponse(url: string, extraHeaders: Record<string, string> = {}) {

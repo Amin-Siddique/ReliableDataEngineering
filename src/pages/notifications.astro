@@ -1,0 +1,336 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+---
+
+<Layout title={`Notifications | ${SITE.title}`}>
+  <Header />
+  <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12">
+    <div class="notif-page-header">
+      <h1 class="notif-page-title">Notifications</h1>
+      <div class="notif-page-actions hidden" id="notif-actions">
+        <button id="notif-mark-all" class="notif-action-btn">Mark all read</button>
+        <button id="notif-clear" class="notif-action-btn notif-action-danger">Clear read</button>
+      </div>
+    </div>
+
+    <div id="notif-auth-prompt" class="hidden notif-center-msg">
+      <p>Sign in to see your notifications.</p>
+      <a href="/api/auth/google" class="notif-sign-in-link">Sign in</a>
+    </div>
+
+    <div id="notif-loading" class="notif-center-msg">
+      <p>Loading notifications...</p>
+    </div>
+
+    <div id="notif-empty" class="hidden notif-center-msg">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.2;margin-bottom:1rem">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+      </svg>
+      <p>No notifications yet.</p>
+      <p class="notif-sub-text">When someone replies to your comment or interacts with your posts, you'll see it here.</p>
+    </div>
+
+    <div id="notif-list" class="hidden"></div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .notif-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .notif-page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--foreground);
+  }
+
+  .notif-page-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .notif-action-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    background: transparent;
+    color: var(--foreground);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .notif-action-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .notif-action-danger:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+  }
+
+  .notif-center-msg {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--foreground);
+    opacity: 0.6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .notif-sub-text {
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    opacity: 0.6;
+  }
+
+  .notif-sign-in-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1.5rem;
+    background: var(--accent);
+    color: var(--background);
+    border-radius: 0.375rem;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+  }
+
+  .notif-sign-in-link:hover {
+    opacity: 0.9;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  function initNotificationsPage() {
+    const authPrompt = document.getElementById("notif-auth-prompt");
+    const loading = document.getElementById("notif-loading");
+    const empty = document.getElementById("notif-empty");
+    const list = document.getElementById("notif-list");
+    const actions = document.getElementById("notif-actions");
+    const markAllBtn = document.getElementById("notif-mark-all");
+    const clearBtn = document.getElementById("notif-clear");
+
+    if (!authPrompt || !loading || !empty || !list) return;
+
+    function escapeHtml(text: string): string {
+      const div = document.createElement("div");
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function formatTimeAgo(dateStr: string): string {
+      const now = Date.now();
+      const then = new Date(dateStr).getTime();
+      const diff = Math.floor((now - then) / 1000);
+      if (diff < 60) return "just now";
+      if (diff < 3600) return `${Math.floor(diff / 60)} minutes ago`;
+      if (diff < 86400) return `${Math.floor(diff / 3600)} hours ago`;
+      if (diff < 604800) return `${Math.floor(diff / 86400)} days ago`;
+      return new Date(dateStr).toLocaleDateString("en-US", {
+        year: "numeric", month: "short", day: "numeric",
+      });
+    }
+
+    interface Notification {
+      id: number;
+      type: string;
+      source_user_name: string | null;
+      comment_id: number | null;
+      post_slug: string | null;
+      message: string;
+      read: boolean;
+      created_at: string;
+    }
+
+    function renderNotifications(notifications: Notification[]) {
+      loading?.classList.add("hidden");
+
+      if (notifications.length === 0) {
+        empty?.classList.remove("hidden");
+        actions?.classList.add("hidden");
+        return;
+      }
+
+      actions?.classList.remove("hidden");
+
+      list!.innerHTML = notifications.map(n => {
+        const iconType = n.type === "reply" ? "reply" : "comment";
+        const emoji = n.type === "reply" ? "&#8617;" : "&#128172;";
+        const href = n.post_slug ? `/posts/${n.post_slug.replace(/^article_/, "").replace(/_/g, "-").replace(/\.md$/, "")}/` : "#";
+
+        return `
+          <a href="${escapeHtml(href)}" class="notif-page-item ${n.read ? "" : "notif-unread"}" data-notif-id="${n.id}">
+            <div class="notif-page-icon notif-page-icon-${iconType}">${emoji}</div>
+            <div class="notif-page-body">
+              <p class="notif-page-message">${escapeHtml(n.message)}</p>
+              <p class="notif-page-time">${formatTimeAgo(n.created_at)}</p>
+            </div>
+            ${n.read ? "" : '<div class="notif-page-dot"></div>'}
+          </a>
+        `;
+      }).join("");
+
+      list?.classList.remove("hidden");
+
+      // Mark as read on click
+      list?.querySelectorAll<HTMLAnchorElement>(".notif-page-item").forEach(item => {
+        item.addEventListener("click", () => {
+          const id = item.dataset.notifId;
+          if (id) {
+            fetch("/api/notifications", {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ notificationId: parseInt(id) }),
+            });
+          }
+        });
+      });
+    }
+
+    // Mark all as read
+    markAllBtn?.addEventListener("click", async () => {
+      await fetch("/api/notifications", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ markAllRead: true }),
+      });
+      list?.querySelectorAll(".notif-unread").forEach(el => {
+        el.classList.remove("notif-unread");
+        el.querySelector(".notif-page-dot")?.remove();
+      });
+    });
+
+    // Clear read notifications
+    clearBtn?.addEventListener("click", async () => {
+      await fetch("/api/notifications", { method: "DELETE" });
+      // Remove read items from DOM
+      list?.querySelectorAll(".notif-page-item:not(.notif-unread)").forEach(el => el.remove());
+      if (list && list.children.length === 0) {
+        list.classList.add("hidden");
+        empty?.classList.remove("hidden");
+        actions?.classList.add("hidden");
+      }
+    });
+
+    // Auth check
+    function onAuth(user: unknown) {
+      loading?.classList.add("hidden");
+      if (!user) {
+        authPrompt?.classList.remove("hidden");
+        return;
+      }
+
+      loading?.classList.remove("hidden");
+      fetch("/api/notifications?limit=50")
+        .then(res => res.json())
+        .then(data => renderNotifications(data.notifications || []))
+        .catch(() => {
+          loading?.classList.add("hidden");
+          empty?.classList.remove("hidden");
+        });
+    }
+
+    window.addEventListener("auth:ready", (e: Event) => onAuth((e as CustomEvent).detail));
+    if (window.__authUser !== undefined) {
+      onAuth(window.__authUser);
+    }
+  }
+
+  document.addEventListener("astro:page-load", initNotificationsPage);
+</script>
+
+<style>
+  .notif-page-item {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--foreground);
+    transition: background 0.15s;
+    align-items: center;
+  }
+
+  .notif-page-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+
+  .notif-page-item:hover {
+    background: var(--muted);
+  }
+
+  .notif-unread {
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+
+  .notif-unread:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .notif-page-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.125rem;
+    flex-shrink: 0;
+  }
+
+  .notif-page-icon-reply {
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
+  }
+
+  .notif-page-icon-comment {
+    background: color-mix(in srgb, #22c55e 15%, transparent);
+    color: #22c55e;
+  }
+
+  .notif-page-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .notif-page-message {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--foreground);
+  }
+
+  .notif-page-time {
+    font-size: 0.75rem;
+    color: var(--foreground);
+    opacity: 0.4;
+    margin-top: 0.25rem;
+  }
+
+  .notif-page-dot {
+    width: 10px;
+    height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+</style>

@@ -1,5 +1,5 @@
 import { neon } from "@netlify/neon";
-import { getUserFromSession, getSessionIdFromCookie, jsonResponse } from "./auth-utils";
+import { getUserFromSession, getSessionIdFromCookie, jsonResponse, createNotification } from "./auth-utils";
 
 const sql = neon();
 
@@ -69,6 +69,53 @@ export default async (req: Request) => {
       VALUES (${slug}, ${name}, ${content}, ${user?.id || null}, ${parentId || null})
       RETURNING id, author_name, content, created_at, parent_id, user_id
     `;
+
+    // Notify parent comment author about the reply
+    if (parentId) {
+      const [parentComment] = await sql`SELECT user_id, author_name FROM comments WHERE id = ${parentId}`;
+      if (parentComment?.user_id) {
+        const replierName = user?.display_name || name;
+        await createNotification(
+          parentComment.user_id,
+          "reply",
+          `${replierName} replied to your comment`,
+          {
+            sourceUserId: user?.id,
+            sourceUserName: replierName,
+            commentId: newComment.id,
+            postSlug: slug!,
+          }
+        );
+      }
+    }
+
+    // Notify other authenticated commenters on this post
+    // Exclude: current user, and parent comment author (already notified above)
+    let excludeParentUserId = 0;
+    if (parentId) {
+      const [pc] = await sql`SELECT COALESCE(user_id, 0) as uid FROM comments WHERE id = ${parentId}`;
+      excludeParentUserId = pc?.uid || 0;
+    }
+    const otherCommenters = await sql`
+      SELECT DISTINCT user_id FROM comments
+      WHERE post_slug = ${slug} AND user_id IS NOT NULL
+        AND user_id != ${user?.id || 0}
+        AND user_id != ${excludeParentUserId}
+    `;
+    const commenterName = user?.display_name || name;
+    for (const row of otherCommenters) {
+      await createNotification(
+        row.user_id,
+        "comment",
+        `${commenterName} also commented on a post you commented on`,
+        {
+          sourceUserId: user?.id,
+          sourceUserName: commenterName,
+          commentId: newComment.id,
+          postSlug: slug!,
+        }
+      );
+    }
 
     // Add user info to response
     const comment = {

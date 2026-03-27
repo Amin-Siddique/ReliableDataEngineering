@@ -121,6 +121,23 @@ export default async () => {
     )
   `;
 
+  // Create notifications table
+  await sql`
+    CREATE TABLE IF NOT EXISTS notifications (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      type VARCHAR(30) NOT NULL,
+      source_user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+      source_user_name VARCHAR(100),
+      comment_id INTEGER,
+      post_slug VARCHAR(255),
+      message TEXT NOT NULL,
+      read BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, read)`;
+
   // Create indexes for faster queries
   await sql`CREATE INDEX IF NOT EXISTS idx_likes_post_slug ON likes(post_slug)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_comments_post_slug ON comments(post_slug)`;

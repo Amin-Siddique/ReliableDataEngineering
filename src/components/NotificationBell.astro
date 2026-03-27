@@ -1,0 +1,385 @@
+---
+
+---
+
+<div class="notif-container" data-notif-bell>
+  <button class="notif-btn" aria-label="Notifications" aria-expanded="false">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+      <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+    </svg>
+    <span class="notif-badge hidden">0</span>
+  </button>
+  <div class="notif-dropdown hidden">
+    <div class="notif-header">
+      <span class="notif-title">Notifications</span>
+      <button class="notif-mark-all" aria-label="Mark all as read">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </button>
+    </div>
+    <div class="notif-list">
+      <p class="notif-empty">No notifications</p>
+    </div>
+    <a href="/notifications" class="notif-view-all">View all</a>
+  </div>
+</div>
+
+<style>
+  .notif-container {
+    position: relative;
+    display: none;
+  }
+
+  .notif-container.visible {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .notif-btn {
+    position: relative;
+    background: none;
+    border: none;
+    color: var(--foreground);
+    cursor: pointer;
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+    transition: color 0.2s;
+    line-height: 0;
+  }
+
+  .notif-btn:hover {
+    color: var(--accent);
+  }
+
+  .notif-badge {
+    position: absolute;
+    top: 0;
+    right: -2px;
+    min-width: 16px;
+    height: 16px;
+    background: #ef4444;
+    color: #fff;
+    font-size: 0.625rem;
+    font-weight: 700;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    line-height: 1;
+  }
+
+  .notif-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    width: 320px;
+    max-height: 420px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .notif-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .notif-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--foreground);
+  }
+
+  .notif-mark-all {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    line-height: 0;
+  }
+
+  .notif-mark-all:hover {
+    background: var(--muted);
+  }
+
+  .notif-list {
+    overflow-y: auto;
+    flex: 1;
+    max-height: 300px;
+  }
+
+  .notif-empty {
+    padding: 2rem 1rem;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    opacity: 0.5;
+  }
+
+  .notif-item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+    text-decoration: none;
+    color: var(--foreground);
+  }
+
+  .notif-item:hover {
+    background: var(--muted);
+  }
+
+  .notif-item.unread {
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+
+  .notif-item.unread:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .notif-icon {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .notif-icon.reply {
+    background: color-mix(in srgb, var(--accent) 15%, transparent);
+    color: var(--accent);
+  }
+
+  .notif-icon.comment {
+    background: color-mix(in srgb, #22c55e 15%, transparent);
+    color: #22c55e;
+  }
+
+  .notif-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .notif-message {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: var(--foreground);
+  }
+
+  .notif-time {
+    font-size: 0.6875rem;
+    color: var(--foreground);
+    opacity: 0.4;
+    margin-top: 0.125rem;
+  }
+
+  .notif-unread-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .notif-view-all {
+    display: block;
+    text-align: center;
+    padding: 0.625rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .notif-view-all:hover {
+    background: var(--muted);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  function initNotificationBell() {
+    const containers = document.querySelectorAll<HTMLDivElement>("[data-notif-bell]:not([data-initialized])");
+
+    containers.forEach(container => {
+      container.dataset.initialized = "true";
+
+      const btn = container.querySelector<HTMLButtonElement>(".notif-btn")!;
+      const badge = container.querySelector<HTMLSpanElement>(".notif-badge")!;
+      const dropdown = container.querySelector<HTMLDivElement>(".notif-dropdown")!;
+      const list = container.querySelector<HTMLDivElement>(".notif-list")!;
+      const markAllBtn = container.querySelector<HTMLButtonElement>(".notif-mark-all")!;
+
+      function show() {
+        container.classList.add("visible");
+      }
+
+      function hide() {
+        container.classList.remove("visible");
+      }
+
+      function formatTimeAgo(dateStr: string): string {
+        const now = Date.now();
+        const then = new Date(dateStr).getTime();
+        const diff = Math.floor((now - then) / 1000);
+        if (diff < 60) return "just now";
+        if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+        if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
+        return new Date(dateStr).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      }
+
+      function escapeHtml(text: string): string {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      interface Notification {
+        id: number;
+        type: string;
+        source_user_name: string | null;
+        comment_id: number | null;
+        post_slug: string | null;
+        message: string;
+        read: boolean;
+        created_at: string;
+      }
+
+      function renderNotifications(notifications: Notification[]) {
+        if (notifications.length === 0) {
+          list.innerHTML = '<p class="notif-empty">No notifications</p>';
+          return;
+        }
+
+        list.innerHTML = notifications.slice(0, 10).map(n => {
+          const icon = n.type === "reply" ? "reply" : "comment";
+          const emoji = n.type === "reply" ? "&#8617;" : "&#128172;";
+          const href = n.post_slug ? `/posts/${n.post_slug}` : "#";
+          return `
+            <a href="${escapeHtml(href)}" class="notif-item ${n.read ? "" : "unread"}" data-notif-id="${n.id}">
+              <div class="notif-icon ${icon}">${emoji}</div>
+              <div class="notif-body">
+                <div class="notif-message">${escapeHtml(n.message)}</div>
+                <div class="notif-time">${formatTimeAgo(n.created_at)}</div>
+              </div>
+              ${n.read ? "" : '<div class="notif-unread-dot"></div>'}
+            </a>
+          `;
+        }).join("");
+
+        // Mark individual notification as read on click
+        list.querySelectorAll<HTMLAnchorElement>(".notif-item").forEach(item => {
+          item.addEventListener("click", () => {
+            const id = item.dataset.notifId;
+            if (id) {
+              fetch("/api/notifications", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ notificationId: parseInt(id) }),
+              });
+            }
+          });
+        });
+      }
+
+      let cachedNotifications: Notification[] = [];
+
+      async function fetchNotifications() {
+        try {
+          const res = await fetch("/api/notifications?limit=10");
+          const data = await res.json();
+          cachedNotifications = data.notifications || [];
+          const unread = data.unreadCount || 0;
+
+          if (unread > 0) {
+            badge.textContent = unread > 9 ? "9+" : unread.toString();
+            badge.classList.remove("hidden");
+          } else {
+            badge.classList.add("hidden");
+          }
+
+          renderNotifications(cachedNotifications);
+        } catch {
+          // silently fail
+        }
+      }
+
+      // Show bell only for authenticated users
+      function onAuthReady(user: unknown) {
+        if (user) {
+          show();
+          fetchNotifications();
+        } else {
+          hide();
+        }
+      }
+
+      window.addEventListener("auth:ready", ((e: CustomEvent) => onAuthReady(e.detail)) as EventListener);
+      window.addEventListener("auth:logout", () => hide());
+      if (window.__authUser !== undefined) {
+        onAuthReady(window.__authUser);
+      }
+
+      // Toggle dropdown
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = !dropdown.classList.contains("hidden");
+        dropdown.classList.toggle("hidden", isOpen);
+        btn.setAttribute("aria-expanded", (!isOpen).toString());
+
+        if (!isOpen) {
+          fetchNotifications();
+        }
+      });
+
+      // Mark all as read
+      markAllBtn.addEventListener("click", async (e) => {
+        e.stopPropagation();
+        await fetch("/api/notifications", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ markAllRead: true }),
+        });
+        badge.classList.add("hidden");
+        cachedNotifications = cachedNotifications.map(n => ({ ...n, read: true }));
+        renderNotifications(cachedNotifications);
+      });
+
+      // Close dropdown on outside click
+      document.addEventListener("click", () => {
+        dropdown.classList.add("hidden");
+        btn.setAttribute("aria-expanded", "false");
+      });
+
+      dropdown.addEventListener("click", (e) => e.stopPropagation());
+    });
+  }
+
+  document.addEventListener("astro:page-load", initNotificationBell);
+</script>

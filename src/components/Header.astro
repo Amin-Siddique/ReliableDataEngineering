@@ -7,6 +7,7 @@ import IconSunHigh from "@/assets/icons/IconSunHigh.svg";
 import IconMenuDeep from "@/assets/icons/IconMenuDeep.svg";
 import IconKofi from "@/assets/icons/IconKofi.svg";
 import LinkButton from "./LinkButton.astro";
+import NotificationBell from "./NotificationBell.astro";
 import AuthButton from "./AuthButton.astro";
 import { SITE } from "@/config";
 
@@ -148,6 +149,7 @@ const isActive = (path: string) => {
           }
         </ul>
       </nav>
+      <NotificationBell />
       <AuthButton />
     </div>
   </div>
