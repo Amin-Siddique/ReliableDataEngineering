@@ -121,6 +121,25 @@ export default async () => {
     )
   `;
 
+  // Create highlights table
+  await sql`
+    CREATE TABLE IF NOT EXISTS highlights (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      post_slug VARCHAR(255) NOT NULL,
+      selected_text TEXT NOT NULL,
+      note TEXT,
+      color VARCHAR(20) DEFAULT 'yellow',
+      start_offset INTEGER NOT NULL,
+      end_offset INTEGER NOT NULL,
+      container_path TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      updated_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS idx_highlights_user ON highlights(user_id)`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_highlights_post ON highlights(user_id, post_slug)`;
+
   // Create comment likes table
   await sql`
     CREATE TABLE IF NOT EXISTS comment_likes (

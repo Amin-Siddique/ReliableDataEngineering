@@ -176,7 +176,7 @@ import { SITE } from "@/config";
       list!.innerHTML = notifications.map(n => {
         const iconType = n.type === "like" ? "like" : n.type === "reply" ? "reply" : "comment";
         const emoji = n.type === "like" ? "&#10084;" : n.type === "reply" ? "&#8617;" : "&#128172;";
-        const href = n.post_slug ? `/posts/${n.post_slug.replace(/^article_/, "").replace(/_/g, "-").replace(/\.md$/, "")}/` : "#";
+        const href = n.post_slug ? `/posts/${n.post_slug}/` : "#";
 
         return `
           <a href="${escapeHtml(href)}" class="notif-page-item ${n.read ? "" : "notif-unread"}" data-notif-id="${n.id}">

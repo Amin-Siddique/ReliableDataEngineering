@@ -52,7 +52,7 @@ import { SITE } from "@/config";
       if (!list) return;
       list.innerHTML = history.map(h => {
         const slug = h.post_slug;
-        const path = `/posts/${slug.replace(/^article_/, "").replace(/_/g, "-").replace(/\.md$/, "")}/`;
+        const path = `/posts/${slug}/`;
         const title = slug
           .replace(/^article_/, "")
           .replace(/\.md$/, "")

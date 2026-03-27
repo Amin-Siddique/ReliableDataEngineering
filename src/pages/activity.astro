@@ -351,7 +351,7 @@ import { SITE } from "@/config";
     }
 
     function slugToPath(slug: string): string {
-      return `/posts/${slug.replace(/^article_/, "").replace(/_/g, "-").replace(/\.md$/, "")}/`;
+      return `/posts/${slug}/`;
     }
 
     function slugToTitle(slug: string): string {

@@ -1,0 +1,738 @@
+---
+interface Props {
+  slug: string;
+}
+const { slug } = Astro.props;
+---
+
+<div data-highlighter data-highlight-slug={slug}>
+  <!-- Floating toolbar on text selection -->
+  <div class="hl-toolbar hidden" id="hl-toolbar">
+    <button class="hl-color-btn" data-color="yellow" style="background:#fde68a" title="Yellow"></button>
+    <button class="hl-color-btn" data-color="green" style="background:#86efac" title="Green"></button>
+    <button class="hl-color-btn" data-color="blue" style="background:#93c5fd" title="Blue"></button>
+    <button class="hl-color-btn" data-color="pink" style="background:#f9a8d4" title="Pink"></button>
+    <button class="hl-color-btn" data-color="purple" style="background:#c4b5fd" title="Purple"></button>
+    <span class="hl-toolbar-divider"></span>
+    <button class="hl-note-btn" id="hl-note-btn" title="Add note">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Popover for existing highlights -->
+  <div class="hl-popover hidden" id="hl-popover">
+    <div class="hl-popover-note" id="hl-popover-note"></div>
+    <div class="hl-popover-actions">
+      <button class="hl-popover-btn" id="hl-edit-note">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+        Note
+      </button>
+      <div class="hl-popover-colors">
+        <button class="hl-color-dot" data-popover-color="yellow" style="background:#fde68a"></button>
+        <button class="hl-color-dot" data-popover-color="green" style="background:#86efac"></button>
+        <button class="hl-color-dot" data-popover-color="blue" style="background:#93c5fd"></button>
+        <button class="hl-color-dot" data-popover-color="pink" style="background:#f9a8d4"></button>
+        <button class="hl-color-dot" data-popover-color="purple" style="background:#c4b5fd"></button>
+      </div>
+      <button class="hl-popover-btn hl-delete-btn" id="hl-delete">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+        Remove
+      </button>
+    </div>
+  </div>
+
+  <!-- Note input modal -->
+  <div class="hl-note-modal hidden" id="hl-note-modal">
+    <div class="hl-note-modal-content">
+      <div class="hl-note-modal-header">
+        <span class="hl-note-modal-title">Add a note</span>
+        <button class="hl-note-modal-close" id="hl-note-close">&times;</button>
+      </div>
+      <div class="hl-note-quote" id="hl-note-quote"></div>
+      <textarea class="hl-note-input" id="hl-note-input" placeholder="Write your thoughts..." rows="3" maxlength="1000"></textarea>
+      <div class="hl-note-footer">
+        <span class="hl-note-count"><span id="hl-note-count">0</span>/1000</span>
+        <button class="hl-note-save" id="hl-note-save">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .hl-toolbar {
+    position: fixed;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 8px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  }
+
+  .hl-color-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.1s, border-color 0.1s;
+  }
+
+  .hl-color-btn:hover {
+    transform: scale(1.2);
+    border-color: var(--foreground);
+  }
+
+  .hl-toolbar-divider {
+    width: 1px;
+    height: 18px;
+    background: var(--border);
+    margin: 0 4px;
+  }
+
+  .hl-note-btn {
+    background: none;
+    border: none;
+    color: var(--foreground);
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 4px;
+    line-height: 0;
+    opacity: 0.6;
+  }
+
+  .hl-note-btn:hover {
+    opacity: 1;
+    background: var(--muted);
+  }
+
+  /* Highlight marks in article */
+  mark[data-hl-id] {
+    cursor: pointer;
+    border-radius: 2px;
+    padding: 1px 0;
+    transition: filter 0.15s;
+  }
+
+  mark[data-hl-id]:hover {
+    filter: brightness(0.9);
+  }
+
+  mark[data-hl-id].hl-yellow { background: rgba(253, 230, 138, 0.5); }
+  mark[data-hl-id].hl-green { background: rgba(134, 239, 172, 0.4); }
+  mark[data-hl-id].hl-blue { background: rgba(147, 197, 253, 0.4); }
+  mark[data-hl-id].hl-pink { background: rgba(249, 168, 212, 0.4); }
+  mark[data-hl-id].hl-purple { background: rgba(196, 181, 253, 0.4); }
+
+  /* Has note indicator */
+  mark[data-hl-id][data-has-note]::after {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-left: 2px;
+    vertical-align: super;
+    font-size: 0;
+  }
+
+  /* Popover */
+  .hl-popover {
+    position: fixed;
+    z-index: 61;
+    min-width: 200px;
+    max-width: 300px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    padding: 0.5rem;
+  }
+
+  .hl-popover-note {
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    opacity: 0.7;
+    padding: 0.375rem 0.5rem;
+    font-style: italic;
+    line-height: 1.4;
+    display: none;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.375rem;
+  }
+
+  .hl-popover-note.has-note {
+    display: block;
+  }
+
+  .hl-popover-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .hl-popover-btn {
+    background: none;
+    border: none;
+    color: var(--foreground);
+    font-size: 0.6875rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.375rem;
+    border-radius: 4px;
+    opacity: 0.6;
+  }
+
+  .hl-popover-btn:hover {
+    opacity: 1;
+    background: var(--muted);
+  }
+
+  .hl-delete-btn:hover {
+    color: #ef4444;
+  }
+
+  .hl-popover-colors {
+    display: flex;
+    gap: 3px;
+    margin-left: auto;
+  }
+
+  .hl-color-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  .hl-color-dot:hover {
+    transform: scale(1.3);
+    border-color: var(--foreground);
+  }
+
+  /* Note modal */
+  .hl-note-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .hl-note-modal-content {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    width: 100%;
+    max-width: 440px;
+    margin: 1rem;
+    padding: 1.25rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .hl-note-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .hl-note-modal-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--foreground);
+  }
+
+  .hl-note-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    color: var(--foreground);
+    opacity: 0.4;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+  }
+
+  .hl-note-modal-close:hover {
+    opacity: 1;
+  }
+
+  .hl-note-quote {
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    opacity: 0.5;
+    font-style: italic;
+    border-left: 3px solid var(--accent);
+    padding: 0.375rem 0.75rem;
+    margin-bottom: 0.75rem;
+    max-height: 80px;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+
+  .hl-note-input {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: inherit;
+    font-size: 0.875rem;
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  .hl-note-input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .hl-note-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+  }
+
+  .hl-note-count {
+    font-size: 0.6875rem;
+    color: var(--foreground);
+    opacity: 0.3;
+  }
+
+  .hl-note-save {
+    padding: 0.375rem 1rem;
+    background: var(--accent);
+    color: var(--background);
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    cursor: pointer;
+  }
+
+  .hl-note-save:hover {
+    opacity: 0.9;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  interface Highlight {
+    id: number;
+    post_slug: string;
+    selected_text: string;
+    note: string | null;
+    color: string;
+    start_offset: number;
+    end_offset: number;
+    container_path: string;
+    created_at: string;
+  }
+
+  function initHighlighter() {
+    const containers = document.querySelectorAll<HTMLDivElement>("[data-highlighter]:not([data-hl-init])");
+    containers.forEach(container => {
+      container.dataset.hlInit = "true";
+
+      const slug = container.dataset.highlightSlug || "";
+      if (!slug) return;
+
+      const article = document.getElementById("article");
+      if (!article) return;
+
+      const toolbar = document.getElementById("hl-toolbar")!;
+      const popover = document.getElementById("hl-popover")!;
+      const noteModal = document.getElementById("hl-note-modal")!;
+      const noteInput = document.getElementById("hl-note-input") as HTMLTextAreaElement;
+      const noteQuote = document.getElementById("hl-note-quote")!;
+      const noteCount = document.getElementById("hl-note-count")!;
+      const noteSave = document.getElementById("hl-note-save")!;
+      const noteClose = document.getElementById("hl-note-close")!;
+      const popoverNote = document.getElementById("hl-popover-note")!;
+
+      let savedHighlights: Highlight[] = [];
+      let pendingSelection: { text: string; range: Range; containerPath: string; startOffset: number; endOffset: number } | null = null;
+      let pendingColor = "yellow";
+      let activeHighlightId: number | null = null;
+      let pendingNoteForNew = false;
+
+      // Get a serializable path for a node within the article
+      function getNodePath(node: Node): string {
+        const parts: string[] = [];
+        let current: Node | null = node;
+        while (current && current !== article) {
+          if (current.parentNode) {
+            const siblings = Array.from(current.parentNode.childNodes);
+            const idx = siblings.indexOf(current as ChildNode);
+            parts.unshift(idx.toString());
+          }
+          current = current.parentNode;
+        }
+        return parts.join("/");
+      }
+
+      function getNodeByPath(path: string): Node | null {
+        const parts = path.split("/").map(Number);
+        let current: Node = article!;
+        for (const idx of parts) {
+          if (!current.childNodes[idx]) return null;
+          current = current.childNodes[idx];
+        }
+        return current;
+      }
+
+      // Apply a highlight to the DOM
+      function applyHighlight(hl: Highlight): boolean {
+        try {
+          const node = getNodeByPath(hl.container_path);
+          if (!node || !node.textContent) return false;
+
+          // Find the text in the node's text content
+          const textNode = findTextNode(node, hl.selected_text, hl.start_offset);
+          if (!textNode) return false;
+
+          const range = document.createRange();
+          const startIdx = textNode.textContent!.indexOf(hl.selected_text, 0);
+          if (startIdx === -1) return false;
+
+          range.setStart(textNode, startIdx);
+          range.setEnd(textNode, startIdx + hl.selected_text.length);
+
+          const mark = document.createElement("mark");
+          mark.dataset.hlId = hl.id.toString();
+          mark.className = `hl-${hl.color}`;
+          if (hl.note) mark.dataset.hasNote = "true";
+
+          range.surroundContents(mark);
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      function findTextNode(node: Node, text: string, _offset: number): Text | null {
+        if (node.nodeType === Node.TEXT_NODE) {
+          if (node.textContent && node.textContent.includes(text)) {
+            return node as Text;
+          }
+          return null;
+        }
+        for (const child of Array.from(node.childNodes)) {
+          const found = findTextNode(child, text, _offset);
+          if (found) return found;
+        }
+        return null;
+      }
+
+      // Show toolbar near selection
+      function showToolbar(x: number, y: number) {
+        toolbar.style.left = `${x}px`;
+        toolbar.style.top = `${y - 45}px`;
+        toolbar.classList.remove("hidden");
+      }
+
+      function hideToolbar() {
+        toolbar.classList.add("hidden");
+      }
+
+      function hidePopover() {
+        popover.classList.add("hidden");
+        activeHighlightId = null;
+      }
+
+      // Text selection handler
+      document.addEventListener("mouseup", (e) => {
+        if (toolbar.contains(e.target as Node) || popover.contains(e.target as Node)) return;
+
+        hidePopover();
+
+        const sel = window.getSelection();
+        if (!sel || sel.isCollapsed || !sel.rangeCount) {
+          setTimeout(hideToolbar, 150);
+          return;
+        }
+
+        const range = sel.getRangeAt(0);
+        if (!article.contains(range.commonAncestorContainer)) {
+          hideToolbar();
+          return;
+        }
+
+        if (!window.__authUser) {
+          hideToolbar();
+          return;
+        }
+
+        const text = sel.toString().trim();
+        if (!text || text.length < 3) {
+          hideToolbar();
+          return;
+        }
+
+        const rect = range.getBoundingClientRect();
+        const containerNode = range.startContainer.parentElement?.closest("#article > *") || range.startContainer;
+        const containerPath = getNodePath(containerNode);
+        const startOffset = range.startOffset;
+        const endOffset = range.endOffset;
+
+        pendingSelection = { text, range: range.cloneRange(), containerPath, startOffset, endOffset };
+
+        showToolbar(rect.left + rect.width / 2 - 80, rect.top + window.scrollY);
+      });
+
+      // Color button click
+      toolbar.querySelectorAll<HTMLButtonElement>(".hl-color-btn").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          if (!pendingSelection) return;
+
+          pendingColor = btn.dataset.color || "yellow";
+          await saveHighlight(pendingSelection.text, null, pendingColor, pendingSelection);
+          hideToolbar();
+          window.getSelection()?.removeAllRanges();
+        });
+      });
+
+      // Note button from toolbar (highlight + note)
+      document.getElementById("hl-note-btn")?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!pendingSelection) return;
+
+        pendingNoteForNew = true;
+        pendingColor = "yellow";
+        noteQuote.textContent = pendingSelection.text.slice(0, 200) + (pendingSelection.text.length > 200 ? "..." : "");
+        noteInput.value = "";
+        noteCount.textContent = "0";
+        noteModal.classList.remove("hidden");
+        noteInput.focus();
+        hideToolbar();
+      });
+
+      async function saveHighlight(text: string, note: string | null, color: string, sel: typeof pendingSelection) {
+        if (!sel) return;
+
+        try {
+          const res = await fetch("/api/highlights", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              postSlug: slug,
+              selectedText: text,
+              note,
+              color,
+              startOffset: sel.startOffset,
+              endOffset: sel.endOffset,
+              containerPath: sel.containerPath,
+            }),
+          });
+          const data = await res.json();
+          if (res.ok && data.highlight) {
+            savedHighlights.push(data.highlight);
+            applyHighlight(data.highlight);
+          }
+        } catch {
+          // silently fail
+        }
+        pendingSelection = null;
+      }
+
+      // Note modal save
+      noteSave.addEventListener("click", async () => {
+        if (pendingNoteForNew && pendingSelection) {
+          await saveHighlight(pendingSelection.text, noteInput.value || null, pendingColor, pendingSelection);
+          pendingNoteForNew = false;
+          window.getSelection()?.removeAllRanges();
+        } else if (activeHighlightId) {
+          // Edit existing note
+          try {
+            const res = await fetch("/api/highlights", {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ highlightId: activeHighlightId, note: noteInput.value }),
+            });
+            if (res.ok) {
+              const hl = savedHighlights.find(h => h.id === activeHighlightId);
+              if (hl) hl.note = noteInput.value || null;
+
+              const mark = article.querySelector<HTMLElement>(`mark[data-hl-id="${activeHighlightId}"]`);
+              if (mark) {
+                if (noteInput.value) {
+                  mark.dataset.hasNote = "true";
+                } else {
+                  delete mark.dataset.hasNote;
+                }
+              }
+            }
+          } catch {}
+        }
+        noteModal.classList.add("hidden");
+      });
+
+      noteClose.addEventListener("click", () => {
+        noteModal.classList.add("hidden");
+        pendingNoteForNew = false;
+      });
+
+      noteModal.addEventListener("click", (e) => {
+        if (e.target === noteModal) {
+          noteModal.classList.add("hidden");
+          pendingNoteForNew = false;
+        }
+      });
+
+      noteInput.addEventListener("input", () => {
+        noteCount.textContent = noteInput.value.length.toString();
+      });
+
+      // Click on existing highlight mark
+      article.addEventListener("click", (e) => {
+        const mark = (e.target as HTMLElement).closest<HTMLElement>("mark[data-hl-id]");
+        if (!mark) {
+          hidePopover();
+          return;
+        }
+
+        e.preventDefault();
+        const id = parseInt(mark.dataset.hlId || "0");
+        const hl = savedHighlights.find(h => h.id === id);
+        if (!hl) return;
+
+        activeHighlightId = id;
+
+        // Show popover
+        if (hl.note) {
+          popoverNote.textContent = hl.note;
+          popoverNote.classList.add("has-note");
+        } else {
+          popoverNote.classList.remove("has-note");
+        }
+
+        const rect = mark.getBoundingClientRect();
+        popover.style.left = `${Math.max(10, rect.left)}px`;
+        popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
+        popover.classList.remove("hidden");
+      });
+
+      // Edit note from popover
+      document.getElementById("hl-edit-note")?.addEventListener("click", () => {
+        if (!activeHighlightId) return;
+        const hl = savedHighlights.find(h => h.id === activeHighlightId);
+        if (!hl) return;
+
+        pendingNoteForNew = false;
+        noteQuote.textContent = hl.selected_text.slice(0, 200) + (hl.selected_text.length > 200 ? "..." : "");
+        noteInput.value = hl.note || "";
+        noteCount.textContent = (hl.note || "").length.toString();
+        noteModal.classList.remove("hidden");
+        noteInput.focus();
+        hidePopover();
+      });
+
+      // Change color from popover
+      popover.querySelectorAll<HTMLButtonElement>("[data-popover-color]").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          if (!activeHighlightId) return;
+          const newColor = btn.dataset.popoverColor || "yellow";
+
+          try {
+            const res = await fetch("/api/highlights", {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ highlightId: activeHighlightId, color: newColor }),
+            });
+            if (res.ok) {
+              const hl = savedHighlights.find(h => h.id === activeHighlightId);
+              if (hl) hl.color = newColor;
+
+              const mark = article.querySelector<HTMLElement>(`mark[data-hl-id="${activeHighlightId}"]`);
+              if (mark) {
+                mark.className = `hl-${newColor}`;
+                if (hl?.note) mark.dataset.hasNote = "true";
+              }
+            }
+          } catch {}
+          hidePopover();
+        });
+      });
+
+      // Delete from popover
+      document.getElementById("hl-delete")?.addEventListener("click", async () => {
+        if (!activeHighlightId) return;
+
+        try {
+          const res = await fetch("/api/highlights", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ highlightId: activeHighlightId }),
+          });
+          if (res.ok) {
+            const mark = article.querySelector<HTMLElement>(`mark[data-hl-id="${activeHighlightId}"]`);
+            if (mark) {
+              const parent = mark.parentNode;
+              while (mark.firstChild) {
+                parent?.insertBefore(mark.firstChild, mark);
+              }
+              mark.remove();
+              parent?.normalize();
+            }
+            savedHighlights = savedHighlights.filter(h => h.id !== activeHighlightId);
+          }
+        } catch {}
+        hidePopover();
+      });
+
+      // Close popover on outside click
+      document.addEventListener("click", (e) => {
+        if (!popover.contains(e.target as Node) && !(e.target as HTMLElement).closest?.("mark[data-hl-id]")) {
+          hidePopover();
+        }
+      });
+
+      // Load saved highlights
+      function loadHighlights() {
+        if (!window.__authUser) return;
+
+        fetch(`/api/highlights?slug=${encodeURIComponent(slug)}`)
+          .then(res => res.json())
+          .then(data => {
+            savedHighlights = data.highlights || [];
+            savedHighlights.forEach(hl => applyHighlight(hl));
+          })
+          .catch(() => {});
+      }
+
+      window.addEventListener("auth:ready", ((e: CustomEvent) => {
+        if (e.detail) loadHighlights();
+      }) as EventListener);
+      if (window.__authUser) loadHighlights();
+    });
+  }
+
+  document.addEventListener("astro:page-load", initHighlighter);
+</script>

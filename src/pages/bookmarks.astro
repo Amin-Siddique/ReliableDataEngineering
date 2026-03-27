@@ -52,8 +52,7 @@ import { SITE } from "@/config";
       if (!list) return;
       list.innerHTML = bookmarks.map(b => {
         const slug = b.post_slug;
-        // Convert slug to a path - articles are stored as article_*.md
-        const path = `/posts/${slug.replace(/^article_/, "").replace(/_/g, "-").replace(/\.md$/, "")}/`;
+        const path = `/posts/${slug}/`;
         const title = slug
           .replace(/^article_/, "")
           .replace(/\.md$/, "")

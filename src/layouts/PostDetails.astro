@@ -20,6 +20,7 @@ import KofiButton from "@/components/KofiButton.astro";
 import BookmarkButton from "@/components/BookmarkButton.astro";
 import ReadingProgress from "@/components/ReadingProgress.astro";
 import Reactions from "@/components/Reactions.astro";
+import ArticleHighlighter from "@/components/ArticleHighlighter.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import ReadingTime from "@/components/ReadingTime.astro";
 import { getPath } from "@/utils/getPath";
@@ -207,6 +208,7 @@ const nextPost =
       }
     </div>
   </main>
+  <ArticleHighlighter slug={post.id} />
   <ReadingProgress slug={post.id} />
   <TableOfContents />
   <Footer />

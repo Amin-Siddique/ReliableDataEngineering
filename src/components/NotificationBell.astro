@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<style>
+<style is:global>
   .notif-container {
     position: relative;
     display: none;
@@ -37,7 +37,7 @@
     align-items: center;
   }
 
-  .notif-btn {
+  .notif-container .notif-btn {
     position: relative;
     background: none;
     border: none;
@@ -49,11 +49,11 @@
     line-height: 0;
   }
 
-  .notif-btn:hover {
+  .notif-container .notif-btn:hover {
     color: var(--accent);
   }
 
-  .notif-badge {
+  .notif-container .notif-badge {
     position: absolute;
     top: 0;
     right: -2px;
@@ -71,133 +71,144 @@
     line-height: 1;
   }
 
-  .notif-dropdown {
+  .notif-container .notif-dropdown {
     position: absolute;
     top: calc(100% + 0.5rem);
     right: 0;
-    width: 320px;
-    max-height: 420px;
+    width: 340px;
+    max-height: 440px;
     background: var(--background);
     border: 1px solid var(--border);
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 0.75rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     z-index: 50;
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
 
-  .notif-header {
+  .notif-container .notif-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem 1rem;
+    padding: 0.875rem 1rem;
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
   }
 
-  .notif-title {
-    font-weight: 600;
-    font-size: 0.875rem;
+  .notif-container .notif-title {
+    font-weight: 700;
+    font-size: 0.9375rem;
     color: var(--foreground);
   }
 
-  .notif-mark-all {
+  .notif-container .notif-mark-all {
     background: none;
     border: none;
     color: var(--accent);
     cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 0.25rem;
+    padding: 0.375rem;
+    border-radius: 0.375rem;
     line-height: 0;
+    transition: background 0.15s;
   }
 
-  .notif-mark-all:hover {
+  .notif-container .notif-mark-all:hover {
     background: var(--muted);
   }
 
-  .notif-list {
+  .notif-container .notif-list {
     overflow-y: auto;
     flex: 1;
-    max-height: 300px;
+    max-height: 320px;
   }
 
-  .notif-empty {
-    padding: 2rem 1rem;
+  .notif-container .notif-empty {
+    padding: 2.5rem 1rem;
     text-align: center;
     font-size: 0.8125rem;
     color: var(--foreground);
-    opacity: 0.5;
+    opacity: 0.4;
   }
 
-  .notif-item {
+  .notif-container .notif-item {
     display: flex;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
     cursor: pointer;
     transition: background 0.15s;
     text-decoration: none;
     color: var(--foreground);
+    align-items: flex-start;
   }
 
-  .notif-item:hover {
+  .notif-container .notif-item:last-child {
+    border-bottom: none;
+  }
+
+  .notif-container .notif-item:hover {
     background: var(--muted);
   }
 
-  .notif-item.unread {
+  .notif-container .notif-item.unread {
     background: color-mix(in srgb, var(--accent) 5%, transparent);
   }
 
-  .notif-item.unread:hover {
+  .notif-container .notif-item.unread:hover {
     background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
-  .notif-icon {
+  .notif-container .notif-icon {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.875rem;
   }
 
-  .notif-icon.reply {
-    background: color-mix(in srgb, var(--accent) 15%, transparent);
+  .notif-container .notif-icon.reply {
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
     color: var(--accent);
   }
 
-  .notif-icon.comment {
-    background: color-mix(in srgb, #22c55e 15%, transparent);
+  .notif-container .notif-icon.comment {
+    background: color-mix(in srgb, #22c55e 12%, transparent);
     color: #22c55e;
   }
 
-  .notif-icon.like {
-    background: color-mix(in srgb, #ef4444 15%, transparent);
+  .notif-container .notif-icon.like {
+    background: color-mix(in srgb, #ef4444 12%, transparent);
     color: #ef4444;
   }
 
-  .notif-body {
+  .notif-container .notif-body {
     flex: 1;
     min-width: 0;
+    padding-top: 1px;
   }
 
-  .notif-message {
+  .notif-container .notif-message {
     font-size: 0.8125rem;
     line-height: 1.4;
     color: var(--foreground);
   }
 
-  .notif-time {
-    font-size: 0.6875rem;
-    color: var(--foreground);
-    opacity: 0.4;
-    margin-top: 0.125rem;
+  .notif-container .notif-message strong {
+    font-weight: 600;
   }
 
-  .notif-unread-dot {
+  .notif-container .notif-time {
+    font-size: 0.6875rem;
+    color: var(--foreground);
+    opacity: 0.35;
+    margin-top: 0.25rem;
+  }
+
+  .notif-container .notif-unread-dot {
     width: 8px;
     height: 8px;
     background: var(--accent);
@@ -206,23 +217,24 @@
     align-self: center;
   }
 
-  .notif-view-all {
+  .notif-container .notif-view-all {
     display: block;
     text-align: center;
-    padding: 0.625rem;
+    padding: 0.75rem;
     border-top: 1px solid var(--border);
     font-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--accent);
     text-decoration: none;
     flex-shrink: 0;
+    transition: background 0.15s;
   }
 
-  .notif-view-all:hover {
+  .notif-container .notif-view-all:hover {
     background: var(--muted);
   }
 
-  .hidden {
+  .notif-container .hidden {
     display: none !important;
   }
 </style>
@@ -285,12 +297,20 @@
         list.innerHTML = notifications.slice(0, 10).map(n => {
           const icon = n.type === "like" ? "like" : n.type === "reply" ? "reply" : "comment";
           const emoji = n.type === "like" ? "&#10084;" : n.type === "reply" ? "&#8617;" : "&#128172;";
-          const href = n.post_slug ? `/posts/${n.post_slug}` : "#";
+          const href = n.post_slug ? `/posts/${n.post_slug}/` : "#";
+
+          // Bold the user name in the message
+          const sourceName = n.source_user_name ? escapeHtml(n.source_user_name) : "";
+          let displayMsg = escapeHtml(n.message);
+          if (sourceName) {
+            displayMsg = displayMsg.replace(sourceName, `<strong>${sourceName}</strong>`);
+          }
+
           return `
             <a href="${escapeHtml(href)}" class="notif-item ${n.read ? "" : "unread"}" data-notif-id="${n.id}">
               <div class="notif-icon ${icon}">${emoji}</div>
               <div class="notif-body">
-                <div class="notif-message">${escapeHtml(n.message)}</div>
+                <div class="notif-message">${displayMsg}</div>
                 <div class="notif-time">${formatTimeAgo(n.created_at)}</div>
               </div>
               ${n.read ? "" : '<div class="notif-unread-dot"></div>'}
