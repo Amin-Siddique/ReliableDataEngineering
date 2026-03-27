@@ -1,0 +1,278 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+---
+
+<Layout title={`Profile | ${SITE.title}`}>
+  <Header />
+  <main id="main-content" class="mx-auto w-full max-w-2xl px-4 pb-12">
+
+    <div id="profile-auth-prompt" class="hidden text-center py-16">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" class="mx-auto mb-4 opacity-40">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+      <p class="text-foreground/70 mb-4">Sign in to manage your profile.</p>
+      <a href="/api/auth/google" class="inline-block rounded bg-accent px-6 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90">
+        Sign in
+      </a>
+    </div>
+
+    <div id="profile-loading" class="text-center py-16">
+      <p class="text-foreground/70">Loading profile...</p>
+    </div>
+
+    <div id="profile-content" class="hidden">
+      <!-- Profile header -->
+      <div class="mt-8 mb-8 flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left sm:gap-6">
+        <div class="relative group mb-4 sm:mb-0">
+          <img id="profile-avatar" src="" alt="" width="96" height="96"
+               class="rounded-full border-2 border-border object-cover" />
+          <button id="change-avatar-btn"
+                  class="absolute inset-0 flex items-center justify-center rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                  title="Change avatar">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="white" stroke-width="2">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1">
+          <h1 id="profile-display-name" class="text-2xl font-bold text-foreground"></h1>
+          <p id="profile-email" class="text-sm text-foreground/60 mt-0.5"></p>
+          <div id="profile-meta" class="mt-2 flex flex-wrap items-center justify-center gap-3 text-xs text-foreground/50 sm:justify-start">
+            <span id="profile-provider-badge" class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5"></span>
+            <span id="profile-location-display" class="hidden inline-flex items-center gap-1">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span id="profile-location-text"></span>
+            </span>
+            <span id="profile-joined" class="inline-flex items-center gap-1">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span></span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats cards -->
+      <div class="grid grid-cols-3 gap-3 mb-8">
+        <div class="rounded-lg border border-border p-4 text-center">
+          <div id="stat-articles" class="text-2xl font-bold text-accent">0</div>
+          <div class="text-xs text-foreground/60 mt-1">Articles Read</div>
+        </div>
+        <div class="rounded-lg border border-border p-4 text-center">
+          <div id="stat-bookmarks" class="text-2xl font-bold text-accent">0</div>
+          <div class="text-xs text-foreground/60 mt-1">Bookmarks</div>
+        </div>
+        <div class="rounded-lg border border-border p-4 text-center">
+          <div id="stat-comments" class="text-2xl font-bold text-accent">0</div>
+          <div class="text-xs text-foreground/60 mt-1">Comments</div>
+        </div>
+      </div>
+
+      <!-- Edit profile form -->
+      <div class="rounded-lg border border-border p-6">
+        <h2 class="text-lg font-semibold text-foreground mb-4">Edit Profile</h2>
+        <form id="profile-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-foreground/80 mb-1">Display Name</label>
+            <input type="text" name="displayName" maxlength="100" required
+                   class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-foreground/80 mb-1">Bio</label>
+            <textarea name="bio" maxlength="500" rows="3" placeholder="Tell readers about yourself..."
+                      class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none"></textarea>
+            <p class="text-xs text-foreground/40 mt-1"><span id="bio-count">0</span>/500</p>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-foreground/80 mb-1">Website</label>
+            <input type="url" name="website" maxlength="255" placeholder="https://yoursite.com"
+                   class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-foreground/80 mb-1">Location</label>
+            <input type="text" name="location" maxlength="100" placeholder="Berlin, Germany"
+                   class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-foreground/80 mb-1">Custom Avatar URL</label>
+            <input type="url" name="customAvatarUrl" maxlength="500" placeholder="https://... (leave empty to use OAuth avatar)"
+                   class="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none" />
+            <p class="text-xs text-foreground/40 mt-1">Override your Google/GitHub avatar with a custom image URL</p>
+          </div>
+          <div class="flex items-center gap-3 pt-2">
+            <button type="submit"
+                    class="rounded-md bg-accent px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50">
+              Save Changes
+            </button>
+            <span id="save-status" class="text-sm hidden"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  function initProfilePage() {
+    const authPrompt = document.getElementById("profile-auth-prompt");
+    const loading = document.getElementById("profile-loading");
+    const content = document.getElementById("profile-content");
+
+    if (!authPrompt || !loading || !content) return;
+
+    const avatar = document.getElementById("profile-avatar") as HTMLImageElement;
+    const displayName = document.getElementById("profile-display-name")!;
+    const email = document.getElementById("profile-email")!;
+    const providerBadge = document.getElementById("profile-provider-badge")!;
+    const locationDisplay = document.getElementById("profile-location-display")!;
+    const locationText = document.getElementById("profile-location-text")!;
+    const joined = document.getElementById("profile-joined")!.querySelector("span:last-child")!;
+    const statArticles = document.getElementById("stat-articles")!;
+    const statBookmarks = document.getElementById("stat-bookmarks")!;
+    const statComments = document.getElementById("stat-comments")!;
+    const form = document.getElementById("profile-form") as HTMLFormElement;
+    const bioTextarea = form.querySelector<HTMLTextAreaElement>('[name="bio"]')!;
+    const bioCount = document.getElementById("bio-count")!;
+    const saveStatus = document.getElementById("save-status")!;
+
+    bioTextarea.addEventListener("input", () => {
+      bioCount.textContent = bioTextarea.value.length.toString();
+    });
+
+    function loadProfile() {
+      window.addEventListener("auth:ready", (e: Event) => {
+        const user = (e as CustomEvent).detail;
+        loading?.classList.add("hidden");
+
+        if (!user) {
+          authPrompt?.classList.remove("hidden");
+          return;
+        }
+
+        content?.classList.remove("hidden");
+
+        // Fetch full profile with stats
+        fetch("/api/profile")
+          .then(res => res.json())
+          .then(data => {
+            const p = data.profile;
+            const s = data.stats;
+
+            const avatarSrc = p.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.displayName)}&background=3b82f6&color=fff&size=192`;
+            avatar.src = avatarSrc;
+            avatar.alt = p.displayName;
+            displayName.textContent = p.displayName;
+            email.textContent = p.email || "";
+            providerBadge.textContent = p.provider === "google" ? "Google" : "GitHub";
+
+            if (p.location) {
+              locationDisplay.classList.remove("hidden");
+              locationText.textContent = p.location;
+            }
+
+            joined.textContent = "Joined " + new Date(p.createdAt).toLocaleDateString("en-US", {
+              year: "numeric", month: "short"
+            });
+
+            statArticles.textContent = s.articlesRead.toString();
+            statBookmarks.textContent = s.bookmarks.toString();
+            statComments.textContent = s.comments.toString();
+
+            // Fill form
+            (form.querySelector('[name="displayName"]') as HTMLInputElement).value = p.displayName;
+            bioTextarea.value = p.bio;
+            bioCount.textContent = p.bio.length.toString();
+            (form.querySelector('[name="website"]') as HTMLInputElement).value = p.website;
+            (form.querySelector('[name="location"]') as HTMLInputElement).value = p.location;
+            (form.querySelector('[name="customAvatarUrl"]') as HTMLInputElement).value = p.avatarUrl !== p.oauthAvatarUrl ? (p.avatarUrl || "") : "";
+          })
+          .catch(() => {});
+      });
+    }
+
+    // Handle form submit
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const submitBtn = form.querySelector<HTMLButtonElement>('[type="submit"]')!;
+      submitBtn.disabled = true;
+      saveStatus.classList.add("hidden");
+
+      const formData = new FormData(form);
+      const payload: Record<string, string> = {};
+      for (const [key, value] of formData.entries()) {
+        payload[key] = value as string;
+      }
+
+      try {
+        const res = await fetch("/api/profile", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Failed to update profile");
+        }
+
+        // Update the page header
+        const p = data.profile;
+        const avatarSrc = p.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.displayName)}&background=3b82f6&color=fff&size=192`;
+        avatar.src = avatarSrc;
+        displayName.textContent = p.displayName;
+
+        if (p.location) {
+          locationDisplay.classList.remove("hidden");
+          locationText.textContent = p.location;
+        } else {
+          locationDisplay.classList.add("hidden");
+        }
+
+        // Update the header avatar too
+        const headerAvatar = document.querySelector<HTMLImageElement>(".auth-avatar");
+        if (headerAvatar) headerAvatar.src = avatarSrc;
+        const headerName = document.querySelector<HTMLSpanElement>(".auth-user-name");
+        if (headerName) headerName.textContent = p.displayName;
+
+        saveStatus.textContent = "Profile updated!";
+        saveStatus.style.color = "var(--accent)";
+        saveStatus.classList.remove("hidden");
+        setTimeout(() => saveStatus.classList.add("hidden"), 3000);
+      } catch (err) {
+        saveStatus.textContent = err instanceof Error ? err.message : "Something went wrong";
+        saveStatus.style.color = "#ef4444";
+        saveStatus.classList.remove("hidden");
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+
+    // Change avatar button just focuses the URL input
+    document.getElementById("change-avatar-btn")?.addEventListener("click", () => {
+      const input = form.querySelector<HTMLInputElement>('[name="customAvatarUrl"]');
+      if (input) {
+        input.scrollIntoView({ behavior: "smooth", block: "center" });
+        input.focus();
+      }
+    });
+
+    loadProfile();
+  }
+
+  document.addEventListener("astro:page-load", initProfilePage);
+</script>

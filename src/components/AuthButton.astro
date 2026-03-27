@@ -28,6 +28,53 @@
         </svg>
         <span>Continue with GitHub</span>
       </a>
+      <div class="auth-divider-with-text">
+        <hr class="auth-divider" />
+        <span>or</span>
+        <hr class="auth-divider" />
+      </div>
+      <button class="auth-option auth-email-trigger">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+        </svg>
+        <span>Continue with Email</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Email auth modal -->
+  <div class="auth-modal-overlay hidden" data-email-modal>
+    <div class="auth-modal" onclick="event.stopPropagation()">
+      <div class="auth-modal-header">
+        <h3 class="auth-modal-title" data-modal-title>Sign in with Email</h3>
+        <button class="auth-modal-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <form class="auth-email-form">
+        <div class="auth-email-field auth-signup-only hidden">
+          <label>Name</label>
+          <input type="text" name="displayName" placeholder="Your name" maxlength="100" />
+        </div>
+        <div class="auth-email-field">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="you@example.com" required />
+        </div>
+        <div class="auth-email-field">
+          <label>Password</label>
+          <input type="password" name="password" placeholder="Min 8 characters" minlength="8" required />
+        </div>
+        <p class="auth-email-error hidden"></p>
+        <button type="submit" class="auth-email-submit">Sign in</button>
+      </form>
+      <p class="auth-modal-switch">
+        <span class="auth-switch-login">Don't have an account? <button class="auth-switch-btn" data-switch="signup">Sign up</button></span>
+        <span class="auth-switch-signup hidden">Already have an account? <button class="auth-switch-btn" data-switch="login">Sign in</button></span>
+      </p>
     </div>
   </div>
 
@@ -42,6 +89,13 @@
         <span class="auth-user-email"></span>
       </div>
       <hr class="auth-divider" />
+      <a href="/profile" class="auth-menu-item">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        My Profile
+      </a>
       <a href="/bookmarks" class="auth-menu-item">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
@@ -202,6 +256,156 @@
       display: inline;
     }
   }
+
+  .auth-divider-with-text {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 1rem;
+    font-size: 0.75rem;
+    color: var(--foreground);
+    opacity: 0.4;
+  }
+
+  .auth-divider-with-text hr {
+    flex: 1;
+  }
+
+  .auth-email-trigger {
+    width: 100%;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  /* Modal */
+  .auth-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .auth-modal {
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    width: 100%;
+    max-width: 380px;
+    margin: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+
+  .auth-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .auth-modal-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+
+  .auth-modal-close {
+    background: none;
+    border: none;
+    color: var(--foreground);
+    opacity: 0.5;
+    cursor: pointer;
+    padding: 0.25rem;
+  }
+
+  .auth-modal-close:hover {
+    opacity: 1;
+  }
+
+  .auth-email-field {
+    margin-bottom: 0.875rem;
+  }
+
+  .auth-email-field label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--foreground);
+    opacity: 0.8;
+    margin-bottom: 0.375rem;
+  }
+
+  .auth-email-field input {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    background: var(--background);
+    color: var(--foreground);
+    font-size: 0.875rem;
+    font-family: inherit;
+  }
+
+  .auth-email-field input:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .auth-email-error {
+    color: #ef4444;
+    font-size: 0.8125rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .auth-email-submit {
+    width: 100%;
+    padding: 0.625rem;
+    background: var(--accent);
+    color: var(--background);
+    border: none;
+    border-radius: 0.375rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .auth-email-submit:hover {
+    opacity: 0.9;
+  }
+
+  .auth-email-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .auth-modal-switch {
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    opacity: 0.6;
+    margin-top: 1rem;
+  }
+
+  .auth-switch-btn {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: inherit;
+    font-weight: 600;
+    padding: 0;
+  }
+
+  .auth-switch-btn:hover {
+    text-decoration: underline;
+  }
 </style>
 
 <script>
@@ -211,6 +415,10 @@
     email: string | null;
     displayName: string;
     avatarUrl: string | null;
+    bio?: string;
+    website?: string;
+    location?: string;
+    createdAt?: string;
   }
 
   // Global auth state accessible to other components
@@ -287,6 +495,88 @@
         const isOpen = !userDropdown.classList.contains("hidden");
         userDropdown.classList.toggle("hidden", isOpen);
         avatarBtn.setAttribute("aria-expanded", (!isOpen).toString());
+      });
+
+      // Email auth modal
+      const modal = container.closest("body")?.querySelector<HTMLDivElement>("[data-email-modal]")
+        || document.querySelector<HTMLDivElement>("[data-email-modal]");
+      const emailTrigger = container.querySelector<HTMLButtonElement>(".auth-email-trigger");
+      const modalClose = modal?.querySelector<HTMLButtonElement>(".auth-modal-close");
+      const emailForm = modal?.querySelector<HTMLFormElement>(".auth-email-form");
+      const emailError = modal?.querySelector<HTMLParagraphElement>(".auth-email-error");
+      const emailSubmit = modal?.querySelector<HTMLButtonElement>(".auth-email-submit");
+      const modalTitle = modal?.querySelector<HTMLHeadingElement>("[data-modal-title]");
+      const signupFields = modal?.querySelector<HTMLDivElement>(".auth-signup-only");
+      const switchLogin = modal?.querySelector<HTMLSpanElement>(".auth-switch-login");
+      const switchSignup = modal?.querySelector<HTMLSpanElement>(".auth-switch-signup");
+      const switchBtns = modal?.querySelectorAll<HTMLButtonElement>(".auth-switch-btn");
+
+      let isSignup = false;
+
+      function setMode(signup: boolean) {
+        isSignup = signup;
+        if (modalTitle) modalTitle.textContent = signup ? "Create an account" : "Sign in with Email";
+        if (emailSubmit) emailSubmit.textContent = signup ? "Create account" : "Sign in";
+        signupFields?.classList.toggle("hidden", !signup);
+        switchLogin?.classList.toggle("hidden", signup);
+        switchSignup?.classList.toggle("hidden", !signup);
+        emailError?.classList.add("hidden");
+        if (signup) {
+          const nameInput = signupFields?.querySelector<HTMLInputElement>("input");
+          if (nameInput) nameInput.required = true;
+        }
+      }
+
+      emailTrigger?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        dropdown.classList.add("hidden");
+        modal?.classList.remove("hidden");
+        setMode(false);
+      });
+
+      modalClose?.addEventListener("click", () => modal?.classList.add("hidden"));
+      modal?.addEventListener("click", () => modal?.classList.add("hidden"));
+
+      switchBtns?.forEach(btn => {
+        btn.addEventListener("click", () => setMode(btn.dataset.switch === "signup"));
+      });
+
+      emailForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        if (!emailSubmit) return;
+        emailSubmit.disabled = true;
+        emailError?.classList.add("hidden");
+
+        const formData = new FormData(emailForm);
+        const payload: Record<string, string> = {};
+        for (const [key, value] of formData.entries()) {
+          payload[key] = value as string;
+        }
+
+        const endpoint = isSignup ? "/api/auth/email/signup" : "/api/auth/email/login";
+
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || "Authentication failed");
+          }
+
+          // Reload to pick up the new session cookie
+          window.location.href = data.redirect || "/";
+        } catch (err) {
+          if (emailError) {
+            emailError.textContent = err instanceof Error ? err.message : "Something went wrong";
+            emailError.classList.remove("hidden");
+          }
+        } finally {
+          emailSubmit.disabled = false;
+        }
       });
 
       // Logout

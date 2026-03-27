@@ -56,7 +56,9 @@ export async function getUserFromSession(sessionId: string) {
   if (!sessionId) return null;
 
   const [result] = await sql`
-    SELECT u.id, u.provider, u.email, u.display_name, u.avatar_url, s.expires_at
+    SELECT u.id, u.provider, u.email, u.display_name, u.avatar_url,
+           u.bio, u.website, u.location, u.custom_avatar_url, u.created_at,
+           s.expires_at
     FROM sessions s
     JOIN users u ON s.user_id = u.id
     WHERE s.id = ${sessionId} AND s.expires_at > NOW()

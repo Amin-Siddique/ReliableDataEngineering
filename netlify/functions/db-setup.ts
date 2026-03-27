@@ -59,6 +59,16 @@ export default async () => {
     )
   `;
 
+  // Add email/password auth fields to users table
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash TEXT`;
+  await sql`ALTER TABLE users ALTER COLUMN provider_id DROP NOT NULL`;
+
+  // Add profile fields to users table
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS bio TEXT`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS website VARCHAR(255)`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS location VARCHAR(100)`;
+  await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS custom_avatar_url TEXT`;
+
   // Add user_id and parent_id columns to comments (for auth + threading)
   await sql`ALTER TABLE comments ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id) ON DELETE SET NULL`;
   await sql`ALTER TABLE comments ADD COLUMN IF NOT EXISTS parent_id INTEGER REFERENCES comments(id) ON DELETE CASCADE`;
@@ -96,6 +106,18 @@ export default async () => {
       progress REAL DEFAULT 0,
       last_read_at TIMESTAMP DEFAULT NOW(),
       UNIQUE(user_id, post_slug)
+    )
+  `;
+
+  // Create reactions table
+  await sql`
+    CREATE TABLE IF NOT EXISTS reactions (
+      id SERIAL PRIMARY KEY,
+      post_slug VARCHAR(255) NOT NULL,
+      fingerprint VARCHAR(64) NOT NULL,
+      reaction_type VARCHAR(20) NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(post_slug, fingerprint, reaction_type)
     )
   `;
 

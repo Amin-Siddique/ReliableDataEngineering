@@ -1,0 +1,122 @@
+---
+
+---
+
+<div id="continue-reading" class="hidden mb-6" data-continue-reading>
+  <h2 class="text-lg font-semibold tracking-wide mb-3">Continue Reading</h2>
+  <div id="continue-reading-list" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"></div>
+</div>
+
+<style>
+  .cr-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    color: var(--foreground);
+    transition: border-color 0.2s;
+  }
+
+  .cr-card:hover {
+    border-color: var(--accent);
+  }
+
+  .cr-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cr-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--foreground);
+    opacity: 0.6;
+  }
+
+  .cr-progress-bar {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .cr-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+</style>
+
+<script>
+  function initContinueReading() {
+    const section = document.getElementById("continue-reading");
+    const list = document.getElementById("continue-reading-list");
+    if (!section || !list || section.dataset.crInit === "true") return;
+    section.dataset.crInit = "true";
+
+    function loadHistory() {
+      fetch("/api/reading-history")
+        .then(res => {
+          if (!res.ok) throw new Error("Not authed");
+          return res.json();
+        })
+        .then(data => {
+          if (!data.history || data.history.length === 0) return;
+
+          // Show articles with progress < 100%
+          const inProgress = data.history
+            .filter((item: { progress: number }) => item.progress < 1.0)
+            .slice(0, 3);
+
+          if (inProgress.length === 0 || !list || !section) return;
+
+          list.innerHTML = inProgress
+            .map((item: { post_slug: string; progress: number; last_read_at: string }) => {
+              const pct = Math.round(item.progress * 100);
+              const slug = item.post_slug;
+              const title = slug
+                .replace(/[-_]/g, " ")
+                .replace(/\b\w/g, c => c.toUpperCase());
+              return `
+                <a href="/posts/${slug}" class="cr-card">
+                  <span class="cr-title">${title}</span>
+                  <div class="cr-progress-bar">
+                    <div class="cr-progress-fill" style="width: ${pct}%"></div>
+                  </div>
+                  <div class="cr-meta">
+                    <span>${pct}% read</span>
+                  </div>
+                </a>
+              `;
+            })
+            .join("");
+
+          section.classList.remove("hidden");
+        })
+        .catch(() => {});
+    }
+
+    window.addEventListener("auth:ready", (e: Event) => {
+      if ((e as CustomEvent).detail) loadHistory();
+    });
+
+    window.addEventListener("auth:logout", () => {
+      section.classList.add("hidden");
+    });
+
+    if (window.__authUser) loadHistory();
+  }
+
+  document.addEventListener("astro:page-load", initContinueReading);
+</script>

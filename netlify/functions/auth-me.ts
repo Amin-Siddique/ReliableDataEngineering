@@ -28,7 +28,12 @@ export default async (req: Request) => {
         provider: user.provider,
         email: user.email,
         displayName: user.display_name,
-        avatarUrl: user.avatar_url,
+        avatarUrl: user.custom_avatar_url || user.avatar_url,
+        oauthAvatarUrl: user.avatar_url,
+        bio: user.bio || "",
+        website: user.website || "",
+        location: user.location || "",
+        createdAt: user.created_at,
       },
     });
   }

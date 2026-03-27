@@ -19,7 +19,9 @@ import CopyLinkButton from "@/components/CopyLinkButton.astro";
 import KofiButton from "@/components/KofiButton.astro";
 import BookmarkButton from "@/components/BookmarkButton.astro";
 import ReadingProgress from "@/components/ReadingProgress.astro";
+import Reactions from "@/components/Reactions.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
+import ReadingTime from "@/components/ReadingTime.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -110,6 +112,8 @@ const nextPost =
     <div class="my-2 flex flex-wrap items-center gap-2 text-sm">
       <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
       <span aria-hidden="true" class="text-muted">|</span>
+      <ReadingTime content={post.body || ""} />
+      <span aria-hidden="true" class="text-muted">|</span>
       <ViewCounter slug={post.id} />
       <span
         aria-hidden="true"
@@ -151,6 +155,8 @@ const nextPost =
       <ShareLinks />
       <CopyLinkButton />
     </div>
+
+    <Reactions slug={post.id} />
 
     <div class="flex flex-wrap items-center gap-3 my-4">
       <LikeButton slug={post.id} />

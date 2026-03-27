@@ -1,0 +1,137 @@
+---
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<div class="reactions-container" data-slug={slug}>
+  <button class="reaction-btn" data-type="thumbsup" aria-label="Thumbs up">
+    <span class="reaction-emoji">&#128077;</span>
+    <span class="reaction-count">0</span>
+  </button>
+  <button class="reaction-btn" data-type="fire" aria-label="Fire">
+    <span class="reaction-emoji">&#128293;</span>
+    <span class="reaction-count">0</span>
+  </button>
+  <button class="reaction-btn" data-type="lightbulb" aria-label="Insightful">
+    <span class="reaction-emoji">&#128161;</span>
+    <span class="reaction-count">0</span>
+  </button>
+  <button class="reaction-btn" data-type="heart" aria-label="Love">
+    <span class="reaction-emoji">&#10084;&#65039;</span>
+    <span class="reaction-count">0</span>
+  </button>
+</div>
+
+<style>
+  .reactions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0;
+  }
+
+  .reaction-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--border-color, #374151);
+    border-radius: 9999px;
+    background: transparent;
+    color: var(--text-color, #9ca3af);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+  }
+
+  .reaction-btn:hover {
+    border-color: var(--accent, #3b82f6);
+    background: color-mix(in srgb, var(--accent, #3b82f6) 10%, transparent);
+  }
+
+  .reaction-btn.active {
+    border-color: var(--accent, #3b82f6);
+    background: color-mix(in srgb, var(--accent, #3b82f6) 15%, transparent);
+  }
+
+  .reaction-emoji {
+    font-size: 1.125rem;
+    line-height: 1;
+  }
+
+  .reaction-count {
+    font-weight: 500;
+    font-size: 0.8125rem;
+    min-width: 0.75rem;
+    text-align: center;
+  }
+</style>
+
+<script>
+  function getFingerprint(): string {
+    const stored = localStorage.getItem("fp");
+    if (stored) return stored;
+    const fp = Math.random().toString(36).substring(2) + Date.now().toString(36);
+    localStorage.setItem("fp", fp);
+    return fp;
+  }
+
+  function initReactions() {
+    const containers = document.querySelectorAll<HTMLDivElement>(".reactions-container:not([data-initialized])");
+
+    containers.forEach(container => {
+      container.dataset.initialized = "true";
+
+      const slug = container.dataset.slug || "";
+      if (!slug) return;
+
+      const buttons = container.querySelectorAll<HTMLButtonElement>(".reaction-btn");
+      const fp = getFingerprint();
+
+      function updateUI(counts: Record<string, number>, userReactions: string[]) {
+        buttons.forEach(btn => {
+          const type = btn.dataset.type || "";
+          const countSpan = btn.querySelector<HTMLSpanElement>(".reaction-count");
+          if (countSpan) {
+            countSpan.textContent = (counts[type] || 0).toString();
+          }
+          btn.classList.toggle("active", userReactions.includes(type));
+        });
+      }
+
+      // Fetch initial state
+      fetch(`/api/reactions?slug=${encodeURIComponent(slug)}&fp=${encodeURIComponent(fp)}`)
+        .then(res => res.json())
+        .then(data => updateUI(data.counts, data.userReactions))
+        .catch(console.error);
+
+      // Handle clicks
+      buttons.forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const type = btn.dataset.type;
+          if (!type) return;
+
+          btn.disabled = true;
+          try {
+            const res = await fetch(`/api/reactions?slug=${encodeURIComponent(slug)}`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ fingerprint: fp, reactionType: type }),
+            });
+            const data = await res.json();
+            updateUI(data.counts, data.userReactions);
+          } catch (err) {
+            console.error(err);
+          } finally {
+            btn.disabled = false;
+          }
+        });
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initReactions);
+</script>

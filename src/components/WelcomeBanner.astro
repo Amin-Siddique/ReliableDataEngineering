@@ -1,0 +1,63 @@
+---
+
+---
+
+<div id="welcome-banner" class="hidden mb-6 rounded-lg border border-border bg-muted/30 p-5" data-welcome>
+  <div class="flex items-center gap-4">
+    <img id="welcome-avatar" src="" alt="" width="48" height="48"
+         class="rounded-full border border-border object-cover flex-shrink-0" />
+    <div class="flex-1 min-w-0">
+      <p class="text-lg font-semibold text-foreground">
+        Welcome back, <span id="welcome-name"></span>
+      </p>
+      <div id="welcome-stats" class="flex flex-wrap gap-4 mt-1 text-xs text-foreground/60">
+        <span><strong id="welcome-read" class="text-foreground/80">0</strong> articles read</span>
+        <span><strong id="welcome-bookmarks" class="text-foreground/80">0</strong> bookmarks</span>
+        <span><strong id="welcome-comments" class="text-foreground/80">0</strong> comments</span>
+      </div>
+    </div>
+    <a href="/profile" class="flex-shrink-0 text-xs text-accent hover:underline hidden sm:block">View profile</a>
+  </div>
+</div>
+
+<script>
+  function initWelcomeBanner() {
+    const banner = document.getElementById("welcome-banner");
+    if (!banner || banner.dataset.wInit === "true") return;
+    banner.dataset.wInit = "true";
+
+    function show(user: typeof window.__authUser) {
+      if (!user || !banner) return;
+
+      const avatarSrc = user.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName)}&background=3b82f6&color=fff&size=96`;
+      (document.getElementById("welcome-avatar") as HTMLImageElement).src = avatarSrc;
+      document.getElementById("welcome-name")!.textContent = user.displayName;
+
+      banner.classList.remove("hidden");
+
+      // Fetch stats
+      fetch("/api/profile")
+        .then(res => res.json())
+        .then(data => {
+          if (data.stats) {
+            document.getElementById("welcome-read")!.textContent = data.stats.articlesRead.toString();
+            document.getElementById("welcome-bookmarks")!.textContent = data.stats.bookmarks.toString();
+            document.getElementById("welcome-comments")!.textContent = data.stats.comments.toString();
+          }
+        })
+        .catch(() => {});
+    }
+
+    window.addEventListener("auth:ready", (e: Event) => {
+      show((e as CustomEvent).detail);
+    });
+
+    window.addEventListener("auth:logout", () => {
+      banner?.classList.add("hidden");
+    });
+
+    if (window.__authUser) show(window.__authUser);
+  }
+
+  document.addEventListener("astro:page-load", initWelcomeBanner);
+</script>

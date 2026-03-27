@@ -1,0 +1,17 @@
+---
+interface Props {
+  content: string;
+  class?: string;
+}
+
+const { content, class: className } = Astro.props;
+
+// Strip HTML tags and count words
+const text = content.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+const words = text.split(" ").length;
+const minutes = Math.max(1, Math.ceil(words / 230));
+---
+
+<span class:list={["text-sm opacity-70", className]}>
+  {minutes} min read
+</span>
