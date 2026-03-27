@@ -16,7 +16,7 @@ type Props = {
 };
 
 const { post, featured = false } = Astro.props;
-const { title, description, ogImage, pubDatetime, modDatetime, tags, author } =
+const { title, description, ogImage, pubDatetime, modDatetime, tags } =
   post.data;
 
 let imageUrl: string | undefined;
