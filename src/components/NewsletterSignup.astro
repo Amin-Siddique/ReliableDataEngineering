@@ -18,17 +18,17 @@ const { class: className } = Astro.props;
     Get notified when new articles drop. No spam. Unsubscribe anytime.
   </p>
 
-  <form class="newsletter-form mx-auto flex max-w-md gap-2">
+  <form class="newsletter-form mx-auto flex max-w-md flex-col gap-2 sm:flex-row">
     <input
       type="email"
       name="email"
       placeholder="your@email.com"
       required
-      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none"
+      class="min-w-0 flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none"
     />
     <button
       type="submit"
-      class="rounded-md bg-accent px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50"
+      class="shrink-0 rounded-md bg-accent px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50"
     >
       Subscribe
     </button>

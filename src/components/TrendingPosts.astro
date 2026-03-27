@@ -34,8 +34,6 @@ const trending = [...featured, ...nonFeatured].slice(0, 5);
               {post.data.title}
             </a>
             <div class="trending-meta">
-              <span>{post.data.author}</span>
-              <span class="trending-dot" aria-hidden="true" />
               <time datetime={dt.toISOString()}>{dt.format("MMM D")}</time>
             </div>
           </div>

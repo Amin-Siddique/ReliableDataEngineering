@@ -153,9 +153,11 @@
     background: none;
     border: 2px solid transparent;
     border-radius: 50%;
-    padding: 0;
+    padding: 2px;
     cursor: pointer;
     transition: border-color 0.2s;
+    line-height: 0;
+    flex-shrink: 0;
   }
 
   .auth-avatar-btn:hover {
@@ -163,10 +165,11 @@
   }
 
   .auth-avatar {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     object-fit: cover;
+    display: block;
   }
 
   .auth-dropdown,

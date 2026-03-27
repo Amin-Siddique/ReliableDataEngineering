@@ -69,8 +69,6 @@ const href = getPath(post.id, post.filePath);
           </h2>
           <p class="featured-desc">{description}</p>
           <div class="card-meta">
-            <span class="card-author">{author}</span>
-            <span class="card-dot" aria-hidden="true" />
             <time datetime={datetime.toISOString()}>{date}</time>
             <span class="card-dot" aria-hidden="true" />
             <span>{readTime} min read</span>
@@ -82,21 +80,17 @@ const href = getPath(post.id, post.filePath);
     <article class="feed-card">
       <a href={href} class="feed-link">
         <div class="feed-body">
-          <div class="card-meta">
-            <span class="card-author">{author}</span>
-            {primaryTag && (
-              <>
-                <span class="card-in">in</span>
-                <a
-                  href={`/tags/${slugifyStr(primaryTag)}`}
-                  class="card-tag-inline"
-                  data-stop-propagation
-                >
-                  {primaryTag}
-                </a>
-              </>
-            )}
-          </div>
+          {primaryTag && (
+            <div class="card-meta">
+              <a
+                href={`/tags/${slugifyStr(primaryTag)}`}
+                class="card-tag-inline"
+                data-stop-propagation
+              >
+                {primaryTag}
+              </a>
+            </div>
+          )}
           <h3
             class="feed-title"
             style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
