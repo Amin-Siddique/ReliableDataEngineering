@@ -450,10 +450,13 @@ const { slug } = Astro.props;
         return null;
       }
 
-      // Show toolbar near selection
+      // Show toolbar near selection (position: fixed, viewport coords)
       function showToolbar(x: number, y: number) {
-        toolbar.style.left = `${x}px`;
-        toolbar.style.top = `${y - 45}px`;
+        const toolbarX = Math.max(8, Math.min(x, window.innerWidth - 200));
+        const toolbarY = y - 45;
+        // If toolbar would go above viewport, show below selection instead
+        toolbar.style.left = `${toolbarX}px`;
+        toolbar.style.top = `${toolbarY < 8 ? y + 30 : toolbarY}px`;
         toolbar.classList.remove("hidden");
       }
 
@@ -503,7 +506,8 @@ const { slug } = Astro.props;
 
         pendingSelection = { text, range: range.cloneRange(), containerPath, startOffset, endOffset };
 
-        showToolbar(rect.left + rect.width / 2 - 80, rect.top + window.scrollY);
+        // toolbar is position:fixed, so use viewport coordinates (no scrollY)
+        showToolbar(rect.left + rect.width / 2 - 80, rect.top);
       });
 
       // Color button click
@@ -635,7 +639,7 @@ const { slug } = Astro.props;
 
         const rect = mark.getBoundingClientRect();
         popover.style.left = `${Math.max(10, rect.left)}px`;
-        popover.style.top = `${rect.bottom + window.scrollY + 8}px`;
+        popover.style.top = `${rect.bottom + 8}px`;
         popover.classList.remove("hidden");
       });
 

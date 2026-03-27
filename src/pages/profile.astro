@@ -166,58 +166,55 @@ import { SITE } from "@/config";
       bioCount.textContent = bioTextarea.value.length.toString();
     });
 
-    function loadProfile() {
-      window.addEventListener("auth:ready", (e: Event) => {
-        const user = (e as CustomEvent).detail;
-        loading?.classList.add("hidden");
+    function onAuth(user: unknown) {
+      loading?.classList.add("hidden");
 
-        if (!user) {
-          authPrompt?.classList.remove("hidden");
-          return;
-        }
+      if (!user) {
+        authPrompt?.classList.remove("hidden");
+        return;
+      }
 
-        content?.classList.remove("hidden");
+      content?.classList.remove("hidden");
 
-        // Fetch full profile with stats
-        fetch("/api/profile")
-          .then(res => res.json())
-          .then(data => {
-            const p = data.profile;
-            const s = data.stats;
+      // Fetch full profile with stats
+      fetch("/api/profile")
+        .then(res => res.json())
+        .then(data => {
+          const p = data.profile;
+          const s = data.stats;
 
-            const avatarSrc = p.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.displayName)}&background=3b82f6&color=fff&size=192`;
-            avatar.src = avatarSrc;
-            avatar.alt = p.displayName;
-            displayName.textContent = p.displayName;
-            email.textContent = p.email || "";
-            providerBadge.textContent = p.provider === "google" ? "Google" : "GitHub";
+          const avatarSrc = p.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.displayName)}&background=3b82f6&color=fff&size=192`;
+          avatar.src = avatarSrc;
+          avatar.alt = p.displayName;
+          displayName.textContent = p.displayName;
+          email.textContent = p.email || "";
+          providerBadge.textContent = p.provider === "google" ? "Google" : p.provider === "github" ? "GitHub" : "Email";
 
-            if (p.location) {
-              locationDisplay.classList.remove("hidden");
-              locationText.textContent = p.location;
-            }
+          if (p.location) {
+            locationDisplay.classList.remove("hidden");
+            locationText.textContent = p.location;
+          }
 
-            joined.textContent = "Joined " + new Date(p.createdAt).toLocaleDateString("en-US", {
-              year: "numeric", month: "short"
-            });
+          joined.textContent = "Joined " + new Date(p.createdAt).toLocaleDateString("en-US", {
+            year: "numeric", month: "short"
+          });
 
-            statArticles.textContent = s.articlesRead.toString();
-            statBookmarks.textContent = s.bookmarks.toString();
-            statComments.textContent = s.comments.toString();
+          statArticles.textContent = s.articlesRead.toString();
+          statBookmarks.textContent = s.bookmarks.toString();
+          statComments.textContent = s.comments.toString();
 
-            // Fill form
-            (form.querySelector('[name="displayName"]') as HTMLInputElement).value = p.displayName;
-            bioTextarea.value = p.bio;
-            bioCount.textContent = p.bio.length.toString();
-            (form.querySelector('[name="website"]') as HTMLInputElement).value = p.website;
-            (form.querySelector('[name="location"]') as HTMLInputElement).value = p.location;
+          // Fill form
+          (form.querySelector('[name="displayName"]') as HTMLInputElement).value = p.displayName;
+          bioTextarea.value = p.bio;
+          bioCount.textContent = p.bio.length.toString();
+          (form.querySelector('[name="website"]') as HTMLInputElement).value = p.website;
+          (form.querySelector('[name="location"]') as HTMLInputElement).value = p.location;
 
-            // Set avatar preview
-            const preview = document.getElementById("avatar-preview") as HTMLImageElement;
-            if (preview) preview.src = avatarSrc;
-          })
-          .catch(() => {});
-      });
+          // Set avatar preview
+          const preview = document.getElementById("avatar-preview") as HTMLImageElement;
+          if (preview) preview.src = avatarSrc;
+        })
+        .catch(() => {});
     }
 
     // Handle form submit
@@ -358,7 +355,8 @@ import { SITE } from "@/config";
       avatarFileInput.value = "";
     });
 
-    loadProfile();
+    window.addEventListener("auth:ready", (e: Event) => onAuth((e as CustomEvent).detail));
+    if (window.__authUser !== undefined) onAuth(window.__authUser);
   }
 
   document.addEventListener("astro:page-load", initProfilePage);

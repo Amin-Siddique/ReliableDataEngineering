@@ -73,28 +73,26 @@ import { SITE } from "@/config";
       list?.classList.remove("hidden");
     }
 
-    function loadBookmarks() {
-      window.addEventListener("auth:ready", (e: Event) => {
-        const user = (e as CustomEvent).detail;
-        loading?.classList.add("hidden");
+    function onAuth(user: unknown) {
+      loading?.classList.add("hidden");
 
-        if (!user) {
-          authPrompt?.classList.remove("hidden");
-          return;
-        }
+      if (!user) {
+        authPrompt?.classList.remove("hidden");
+        return;
+      }
 
-        loading?.classList.remove("hidden");
-        fetch("/api/bookmarks")
-          .then(res => res.json())
-          .then(data => renderBookmarks(data.bookmarks || []))
-          .catch(() => {
-            loading?.classList.add("hidden");
-            empty?.classList.remove("hidden");
-          });
-      });
+      loading?.classList.remove("hidden");
+      fetch("/api/bookmarks")
+        .then(res => res.json())
+        .then(data => renderBookmarks(data.bookmarks || []))
+        .catch(() => {
+          loading?.classList.add("hidden");
+          empty?.classList.remove("hidden");
+        });
     }
 
-    loadBookmarks();
+    window.addEventListener("auth:ready", (e: Event) => onAuth((e as CustomEvent).detail));
+    if (window.__authUser !== undefined) onAuth(window.__authUser);
   }
 
   document.addEventListener("astro:page-load", initBookmarksPage);

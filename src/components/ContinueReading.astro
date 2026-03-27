@@ -7,7 +7,7 @@
   <div id="continue-reading-list" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"></div>
 </div>
 
-<style>
+<style is:global>
   .cr-card {
     display: flex;
     flex-direction: column;
@@ -86,10 +86,11 @@
               const pct = Math.round(item.progress * 100);
               const slug = item.post_slug;
               const title = slug
-                .replace(/[-_]/g, " ")
+                .replace(/^article_/, "")
+                .replace(/_/g, " ")
                 .replace(/\b\w/g, c => c.toUpperCase());
               return `
-                <a href="/posts/${slug}" class="cr-card">
+                <a href="/posts/${slug}/" class="cr-card">
                   <span class="cr-title">${title}</span>
                   <div class="cr-progress-bar">
                     <div class="cr-progress-fill" style="width: ${pct}%"></div>
