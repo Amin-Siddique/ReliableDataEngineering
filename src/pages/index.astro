@@ -3,24 +3,19 @@ import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
-import LinkButton from "@/components/LinkButton.astro";
-import Card from "@/components/Card.astro";
-import getSortedPosts from "@/utils/getSortedPosts";
-import IconRss from "@/assets/icons/IconRss.svg";
-import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
-import { SITE } from "@/config";
-import { SOCIALS } from "@/constants";
+import ArticleCard from "@/components/ArticleCard.astro";
+import TrendingPosts from "@/components/TrendingPosts.astro";
+import PopularTags from "@/components/PopularTags.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
-import AdUnit from "@/components/AdUnit.astro";
 import WelcomeBanner from "@/components/WelcomeBanner.astro";
 import ContinueReading from "@/components/ContinueReading.astro";
+import AdUnit from "@/components/AdUnit.astro";
+import getSortedPosts from "@/utils/getSortedPosts";
 
 const posts = await getCollection("blog");
-
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const featuredPost = sortedPosts.find(p => p.data.featured) || sortedPosts[0];
+const feedPosts = sortedPosts.filter(p => p !== featuredPost);
 ---
 
 <Layout>
@@ -28,71 +23,88 @@ const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
   <main id="main-content" data-layout="index" class="app-layout">
     <WelcomeBanner />
     <ContinueReading />
-    <section id="hero" class:list={["pt-8 pb-6", "border-b border-border"]}>
-      <h1 class="my-4 text-4xl font-bold sm:my-8 sm:text-5xl">
-        Building systems that <span class="text-accent">actually work</span>
-      </h1>
-      <p class="text-lg">
-        Practical guides on data engineering, AI, and the tools shaping modern infrastructure.
-      </p>
-      {
-        // only display if at least one social link is enabled
-        SOCIALS.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">Social Links:</div>
-            <Socials />
-          </div>
-        )
-      }
-    </section>
 
-    {
-      featuredPosts.length > 0 && (
-        <section
-          id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-b border-border": recentPosts.length > 0 },
-          ]}
-        >
-          <h2 class="text-2xl font-semibold tracking-wide">Featured</h2>
-          <ul>
-            {featuredPosts.map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
-        </section>
-      )
-    }
+    <div class="homepage-grid">
+      <!-- Main feed column -->
+      <div class="feed-column">
+        {featuredPost && (
+          <ArticleCard post={featuredPost} featured />
+        )}
 
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">Recent Posts</h2>
-          <ul>
-            {recentPosts.map(
-              (data, index) =>
-                index < SITE.postPerIndex && <Card variant="h3" {...data} />
-            )}
-          </ul>
-        </section>
-      )
-    }
+        <div class="feed-list">
+          {feedPosts.map(post => (
+            <ArticleCard post={post} />
+          ))}
+        </div>
 
-    <div class="my-8 text-center">
-      <LinkButton href="/posts/">
-        All Posts
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
+        <AdUnit slot="footer" class="my-8" />
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="sidebar-column">
+        <div class="sidebar-sticky">
+          <TrendingPosts posts={sortedPosts} />
+
+          <div class="sidebar-divider" />
+
+          <PopularTags posts={sortedPosts} />
+
+          <div class="sidebar-divider" />
+
+          <NewsletterSignup />
+        </div>
+      </aside>
     </div>
-
-    <!-- Ad placement on homepage -->
-    <AdUnit slot="footer" class="my-8" />
-
-    <NewsletterSignup />
   </main>
   <Footer />
 </Layout>
+
+<style>
+  .homepage-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding-top: 2rem;
+  }
+
+  @media (min-width: 1024px) {
+    .homepage-grid {
+      grid-template-columns: 1fr 320px;
+      gap: 3rem;
+    }
+  }
+
+  .feed-column {
+    min-width: 0;
+  }
+
+  .feed-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-column {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .sidebar-column {
+      display: block;
+      border-left: 1px solid var(--border);
+      padding-left: 2rem;
+    }
+  }
+
+  .sidebar-sticky {
+    position: sticky;
+    top: 2rem;
+  }
+
+  .sidebar-divider {
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+</style>
 
 <script>
   document.addEventListener("astro:page-load", () => {

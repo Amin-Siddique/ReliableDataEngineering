@@ -1,0 +1,341 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { slugifyStr } from "@/utils/slugify";
+import { getPath } from "@/utils/getPath";
+import { SITE } from "@/config";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+type Props = {
+  post: CollectionEntry<"blog">;
+  featured?: boolean;
+};
+
+const { post, featured = false } = Astro.props;
+const { title, description, ogImage, pubDatetime, modDatetime, tags, author } =
+  post.data;
+
+let imageUrl: string | undefined;
+if (typeof ogImage === "string") {
+  imageUrl = ogImage;
+} else if (ogImage?.src) {
+  imageUrl = ogImage.src;
+}
+
+const isModified = modDatetime && modDatetime > pubDatetime;
+const datetime = dayjs(isModified ? modDatetime : pubDatetime).tz(SITE.timezone);
+const date = datetime.format("MMM D");
+
+const body = post.body || "";
+const text = body.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+const words = text.split(" ").length;
+const readTime = Math.max(1, Math.ceil(words / 230));
+
+const primaryTag = tags[0];
+const href = getPath(post.id, post.filePath);
+---
+
+{
+  featured ? (
+    <article class="featured-card">
+      <a href={href} class="featured-link">
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={title}
+            class="featured-image"
+            loading="eager"
+          />
+        )}
+        <div class="featured-body">
+          {primaryTag && (
+            <a
+              href={`/tags/${slugifyStr(primaryTag)}`}
+              class="card-tag"
+              data-stop-propagation
+            >
+              {primaryTag}
+            </a>
+          )}
+          <h2
+            class="featured-title"
+            style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+          >
+            {title}
+          </h2>
+          <p class="featured-desc">{description}</p>
+          <div class="card-meta">
+            <span class="card-author">{author}</span>
+            <span class="card-dot" aria-hidden="true" />
+            <time datetime={datetime.toISOString()}>{date}</time>
+            <span class="card-dot" aria-hidden="true" />
+            <span>{readTime} min read</span>
+          </div>
+        </div>
+      </a>
+    </article>
+  ) : (
+    <article class="feed-card">
+      <a href={href} class="feed-link">
+        <div class="feed-body">
+          <div class="card-meta">
+            <span class="card-author">{author}</span>
+            {primaryTag && (
+              <>
+                <span class="card-in">in</span>
+                <a
+                  href={`/tags/${slugifyStr(primaryTag)}`}
+                  class="card-tag-inline"
+                  data-stop-propagation
+                >
+                  {primaryTag}
+                </a>
+              </>
+            )}
+          </div>
+          <h3
+            class="feed-title"
+            style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+          >
+            {title}
+          </h3>
+          <p class="feed-desc">{description}</p>
+          <div class="card-meta card-meta-bottom">
+            <time datetime={datetime.toISOString()}>{date}</time>
+            <span class="card-dot" aria-hidden="true" />
+            <span>{readTime} min read</span>
+            <span
+              class="card-bookmark-indicator hidden"
+              data-card-slug={post.id}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="currentColor"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+              </svg>
+            </span>
+          </div>
+        </div>
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt={title}
+            class="feed-image"
+            loading="lazy"
+          />
+        )}
+      </a>
+    </article>
+  )
+}
+
+<style>
+  /* ===== Featured (hero) card ===== */
+  .featured-card {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+
+  .featured-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .featured-image {
+    width: 100%;
+    aspect-ratio: 16 / 8;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .featured-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .featured-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--foreground);
+    letter-spacing: -0.02em;
+  }
+
+  .featured-link:hover .featured-title {
+    color: var(--accent);
+  }
+
+  .featured-desc {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--foreground);
+    opacity: 0.7;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ===== Feed card ===== */
+  .feed-card {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .feed-card:first-child {
+    padding-top: 0;
+  }
+
+  .feed-link {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .feed-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .feed-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--foreground);
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .feed-link:hover .feed-title {
+    color: var(--accent);
+  }
+
+  .feed-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--foreground);
+    opacity: 0.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 0.125rem;
+  }
+
+  @media (max-width: 639px) {
+    .feed-desc {
+      display: none;
+    }
+  }
+
+  .feed-image {
+    width: 120px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 640px) {
+    .feed-image {
+      width: 160px;
+      height: 107px;
+    }
+  }
+
+  /* ===== Shared meta ===== */
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    opacity: 0.5;
+    flex-wrap: wrap;
+  }
+
+  .card-meta-bottom {
+    margin-top: 0.375rem;
+  }
+
+  .card-author {
+    font-weight: 500;
+    opacity: 1;
+  }
+
+  .card-in {
+    opacity: 0.6;
+  }
+
+  .card-dot {
+    width: 3px;
+    height: 3px;
+    background: currentColor;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    padding: 0.125rem 0.625rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .card-tag:hover {
+    background: color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+
+  .card-tag-inline {
+    font-weight: 500;
+    color: var(--foreground);
+    opacity: 0.8;
+    text-decoration: none;
+  }
+
+  .card-tag-inline:hover {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  .card-bookmark-indicator {
+    margin-left: auto;
+    color: var(--accent);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+</style>
+
+<script>
+  document.querySelectorAll("[data-stop-propagation]").forEach(el => {
+    el.addEventListener("click", e => e.stopPropagation());
+  });
+</script>

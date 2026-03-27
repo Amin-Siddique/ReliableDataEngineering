@@ -3,7 +3,7 @@ import { getUserFromSession, getSessionIdFromCookie, jsonResponse } from "./auth
 
 const sql = neon();
 
-const MAX_FILE_SIZE = 512 * 1024; // 512 KB
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 
 export default async (req: Request) => {
@@ -36,7 +36,7 @@ export default async (req: Request) => {
   }
 
   if (file.size > MAX_FILE_SIZE) {
-    return jsonResponse({ error: "File too large. Maximum size is 512 KB." }, 400);
+    return jsonResponse({ error: "File too large. Maximum size is 5 MB." }, 400);
   }
 
   const buffer = await file.arrayBuffer();

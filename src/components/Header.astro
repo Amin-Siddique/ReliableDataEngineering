@@ -41,21 +41,20 @@ const isActive = (path: string) => {
       "py-4 sm:py-6",
       "border-b border-border",
       "relative w-full bg-background",
-      "flex items-baseline justify-between sm:items-center",
+      "flex items-center justify-between",
     ]}
   >
     <a
       href="/"
-      class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
+      class="py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:text-2xl sm:leading-none"
     >
       {SITE.title}
     </a>
-    <nav
-      id="nav-menu"
-      class="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"
-    >
-      <div class="flex items-center gap-2 self-end sm:order-last">
-        <AuthButton />
+    <div class="flex items-center gap-1 sm:gap-2">
+      <nav
+        id="nav-menu"
+        class="flex items-center"
+      >
         <button
           id="menu-btn"
           class="focus-outline p-2 sm:hidden"
@@ -66,90 +65,91 @@ const isActive = (path: string) => {
           <IconX id="close-icon" class="hidden" />
           <IconMenuDeep id="menu-icon" />
         </button>
-      </div>
-      <ul
-        id="menu-items"
-        class:list={[
-          "mt-4 grid w-44 grid-cols-2 place-content-center gap-2",
-          "[&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium [&>li>a]:hover:text-accent sm:[&>li>a]:px-2 sm:[&>li>a]:py-1",
-          "hidden",
-          "sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0",
-        ]}
-      >
-        <li class="col-span-2">
-          <a href="/about" class:list={{ "active-nav": isActive("/about") }}>
-            About
-          </a>
-        </li>
-        <li class="col-span-2">
-          <a href="/resources" class:list={{ "active-nav": isActive("/resources") }}>
-            Resources
-          </a>
-        </li>
-        {
-          SITE.showArchives && (
-            <li class="col-span-2">
-              <LinkButton
-                href="/archives"
-                class:list={[
-                  "focus-outline flex justify-center p-3 sm:p-1",
-                  {
-                    "active-nav [&>svg]:stroke-accent": isActive("/archives"),
-                  },
-                ]}
-                title="Archives"
-                aria-label="archives"
-              >
-                <IconArchive class="hidden sm:inline-block" />
-                <span class="sm:sr-only">Archives</span>
-              </LinkButton>
-            </li>
-          )
-        }
-        <li class="col-span-1 flex items-center justify-center">
-          <LinkButton
-            href="https://ko-fi.com/reliabledataengineering"
-            class="focus-outline flex p-3 sm:p-1 hover:[&>svg]:stroke-[#ff5e5b]"
-            title="Buy me a coffee"
-            aria-label="buy me a coffee"
-            target="_blank"
-          >
-            <IconKofi />
-            <span class="sr-only">Buy me a coffee</span>
-          </LinkButton>
-        </li>
-        <li class="col-span-1 flex items-center justify-center">
-          <LinkButton
-            href="/search"
-            class:list={[
-              "focus-outline flex p-3 sm:p-1",
-              { "[&>svg]:stroke-accent": isActive("/search") },
-            ]}
-            title="Search"
-            aria-label="search"
-          >
-            <IconSearch />
-            <span class="sr-only">Search</span>
-          </LinkButton>
-        </li>
-        {
-          SITE.lightAndDarkMode && (
-            <li class="col-span-1 flex items-center justify-center">
-              <button
-                id="theme-btn"
-                class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent"
-                title="Toggles light & dark"
-                aria-label="auto"
-                aria-live="polite"
-              >
-                <IconMoon class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
-                <IconSunHigh class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
-              </button>
-            </li>
-          )
-        }
-      </ul>
-    </nav>
+        <ul
+          id="menu-items"
+          class:list={[
+            "absolute top-full left-0 right-0 z-40 mt-0 grid w-full grid-cols-2 place-content-center gap-2 border-b border-border bg-background p-4",
+            "[&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium [&>li>a]:hover:text-accent sm:[&>li>a]:px-2 sm:[&>li>a]:py-1",
+            "hidden",
+            "sm:static sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:border-0 sm:p-0",
+          ]}
+        >
+          <li class="col-span-2">
+            <a href="/about" class:list={{ "active-nav": isActive("/about") }}>
+              About
+            </a>
+          </li>
+          <li class="col-span-2">
+            <a href="/resources" class:list={{ "active-nav": isActive("/resources") }}>
+              Resources
+            </a>
+          </li>
+          {
+            SITE.showArchives && (
+              <li class="col-span-2">
+                <LinkButton
+                  href="/archives"
+                  class:list={[
+                    "focus-outline flex justify-center p-3 sm:p-1",
+                    {
+                      "active-nav [&>svg]:stroke-accent": isActive("/archives"),
+                    },
+                  ]}
+                  title="Archives"
+                  aria-label="archives"
+                >
+                  <IconArchive class="hidden sm:inline-block" />
+                  <span class="sm:sr-only">Archives</span>
+                </LinkButton>
+              </li>
+            )
+          }
+          <li class="col-span-1 flex items-center justify-center">
+            <LinkButton
+              href="https://ko-fi.com/reliabledataengineering"
+              class="focus-outline flex p-3 sm:p-1 hover:[&>svg]:stroke-[#ff5e5b]"
+              title="Buy me a coffee"
+              aria-label="buy me a coffee"
+              target="_blank"
+            >
+              <IconKofi />
+              <span class="sr-only">Buy me a coffee</span>
+            </LinkButton>
+          </li>
+          <li class="col-span-1 flex items-center justify-center">
+            <LinkButton
+              href="/search"
+              class:list={[
+                "focus-outline flex p-3 sm:p-1",
+                { "[&>svg]:stroke-accent": isActive("/search") },
+              ]}
+              title="Search"
+              aria-label="search"
+            >
+              <IconSearch />
+              <span class="sr-only">Search</span>
+            </LinkButton>
+          </li>
+          {
+            SITE.lightAndDarkMode && (
+              <li class="col-span-1 flex items-center justify-center">
+                <button
+                  id="theme-btn"
+                  class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent"
+                  title="Toggles light & dark"
+                  aria-label="auto"
+                  aria-live="polite"
+                >
+                  <IconMoon class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                  <IconSunHigh class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                </button>
+              </li>
+            )
+          }
+        </ul>
+      </nav>
+      <AuthButton />
+    </div>
   </div>
 </header>
 

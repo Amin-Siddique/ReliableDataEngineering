@@ -1,0 +1,82 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { slugifyStr } from "@/utils/slugify";
+
+type Props = {
+  posts: CollectionEntry<"blog">[];
+  max?: number;
+};
+
+const { posts, max = 8 } = Astro.props;
+
+const tagCounts = new Map<string, number>();
+posts.forEach(post => {
+  post.data.tags.forEach(tag => {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+  });
+});
+
+const sortedTags = Array.from(tagCounts.entries())
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, max);
+---
+
+<aside class="popular-tags-sidebar">
+  <h3 class="ptags-heading">Recommended topics</h3>
+  <div class="ptags-list">
+    {sortedTags.map(([tag]) => (
+      <a href={`/tags/${slugifyStr(tag)}`} class="ptag-pill">
+        {tag}
+      </a>
+    ))}
+  </div>
+  <a href="/tags" class="ptags-see-more">See all topics</a>
+</aside>
+
+<style>
+  .popular-tags-sidebar {
+    margin-bottom: 2rem;
+  }
+
+  .ptags-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin-bottom: 0.875rem;
+    letter-spacing: -0.01em;
+  }
+
+  .ptags-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .ptag-pill {
+    display: inline-block;
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    background: var(--muted);
+    padding: 0.375rem 0.875rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .ptag-pill:hover {
+    background: var(--accent);
+    color: var(--background);
+  }
+
+  .ptags-see-more {
+    display: inline-block;
+    margin-top: 0.875rem;
+    font-size: 0.8125rem;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .ptags-see-more:hover {
+    text-decoration: underline;
+  }
+</style>

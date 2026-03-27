@@ -45,7 +45,7 @@
 
   <!-- Email auth modal -->
   <div class="auth-modal-overlay hidden" data-email-modal>
-    <div class="auth-modal" onclick="event.stopPropagation()">
+    <div class="auth-modal" data-modal-content>
       <div class="auth-modal-header">
         <h3 class="auth-modal-title" data-modal-title>Sign in with Email</h3>
         <button class="auth-modal-close" aria-label="Close">
@@ -536,6 +536,7 @@
 
       modalClose?.addEventListener("click", () => modal?.classList.add("hidden"));
       modal?.addEventListener("click", () => modal?.classList.add("hidden"));
+      modal?.querySelector("[data-modal-content]")?.addEventListener("click", (e) => e.stopPropagation());
 
       switchBtns?.forEach(btn => {
         btn.addEventListener("click", () => setMode(btn.dataset.switch === "signup"));

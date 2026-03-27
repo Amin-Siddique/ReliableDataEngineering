@@ -22,11 +22,6 @@ export default async (req: Request) => {
     const [articlesRead] = await sql`
       SELECT COUNT(*) as count FROM reading_history WHERE user_id = ${user.id}
     `;
-    const [likeCount] = await sql`
-      SELECT COUNT(*) as count FROM likes WHERE fingerprint IN (
-        SELECT CAST(id AS TEXT) FROM users WHERE id = ${user.id}
-      )
-    `;
 
     return jsonResponse({
       profile: {
