@@ -17,6 +17,9 @@ import TableOfContents from "@/components/TableOfContents.astro";
 import RelatedPosts from "@/components/RelatedPosts.astro";
 import CopyLinkButton from "@/components/CopyLinkButton.astro";
 import KofiButton from "@/components/KofiButton.astro";
+import BookmarkButton from "@/components/BookmarkButton.astro";
+import ReadingProgress from "@/components/ReadingProgress.astro";
+import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import { getPath } from "@/utils/getPath";
 import { slugifyStr } from "@/utils/slugify";
 import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
@@ -151,11 +154,14 @@ const nextPost =
 
     <div class="flex flex-wrap items-center gap-3 my-4">
       <LikeButton slug={post.id} />
+      <BookmarkButton slug={post.id} />
       <KofiButton />
     </div>
 
     <!-- Ad placement after article -->
     <AdUnit slot="in-article" class="my-8" />
+
+    <NewsletterSignup class="my-8" />
 
     <Comments slug={post.id} />
 
@@ -195,6 +201,7 @@ const nextPost =
       }
     </div>
   </main>
+  <ReadingProgress slug={post.id} />
   <TableOfContents />
   <Footer />
 </Layout>

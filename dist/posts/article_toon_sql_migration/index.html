@@ -1,0 +1,655 @@
+<!DOCTYPE html><html dir="ltr" lang="en" class="scroll-smooth"> <head><!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=G-JHSDCEZ9EK"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-JHSDCEZ9EK');
+    </script><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/"><meta name="generator" content="Astro v5.18.1"><!-- Load Font --><style>@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/9617ee3bc3ad47fd.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:300;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/9617ee3bc3ad47fd.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:400;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/9617ee3bc3ad47fd.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/9617ee3bc3ad47fd.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:600;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/9617ee3bc3ad47fd.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/616354e20c7baae2.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:300;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/616354e20c7baae2.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:400;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/616354e20c7baae2.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/616354e20c7baae2.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:600;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/616354e20c7baae2.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}:root{--font-google-sans-code:"Google Sans Code-de078a87b11e4a86","Google Sans Code-de078a87b11e4a86 fallback: Courier New",monospace;}</style><!-- General Meta Tags --><title>How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression | Reliable Data Engineering</title><meta name="title" content="How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression | Reliable Data Engineering"><meta name="description" content="Feeding 200K-character SQL files to an LLM is expensive and unreliable. We built TOON — a compact AST notation that gives the model structural awareness at a fraction of the token cost."><meta name="author" content="Amin Siddique"><link rel="sitemap" href="/sitemap-index.xml"><!-- Impact Affiliate Verification --><meta name="impact-site-verification" content="24fadc25-ebf4-46fd-832a-99597a7caf51"><!-- Open Graph / Facebook --><meta property="og:title" content="How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression | Reliable Data Engineering"><meta property="og:description" content="Feeding 200K-character SQL files to an LLM is expensive and unreliable. We built TOON — a compact AST notation that gives the model structural awareness at a fraction of the token cost."><meta property="og:url" content="https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/"><meta property="og:image" content="https://reliable-data-engineering.netlify.app/images/blog/ast.png"><!-- Article Published/Modified time --><meta property="article:published_time" content="2026-03-22T00:00:00.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/"><meta property="twitter:title" content="How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression | Reliable Data Engineering"><meta property="twitter:description" content="Feeding 200K-character SQL files to an LLM is expensive and unreliable. We built TOON — a compact AST notation that gives the model structural awareness at a fraction of the token cost."><meta property="twitter:image" content="https://reliable-data-engineering.netlify.app/images/blog/ast.png"><!-- Google JSON-LD Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression | Reliable Data Engineering","image":"https://reliable-data-engineering.netlify.app/images/blog/ast.png","datePublished":"2026-03-22T00:00:00.000Z","author":[{"@type":"Person","name":"Amin Siddique","url":"https://medium.com/@amin-siddique"}]}</script><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml" title="Reliable Data Engineering" href="https://reliable-data-engineering.netlify.app/rss.xml"><meta name="theme-color" content=""><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><!-- Google AdSense --><meta name="google-adsense-account" content="ca-pub-9040516721758437"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437" crossorigin="anonymous"></script><!-- Minimal inline script to prevent FOUC - sets theme immediately --><script>
+      (function () {
+        const initialColorScheme = "dark"; // "light" | "dark"
+        const currentTheme = localStorage.getItem("theme");
+
+        function getPreferTheme() {
+          if (currentTheme) return currentTheme;
+          if (initialColorScheme) return initialColorScheme;
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+
+        const themeValue = getPreferTheme();
+
+        // Set theme immediately to prevent flash
+        document.firstElementChild?.setAttribute("data-theme", themeValue);
+
+        // Export minimal API for external script
+        window.theme = {
+          themeValue: themeValue,
+          getTheme: () => window.theme.themeValue,
+          setTheme: val => {
+            window.theme.themeValue = val;
+          },
+        };
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.DFgwPH5o.css">
+<style>:where([data-astro-image]){object-fit:var(--fit);object-position:var(--pos);height:auto}:where([data-astro-image=full-width]){width:100%}:where([data-astro-image=constrained]){max-width:100%}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media(prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+</style>
+<link rel="stylesheet" href="/_astro/index.yON2J0e_.css"><style>[data-astro-transition-scope="astro-fam6wyqg-1"] { view-transition-name: how-we-cut-llm-token-usage-by-90percent-in-sql-migration-using-ast-compression; }@layer astro { ::view-transition-old(how-we-cut-llm-token-usage-by-90percent-in-sql-migration-using-ast-compression) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(how-we-cut-llm-token-usage-by-90percent-in-sql-migration-using-ast-compression) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(how-we-cut-llm-token-usage-by-90percent-in-sql-migration-using-ast-compression) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(how-we-cut-llm-token-usage-by-90percent-in-sql-migration-using-ast-compression) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-2"] { view-transition-name: sql; }@layer astro { ::view-transition-old(sql) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(sql) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(sql) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(sql) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-3"] { view-transition-name: llm; }@layer astro { ::view-transition-old(llm) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(llm) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(llm) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(llm) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-4"] { view-transition-name: data-engineering; }@layer astro { ::view-transition-old(data-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(data-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(data-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(data-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-5"] { view-transition-name: migration; }@layer astro { ::view-transition-old(migration) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(migration) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(migration) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(migration) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body>  <a id="skip-to-content" href="#main-content" class="absolute start-16 -top-full z-50 bg-background px-3 py-2 text-accent backdrop-blur-lg transition-all focus:top-4">
+Skip to content
+</a> <header class="app-layout flex flex-col items-center justify-between sm:flex-row"> <div id="top-nav-wrap" class="py-4 sm:py-6 border-b border-border relative w-full bg-background flex items-baseline justify-between sm:items-center"> <a href="/" class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"> Reliable Data Engineering </a> <nav id="nav-menu" class="flex w-full flex-col items-center sm:ms-2 sm:flex-row sm:justify-end sm:space-x-4 sm:py-0"> <button id="menu-btn" class="focus-outline self-end p-2 sm:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" id="close-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep" id="menu-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6h16" /><path d="M7 12h13" /><path d="M10 18h10" /></svg> </button> <ul id="menu-items" class="mt-4 grid w-44 grid-cols-2 place-content-center gap-2 [&#38;>li>a]:block [&#38;>li>a]:px-4 [&#38;>li>a]:py-3 [&#38;>li>a]:text-center [&#38;>li>a]:font-medium [&#38;>li>a]:hover:text-accent sm:[&#38;>li>a]:px-2 sm:[&#38;>li>a]:py-1 hidden sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0"> <li class="col-span-2"> <a href="/posts" class="active-nav">
+Posts
+</a> </li> <li class="col-span-2"> <a href="/about">
+About
+</a> </li> <li class="col-span-2"> <a href="/resources">
+Resources
+</a> </li>  <li class="col-span-1 flex items-center justify-center"> <a href="https://ko-fi.com/reliabledataengineering" title="Buy me a coffee" aria-label="buy me a coffee" target="_blank" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex p-3 sm:p-1 hover:[&#38;>svg]:stroke-[#ff5e5b]">  <svg class="icon icon-tabler icon-tabler-coffee" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M3 14c.83 .642 2.077 1.017 3.5 1c1.423 .017 2.67 -.358 3.5 -1c.83 -.642 2.077 -1.017 3.5 -1c1.423 -.017 2.67 .358 3.5 1" />
+  <path d="M8 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" />
+  <path d="M12 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" />
+  <path d="M3 10h14v5a6 6 0 0 1 -6 6h-2a6 6 0 0 1 -6 -6v-5z" />
+  <path d="M16.746 16.726a3 3 0 1 0 .252 -5.555" />
+</svg> <span class="sr-only">Buy me a coffee</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/search" title="Search" aria-label="search" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex p-3 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg> <span class="sr-only">Search</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <button id="theme-btn" class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent" title="Toggles light & dark" aria-label="auto" aria-live="polite"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" /><path d="M6.343 17.657l-1.414 1.414" /><path d="M6.343 6.343l-1.414 -1.414" /><path d="M17.657 6.343l1.414 -1.414" /><path d="M17.657 17.657l1.414 1.414" /><path d="M4 12h-2" /><path d="M12 4v-2" /><path d="M20 12h2" /><path d="M12 20v2" /></svg> </button> </li> <li class="col-span-1 flex items-center justify-center"> <div class="auth-container" data-auth data-astro-cid-wgzqlfev> <!-- Logged out state --> <div class="auth-logged-out" data-astro-cid-wgzqlfev> <button class="auth-sign-in-btn" aria-label="Sign in" aria-expanded="false" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" data-astro-cid-wgzqlfev></path> <circle cx="12" cy="7" r="4" data-astro-cid-wgzqlfev></circle> </svg> <span class="auth-text" data-astro-cid-wgzqlfev>Sign in</span> </button> <div class="auth-dropdown hidden" data-astro-cid-wgzqlfev> <a href="/api/auth/google" class="auth-option" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" data-astro-cid-wgzqlfev> <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" data-astro-cid-wgzqlfev></path> <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" data-astro-cid-wgzqlfev></path> <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" data-astro-cid-wgzqlfev></path> <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" data-astro-cid-wgzqlfev></path> </svg> <span data-astro-cid-wgzqlfev>Continue with Google</span> </a> <a href="/api/auth/github" class="auth-option" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" data-astro-cid-wgzqlfev> <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" data-astro-cid-wgzqlfev></path> </svg> <span data-astro-cid-wgzqlfev>Continue with GitHub</span> </a> </div> </div> <!-- Logged in state (hidden by default) --> <div class="auth-logged-in hidden" data-astro-cid-wgzqlfev> <button class="auth-avatar-btn" aria-label="Account menu" aria-expanded="false" data-astro-cid-wgzqlfev> <img class="auth-avatar" src="" alt="" width="32" height="32" data-astro-cid-wgzqlfev> </button> <div class="auth-user-dropdown hidden" data-astro-cid-wgzqlfev> <div class="auth-user-info" data-astro-cid-wgzqlfev> <span class="auth-user-name" data-astro-cid-wgzqlfev></span> <span class="auth-user-email" data-astro-cid-wgzqlfev></span> </div> <hr class="auth-divider" data-astro-cid-wgzqlfev> <a href="/bookmarks" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-wgzqlfev></path> </svg>
+Bookmarks
+</a> <a href="/history" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <circle cx="12" cy="12" r="10" data-astro-cid-wgzqlfev></circle> <polyline points="12 6 12 12 16 14" data-astro-cid-wgzqlfev></polyline> </svg>
+Reading History
+</a> <hr class="auth-divider" data-astro-cid-wgzqlfev> <button class="auth-menu-item auth-logout" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" data-astro-cid-wgzqlfev></path> <polyline points="16 17 21 12 16 7" data-astro-cid-wgzqlfev></polyline> <line x1="21" y1="12" x2="9" y2="12" data-astro-cid-wgzqlfev></line> </svg>
+Sign out
+</button> </div> </div> </div>  <script type="module">function w(){document.querySelectorAll("[data-auth]:not([data-initialized])").forEach(e=>{e.dataset.initialized="true";const r=e.querySelector(".auth-logged-out"),u=e.querySelector(".auth-logged-in"),s=e.querySelector(".auth-sign-in-btn"),d=e.querySelector(".auth-dropdown"),o=e.querySelector(".auth-avatar-btn"),n=e.querySelector(".auth-user-dropdown"),l=e.querySelector(".auth-avatar"),c=e.querySelector(".auth-user-name"),h=e.querySelector(".auth-user-email"),p=e.querySelector(".auth-logout");function g(t){r.classList.add("hidden"),u.classList.remove("hidden"),l.src=t.avatarUrl||`https://ui-avatars.com/api/?name=${encodeURIComponent(t.displayName)}&background=3b82f6&color=fff&size=64`,l.alt=t.displayName,c.textContent=t.displayName,h.textContent=t.email||""}function i(){r.classList.remove("hidden"),u.classList.add("hidden")}window.__authReady=fetch("/api/auth/me").then(t=>t.json()).then(t=>(window.__authUser=t.user,t.user?g(t.user):i(),window.dispatchEvent(new CustomEvent("auth:ready",{detail:t.user})),t.user)).catch(()=>(window.__authUser=null,i(),window.dispatchEvent(new CustomEvent("auth:ready",{detail:null})),null)),s.addEventListener("click",t=>{t.stopPropagation();const a=!d.classList.contains("hidden");d.classList.toggle("hidden",a),s.setAttribute("aria-expanded",(!a).toString())}),o.addEventListener("click",t=>{t.stopPropagation();const a=!n.classList.contains("hidden");n.classList.toggle("hidden",a),o.setAttribute("aria-expanded",(!a).toString())}),p.addEventListener("click",async()=>{await fetch("/api/auth/logout",{method:"POST"}),window.__authUser=null,i(),n.classList.add("hidden"),window.dispatchEvent(new CustomEvent("auth:logout"))}),document.addEventListener("click",()=>{d.classList.add("hidden"),s.setAttribute("aria-expanded","false"),n.classList.add("hidden"),o.setAttribute("aria-expanded","false")})})}document.addEventListener("astro:page-load",w);</script> </li> </ul> </nav> </div> </header> <script type="module">function s(){const e=document.querySelector("#menu-btn"),t=document.querySelector("#menu-items"),n=document.querySelector("#menu-icon"),o=document.querySelector("#close-icon");!e||!t||!n||!o||e.addEventListener("click",()=>{const c=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",c?"false":"true"),e.setAttribute("aria-label",c?"Open Menu":"Close Menu"),t.classList.toggle("hidden"),n.classList.toggle("hidden"),o.classList.toggle("hidden")})}s();document.addEventListener("astro:after-swap",s);</script> <div class="app-layout flex items-center justify-start"><a id="back-button" href="/" class="group inline-flex items-center gap-1 hover:text-accent focus-outline -ms-2 mt-8 mb-2 hover:text-foreground/75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg><span>Go back</span> </a></div><script type="module">function o(){const t=document.querySelector("#back-button"),e=sessionStorage.getItem("backUrl");e&&t&&(t.href=e)}document.addEventListener("astro:page-load",o);o();</script> <main id="main-content" class="app-layout pb-12" data-pagefind-body> <h1 class="inline-block text-2xl font-bold text-accent sm:text-3xl" data-astro-transition-scope="astro-fam6wyqg-1"> How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression </h1> <div class="my-2 flex flex-wrap items-center gap-2 text-sm"> <div class="flex items-center gap-x-2 opacity-80"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 min-w-5.5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg>  <time class="text-sm sm:text-base" datetime="2026-03-22T00:00:00.000Z">22 Mar, 2026</time> </div> <span aria-hidden="true" class="text-muted">|</span> <span class="view-counter" data-slug="article_toon_sql_migration" data-astro-cid-e75zxctz> <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-e75zxctz> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" data-astro-cid-e75zxctz></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" data-astro-cid-e75zxctz></path> </svg> <span class="view-count" data-astro-cid-e75zxctz>-</span> views
+</span>  <script type="module">function i(){document.querySelectorAll(".view-counter:not([data-initialized])").forEach(n=>{n.dataset.initialized="true";const t=n.dataset.slug;if(!t)return;const o=n.querySelector(".view-count");if(!o)return;const s=`viewed_${t}`;sessionStorage.getItem(s)?fetch(`/api/views?slug=${encodeURIComponent(t)}`).then(e=>e.json()).then(e=>{o.textContent=e.count.toString()}).catch(console.error):fetch(`/api/views?slug=${encodeURIComponent(t)}`,{method:"POST"}).then(e=>e.json()).then(e=>{o.textContent=e.count.toString(),sessionStorage.setItem(s,"true")}).catch(console.error)})}document.addEventListener("astro:page-load",i);</script> <span aria-hidden="true" class="max-sm:hidden text-muted hidden">|</span>  </div> <img src="/images/blog/ast.png" alt="How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression" class="my-6 w-full rounded-lg object-cover" style="max-height: 400px;"> <article id="article" class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"> <h1 id="how-we-cut-llm-token-usage-by-90-in-sql-migration-using-ast-compression">How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression</h1>
+<p><em>Feeding 200K-character SQL files to an LLM is expensive and unreliable. We built TOON — a compact AST notation that gives the model structural awareness at a fraction of the token cost.</em></p>
+<hr>
+<p><em>Data Engineering | SQL Migration | LLM Optimization | March 2026</em>
+<em>~12 min read</em></p>
+<hr>
+<h2 id="the-problem-enterprise-sql-doesnt-fit-in-a-context-window">The problem: enterprise SQL doesn’t fit in a context window</h2>
+<p>Enterprise data warehouses accumulate SQL that no one anticipated an LLM would ever need to read. A single ETL procedure from an Oracle Data Integrator (ODI) pipeline can easily reach 200,000 characters — that is roughly 60,000 tokens before the LLM has even received its instructions.</p>
+<p>When tasked with migrating these SQL files from one dialect to another (say, Exasol to Databricks), the naive approach is straightforward: paste the entire SQL into a prompt, ask the model to rewrite it, and hope for the best. This approach fails in three predictable ways:</p>
+<p><strong>Context overflow.</strong> Many production SQL files exceed the model’s input window. Even models with 200K-token context windows struggle when the SQL alone consumes 60K tokens and the prompt, examples, and output reserve need the rest.</p>
+<p><strong>Cost.</strong> At current API pricing, sending 60K input tokens per migration adds up quickly across hundreds of tables. Multiply by retry attempts when the model produces invalid output, and costs become a real concern.</p>
+<p><strong>Quality degradation.</strong> LLMs perform worse on longer inputs. Buried in 200K characters of nested subqueries, the model loses track of column references, misses join conditions, and hallucinates table aliases. The signal-to-noise ratio of raw SQL is remarkably low.</p>
+<p>The engineering question becomes: how do you give an LLM the structural understanding it needs to perform a correct migration without sending it the full verbatim SQL?</p>
+<hr>
+<h2 id="two-complementary-strategies">Two complementary strategies</h2>
+<p>The solution combines two techniques that operate at different levels of the migration pipeline:</p>
+<ol>
+<li>
+<p><strong>sqlglot AST for mechanical dialect conversion</strong> — handle the deterministic, rule-based transformations (function names, date formats, syntax differences) without involving the LLM at all.</p>
+</li>
+<li>
+<p><strong>TOON (Token-Oriented Object Notation) for structural context</strong> — compress the SQL’s structure into a compact notation that the LLM can read at a fraction of the original token cost.</p>
+</li>
+</ol>
+<p>Together, these techniques change the LLM’s role from “rewrite this entire SQL file” to “apply intelligence to this structural blueprint, using the pre-transpiled SQL as a reference.” The LLM does less mechanical work and more of what it is actually good at: understanding intent, restructuring logic, and applying idiomatic patterns.</p>
+<hr>
+<h2 id="strategy-1-sqlglot-handles-the-mechanical-work">Strategy 1: sqlglot handles the mechanical work</h2>
+<p>sqlglot is an open-source SQL parser, transpiler, and optimizer that supports over 20 SQL dialects. It parses SQL into an abstract syntax tree, transforms it, and regenerates SQL in a different dialect — all deterministically, with no LLM involved.</p>
+<p>For a migration from Exasol to Databricks, sqlglot handles transformations like:</p>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;--file-name-offset: -0.75rem;" tabindex="0" data-language="sql"><code><span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">-- Exasol (source)</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">SELECT</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> NVL(col, </span><span style="--shiki-light:#1976D2;--shiki-dark:#F78C6C">0</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">), SYSTIMESTAMP, TRUNC(dt, </span><span style="--shiki-light:#22863A;--shiki-dark:#D9F5DD">'</span><span style="--shiki-light:#22863A;--shiki-dark:#ECC48D">MM</span><span style="--shiki-light:#22863A;--shiki-dark:#D9F5DD">'</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">)</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">FROM</span><span style="--shiki-light:#24292EFF;--shiki-dark:#82AAFF"> DDH_BUSINESS</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#24292EFF;--shiki-dark:#82AAFF">my_table</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">-- Databricks (sqlglot output)</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">SELECT</span><span style="--shiki-light:#6F42C1;--shiki-dark:#C5E478"> COALESCE</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">(col, </span><span style="--shiki-light:#1976D2;--shiki-dark:#F78C6C">0</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">), </span><span style="--shiki-light:#6F42C1;--shiki-dark:#C5E478">current_timestamp</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">(), date_trunc(</span><span style="--shiki-light:#22863A;--shiki-dark:#D9F5DD">'</span><span style="--shiki-light:#22863A;--shiki-dark:#ECC48D">month</span><span style="--shiki-light:#22863A;--shiki-dark:#D9F5DD">'</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">, dt)</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">FROM</span><span style="--shiki-light:#24292EFF;--shiki-dark:#82AAFF"> catalog</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#24292EFF;--shiki-dark:#82AAFF">schema</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">.my_table</span></span></code></pre>
+<p>Function mappings (NVL → COALESCE, SYSTIMESTAMP → current_timestamp()), date format conversions, identifier quoting, and basic syntax normalization are all handled at the AST level. These are transformations with deterministic correct answers — there is no reason to spend tokens asking an LLM to figure them out.</p>
+<p>The transpiled SQL is then passed to the LLM as a “reference” rather than the primary input. The LLM’s job shifts from dialect conversion to structural optimization: flattening nested subqueries into CTEs, applying dbt conventions, adding Jinja templating, and fixing patterns that sqlglot’s rule-based engine cannot address.</p>
+<blockquote>
+<p><strong>Design principle:</strong> Use deterministic tools for deterministic problems. Reserve LLM tokens for tasks that require judgment.</p>
+</blockquote>
+<hr>
+<h2 id="strategy-2-toon--a-compact-ast-for-llm-consumption">Strategy 2: TOON — a compact AST for LLM consumption</h2>
+<p>Even after sqlglot handles dialect conversion, the LLM still needs to understand the SQL’s structure to restructure it. Sending the full transpiled SQL works for small files, but for a 1,700-line query with 14 nested subqueries, the model needs a map.</p>
+<p>TOON (Token-Oriented Object Notation) is a custom serialization format that compresses a SQL AST into a compact, human-readable notation. It is generated by parsing the SQL with sqlglot and walking the AST, emitting only the structural skeleton: what tables are joined, how many columns are selected, where subqueries are nested, and what anti-patterns are present.</p>
+<h3 id="what-toon-looks-like">What TOON looks like</h3>
+<p>Consider a moderately complex SQL statement with CTEs, joins, and nested subqueries. The raw SQL might be 800 lines. Its TOON representation looks like this:</p>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;--file-name-offset: -0.75rem;" tabindex="0" data-language="plaintext"><code><span class="line"><span>STATS cols:47 tbls:8 subs:3 joins:5 ctes:2 chars:24680</span></span>
+<span class="line"><span>INSERT catalog.schema.target_table (47 cols)</span></span>
+<span class="line"><span>  cols: [col1 col2 col3 col4 ...]</span></span>
+<span class="line"><span>  WITH:</span></span>
+<span class="line"><span>    base_data:</span></span>
+<span class="line"><span>      SEL |12|</span></span>
+<span class="line"><span>        ~src.[col1 col2 col3]</span></span>
+<span class="line"><span>        expr -> col1</span></span>
+<span class="line"><span>        $s:'N' -> change_type</span></span>
+<span class="line"><span>        from: catalog.schema.source_table @src</span></span>
+<span class="line"><span>        where: AND(3)</span></span>
+<span class="line"><span>          &#x26; src.ghost_flag = 0</span></span>
+<span class="line"><span>          &#x26; src.valid_to > current_date()</span></span>
+<span class="line"><span>          &#x26; src.partition_date = __pit_date__</span></span>
+<span class="line"><span>    enriched:</span></span>
+<span class="line"><span>      SEL |47|</span></span>
+<span class="line"><span>        ~b.[col1 col2 change_type ...]</span></span>
+<span class="line"><span>        expr -> full_name</span></span>
+<span class="line"><span>        from: base_data @b</span></span>
+<span class="line"><span>        JOIN(LEFT) catalog.schema.ref_table ON: b.kim = r.kim</span></span>
+<span class="line"><span>        SUB @latest_record</span></span>
+<span class="line"><span>  body:</span></span>
+<span class="line"><span>    SEL |47|</span></span>
+<span class="line"><span>      ~e.*</span></span>
+<span class="line"><span>      from: enriched @e</span></span>
+<span class="line"><span>ISSUES |2|</span></span>
+<span class="line"><span>  [H] DEEP_NESTING: subquery nested 3 levels at SUB @latest_record</span></span>
+<span class="line"><span>  [M] PASSTHROUGH_SUBQUERY: CTE 'enriched' passes through all base_data columns</span></span></code></pre>
+<p>This TOON representation is roughly 40 lines and ~1,500 characters compared to the original 800 lines and 24,680 characters. That is a <strong>94% reduction</strong> in character count. The token savings are similar: approximately 500 tokens versus 7,700 tokens.</p>
+<h3 id="the-notation-explained">The notation explained</h3>
+<p>TOON uses a handful of compact conventions:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Symbol</th><th>Meaning</th></tr></thead><tbody><tr><td><code>SEL |N|</code></td><td>SELECT with N columns</td></tr><tr><td><code>~alias.[cols]</code></td><td>Columns passed through from alias</td></tr><tr><td><code>$s:'value'</code></td><td>String literal</td></tr><tr><td><code>@alias</code></td><td>Table alias</td></tr><tr><td><code>JOIN(type)</code></td><td>Join with type (LEFT, INNER, etc.)</td></tr><tr><td><code>SUB @name</code></td><td>Subquery with alias</td></tr><tr><td><code>AND(N)</code></td><td>N-condition AND clause</td></tr><tr><td><code>[H]</code> / <code>[M]</code></td><td>High/Medium severity issue</td></tr></tbody></table>
+<p>The STATS line at the top gives the LLM a quick numeric summary it can use for self-validation: “My output should have 47 columns, reference 8 tables, and include 5 joins.” The ISSUES section explicitly flags anti-patterns that the LLM should fix during migration.</p>
+<h3 id="how-toon-is-generated">How TOON is generated</h3>
+<p>The generation pipeline uses sqlglot’s AST traversal:</p>
+<ol>
+<li>Parse the SQL into an AST using <code>sqlglot.parse_one(sql, read=dialect)</code>.</li>
+<li>Walk the tree recursively, emitting the compact TOON notation for each node type (SELECT, JOIN, WHERE, CTE, subquery).</li>
+<li>Detect anti-patterns by analyzing the AST structure: nesting depth, passthrough subqueries, correlated EXISTS, SELECT *, and excessive NULL padding.</li>
+<li>Emit stats by counting AST node types (columns, tables, joins, subqueries, CTEs, window functions, unions).</li>
+</ol>
+<p>The entire generation is deterministic and runs in milliseconds. No LLM is involved in creating the TOON — it is purely an AST serialization step.</p>
+<hr>
+<h2 id="the-combined-architecture">The combined architecture</h2>
+<p>With both strategies in place, the migration pipeline operates as follows:</p>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;--file-name-offset: -0.75rem;" tabindex="0" data-language="plaintext"><code><span class="line"><span>┌─────────────────┐</span></span>
+<span class="line"><span>│  Source SQL     │</span></span>
+<span class="line"><span>│  (Exasol)       │</span></span>
+<span class="line"><span>└────────┬────────┘</span></span>
+<span class="line"><span>         │</span></span>
+<span class="line"><span>         ▼</span></span>
+<span class="line"><span>┌─────────────────┐</span></span>
+<span class="line"><span>│  sqlglot        │ ─── Mechanical dialect conversion</span></span>
+<span class="line"><span>│  transpile      │</span></span>
+<span class="line"><span>└────────┬────────┘</span></span>
+<span class="line"><span>         │</span></span>
+<span class="line"><span>         ├──────────────────┐</span></span>
+<span class="line"><span>         ▼                  ▼</span></span>
+<span class="line"><span>┌─────────────────┐  ┌─────────────────┐</span></span>
+<span class="line"><span>│  TOON           │  │  Transpiled SQL │</span></span>
+<span class="line"><span>│  (structural)   │  │  (reference)    │</span></span>
+<span class="line"><span>└────────┬────────┘  └────────┬────────┘</span></span>
+<span class="line"><span>         │                    │</span></span>
+<span class="line"><span>         └─────────┬──────────┘</span></span>
+<span class="line"><span>                   ▼</span></span>
+<span class="line"><span>         ┌─────────────────┐</span></span>
+<span class="line"><span>         │  LLM            │ ─── Structural optimization</span></span>
+<span class="line"><span>         │  (Claude/GPT)   │</span></span>
+<span class="line"><span>         └────────┬────────┘</span></span>
+<span class="line"><span>                  │</span></span>
+<span class="line"><span>                  ▼</span></span>
+<span class="line"><span>         ┌─────────────────┐</span></span>
+<span class="line"><span>         │  Output SQL     │</span></span>
+<span class="line"><span>         │  (Databricks)   │</span></span>
+<span class="line"><span>         └─────────────────┘</span></span></code></pre>
+<p>The LLM receives three inputs: the system prompt with migration instructions, the TOON as its primary structural guide (wrapped in <code>&#x3C;toon_analysis></code> tags), and the transpiled SQL as a reference. The TOON tells the model what to build; the transpiled SQL shows how the mechanical conversion looks.</p>
+<hr>
+<h2 id="handling-sql-that-still-doesnt-fit-cte-aware-chunking">Handling SQL that still doesn’t fit: CTE-aware chunking</h2>
+<p>Even with TOON compression, some SQL files are genuinely enormous. A single query with 30 CTEs and a 2,000-line final SELECT can still exceed the context budget after transpilation. For these cases, the pipeline includes a CTE-aware chunking strategy.</p>
+<p>The chunking algorithm:</p>
+<ol>
+<li>Parse CTE boundaries using sqlglot’s AST (with regex fallback for malformed SQL).</li>
+<li>Group CTEs into chunks that fit within a target token budget (default: 40K tokens per chunk).</li>
+<li>Give each chunk the full TOON for structural context — since TOON is compact (~500–2,000 tokens), it fits alongside every chunk without significant overhead.</li>
+<li>Migrate chunks in parallel (up to 3 concurrent LLM calls via asyncio).</li>
+<li>Stitch results by extracting CTEs from each migrated chunk and combining them with the final SELECT from the last chunk.</li>
+</ol>
+<p>This is where TOON’s compactness provides a secondary benefit. Because the structural overview is small, every chunk can carry it without blowing the token budget. The LLM migrating chunk 2 (CTEs 4–6) still knows the overall query structure, column counts, and anti-patterns from the full TOON — even though it only sees a subset of the actual SQL.</p>
+<hr>
+<h2 id="measured-results">Measured results</h2>
+<p>The token savings vary by SQL complexity, but the pattern is consistent across a corpus of 150+ migrated tables:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>SQL Complexity</th><th>Raw Tokens</th><th>TOON Tokens</th><th>Reduction</th></tr></thead><tbody><tr><td>Simple (&#x3C; 500 lines)</td><td>~3,000</td><td>~400</td><td>87%</td></tr><tr><td>Medium (500-1500 lines)</td><td>~12,000</td><td>~800</td><td>93%</td></tr><tr><td>Complex (1500+ lines)</td><td>~45,000</td><td>~2,000</td><td>96%</td></tr></tbody></table>
+<p>The quality improvement is harder to quantify but consistently observed. When the LLM receives the TOON with explicit anti-pattern flags (DEEP_NESTING, PASSTHROUGH_SUBQUERY), it is significantly more likely to flatten nested subqueries into CTEs and eliminate redundant intermediate queries. Without the TOON, the model tends to preserve the original nesting structure — producing technically correct but poorly structured output.</p>
+<hr>
+<h2 id="what-the-llm-actually-does-now">What the LLM actually does now</h2>
+<p>With sqlglot handling dialect mechanics and TOON providing structural context, the LLM’s responsibilities narrow to tasks that genuinely require language understanding:</p>
+<ul>
+<li><strong>CTE restructuring</strong> — flattening nested subqueries into named CTEs with descriptive names.</li>
+<li><strong>dbt conventions</strong> — adding <code>{{ config() }}</code> blocks, converting ODI variables to <code>{% set %}</code> + <code>var()</code> patterns with fallback defaults.</li>
+<li><strong>Anti-pattern remediation</strong> — rewriting CORRELATED_EXISTS as LEFT SEMI JOIN, replacing SELECT * with explicit column lists, simplifying NULL_PADDING with COALESCE.</li>
+<li><strong>Documentation</strong> — adding section headers and inline comments explaining business logic.</li>
+</ul>
+<p>These are tasks where LLMs excel — pattern recognition, idiomatic rewriting, and applying conventions from training data. They are also tasks where the TOON’s anti-pattern annotations provide direct, actionable instructions rather than leaving the model to discover issues buried in thousands of lines of SQL.</p>
+<hr>
+<h2 id="lessons-learned">Lessons learned</h2>
+<h3 id="1-ast-tools-and-llms-are-complementary-not-competing">1. AST tools and LLMs are complementary, not competing</h3>
+<p>The instinct when adopting LLMs is to feed them everything and let them figure it out. For structured inputs like SQL, this leaves significant efficiency on the table. sqlglot can handle dialect conversion with 100% determinism; the LLM should handle the remaining 20% that requires judgment.</p>
+<h3 id="2-compact-structural-representations-outperform-raw-text-for-llm-context">2. Compact structural representations outperform raw text for LLM context</h3>
+<p>This is the core insight behind TOON. LLMs do not need to see every column alias and every WHERE clause predicate to understand a query’s structure. A compressed notation with column counts, join types, and anti-pattern flags gives the model better structural awareness than the raw SQL — at 5–10% of the token cost.</p>
+<h3 id="3-anti-pattern-detection-should-be-explicit-not-implicit">3. Anti-pattern detection should be explicit, not implicit</h3>
+<p>Rather than hoping the LLM notices that a subquery is nested 5 levels deep, the TOON’s ISSUES section explicitly says <code>[H] DEEP_NESTING: subquery nested 5 levels</code>. This transforms a quality aspiration into a concrete instruction. The LLM’s compliance rate with explicit anti-pattern flags is materially higher than with raw SQL.</p>
+<h3 id="4-chunking-needs-structural-awareness">4. Chunking needs structural awareness</h3>
+<p>Naive chunking (split at line N) breaks SQL semantics. CTE-aware chunking preserves query boundaries and gives each chunk enough context (via TOON) to produce independently valid output. The stitching step is mechanical — extract CTEs from each chunk and combine them.</p>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>The combination of AST-based mechanical transpilation and compact structural notation for LLM context addresses a fundamental tension in LLM-assisted code migration: the models need to understand structure, but sending the full source is expensive and degrades quality.</p>
+<p>TOON is not a general-purpose technique — it works because SQL has a well-defined grammar that tools like sqlglot can parse reliably. The approach generalizes to any domain where the input has a parseable structure: configuration files, API schemas, infrastructure-as-code templates, or any structured language where an AST can be extracted and compressed.</p>
+<p>The principle is straightforward: <strong>parse what you can, compress the structure, and reserve LLM tokens for the parts that actually require intelligence.</strong></p>
+<hr>
+<p><em>Disclaimer: This article describes a technical approach used in an internal migration project. The specific token reduction percentages, retry rates, and performance metrics cited are based on observations from a particular corpus of enterprise SQL and may not generalize to all workloads or SQL dialects. TOON is a custom internal format, not a published standard. sqlglot is an open-source project maintained independently. The techniques described here involve LLM-assisted code generation, which should always be validated by qualified engineers before deployment to production systems. This article represents the views of its authors and does not constitute an endorsement of any specific product or service.</em></p> </article> <hr class="my-8 border-dashed">  <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8"> <li> <a href="/tags/sql/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> sql </a> </li><li> <a href="/tags/llm/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-3"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> llm </a> </li><li> <a href="/tags/data-engineering/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-4"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> data-engineering </a> </li><li> <a href="/tags/migration/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-5"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> migration </a> </li> </ul> <div id="btt-btn-container" class="fixed end-4 bottom-8 z-50 md:sticky md:end-auto md:float-end md:me-1 translate-y-14 opacity-0 transition duration-500"> <button data-button="back-to-top" class="group relative bg-background px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"> <span id="progress-indicator" class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"></span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block rotate-90 md:hidden"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <span class="sr-only text-sm group-hover:text-accent md:not-sr-only"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M16 9l-4 -4" /><path d="M8 9l4 -4" /></svg>
+Back To Top
+</span> </button> </div> <script data-astro-rerun>
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    const rootElement = document.documentElement;
+    const btnContainer = document.querySelector("#btt-btn-container");
+    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
+    const progressIndicator = document.querySelector("#progress-indicator");
+
+    if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
+      return;
+
+    // Attach click event handler for back-to-top button
+    backToTopBtn.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
+    // Handle button visibility according to scroll position
+    let lastVisible = null;
+    function handleScroll() {
+      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+      const scrollTop = rootElement.scrollTop;
+      const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
+
+      progressIndicator.style.setProperty(
+        "background-image",
+        `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
+      );
+
+      const isVisible = scrollTop / scrollTotal > 0.3;
+
+      if (isVisible !== lastVisible) {
+        btnContainer.classList.toggle("opacity-100", isVisible);
+        btnContainer.classList.toggle("translate-y-0", isVisible);
+        btnContainer.classList.toggle("opacity-0", !isVisible);
+        btnContainer.classList.toggle("translate-y-14", !isVisible);
+        lastVisible = isVisible;
+      }
+    }
+
+    let ticking = false;
+    document.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+  backToTop();
+</script> <div class="flex flex-wrap items-center gap-3 mb-4"> <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post on:</span><div class="text-center"><a href="https://wa.me/?text=https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/" title="Share this post via WhatsApp" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg><span class="sr-only">Share this post via WhatsApp</span> </a><a href="https://www.facebook.com/sharer.php?u=https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/" title="Share this post on Facebook" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg><span class="sr-only">Share this post on Facebook</span> </a><a href="https://x.com/intent/post?url=https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/" title="Share this post on X" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg><span class="sr-only">Share this post on X</span> </a><a href="https://t.me/share/url?url=https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/" title="Share this post via Telegram" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" /></svg><span class="sr-only">Share this post via Telegram</span> </a><a href="https://pinterest.com/pin/create/button/?url=https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/" title="Share this post on Pinterest" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 20l4 -9" /><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></svg><span class="sr-only">Share this post on Pinterest</span> </a><a href="mailto:?subject=See%20this%20post&#38;body=https://reliable-data-engineering.netlify.app/posts/article_toon_sql_migration/" title="Share this post via email" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg><span class="sr-only">Share this post via email</span> </a></div></div> <button class="copy-link-btn" aria-label="Copy link to clipboard" data-astro-cid-c4yglaax> <svg class="copy-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-c4yglaax> <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" data-astro-cid-c4yglaax></path> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" data-astro-cid-c4yglaax></path> </svg> <svg class="check-icon hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-c4yglaax> <polyline points="20 6 9 17 4 12" data-astro-cid-c4yglaax></polyline> </svg> <span class="btn-text" data-astro-cid-c4yglaax>Copy link</span> </button>  <script type="module">function n(){document.querySelectorAll(".copy-link-btn:not([data-initialized])").forEach(e=>{e.dataset.initialized="true";const i=e.querySelector(".copy-icon"),c=e.querySelector(".check-icon"),t=e.querySelector(".btn-text");e.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(window.location.href),i?.classList.add("hidden"),c?.classList.remove("hidden"),t&&(t.textContent="Copied!"),e.classList.add("copied"),setTimeout(()=>{i?.classList.remove("hidden"),c?.classList.add("hidden"),t&&(t.textContent="Copy link"),e.classList.remove("copied")},2e3)}catch(o){console.error("Failed to copy:",o)}})})}document.addEventListener("astro:page-load",n);</script> </div> <div class="flex flex-wrap items-center gap-3 my-4"> <div class="like-button-container" data-slug="article_toon_sql_migration" data-astro-cid-rzlfooap> <button class="like-button" aria-label="Like this article" data-astro-cid-rzlfooap> <svg class="thumb-icon" viewBox="0 0 24 24" width="24" height="24" data-astro-cid-rzlfooap> <path d="M2 20h2c.55 0 1-.45 1-1v-9c0-.55-.45-1-1-1H2v11zm19.83-7.12c.11-.25.17-.52.17-.8V11c0-1.1-.9-2-2-2h-5.5l.92-4.65c.05-.22.02-.46-.08-.66-.23-.45-.52-.86-.88-1.22L14 2 7.59 8.41C7.21 8.79 7 9.3 7 9.83v7.84C7 18.95 8.05 20 9.34 20h8.11c.7 0 1.36-.37 1.72-.97l2.66-6.15z" data-astro-cid-rzlfooap></path> </svg> <span class="like-count" data-astro-cid-rzlfooap>0</span> </button> </div>  <script type="module">function c(){const o=localStorage.getItem("fp");if(o)return o;const t=Math.random().toString(36).substring(2)+Date.now().toString(36);return localStorage.setItem("fp",t),t}function l(){document.querySelectorAll(".like-button-container:not([data-initialized])").forEach(t=>{t.dataset.initialized="true";const i=t.dataset.slug;if(!i)return;const n=t.querySelector(".like-button"),s=t.querySelector(".like-count");if(!n||!s)return;const r=c();fetch(`/api/likes?slug=${encodeURIComponent(i)}&fp=${encodeURIComponent(r)}`).then(e=>e.json()).then(e=>{s.textContent=e.count.toString(),e.hasLiked&&n.classList.add("liked")}).catch(console.error),n.addEventListener("click",async()=>{n.disabled=!0;try{const a=await(await fetch(`/api/likes?slug=${encodeURIComponent(i)}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fingerprint:r})})).json();s.textContent=a.count.toString(),n.classList.toggle("liked",a.hasLiked)}catch(e){console.error(e)}finally{n.disabled=!1}})})}document.addEventListener("astro:page-load",l);</script> <div class="bookmark-container" data-bookmark-slug="article_toon_sql_migration" data-astro-cid-fsurehzd> <button class="bookmark-btn" aria-label="Bookmark this article" data-astro-cid-fsurehzd> <svg class="bookmark-icon-outline" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-fsurehzd> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-fsurehzd></path> </svg> <svg class="bookmark-icon-filled hidden" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" data-astro-cid-fsurehzd> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-fsurehzd></path> </svg> <span class="bookmark-text" data-astro-cid-fsurehzd>Save</span> </button> </div>  <script type="module">function l(){document.querySelectorAll("[data-bookmark-slug]:not([data-bm-initialized])").forEach(e=>{e.dataset.bmInitialized="true";const n=e.dataset.bookmarkSlug||"";if(!n)return;const o=e.querySelector(".bookmark-btn"),i=e.querySelector(".bookmark-icon-outline"),s=e.querySelector(".bookmark-icon-filled"),c=e.querySelector(".bookmark-text");function a(t){o.classList.toggle("bookmarked",t),i.classList.toggle("hidden",t),s.classList.toggle("hidden",!t),c.textContent=t?"Saved":"Save"}function r(){window.__authUser&&fetch(`/api/bookmarks?slug=${encodeURIComponent(n)}`).then(t=>t.json()).then(t=>{t.bookmarked&&a(!0)}).catch(()=>{})}window.__authUser!==void 0&&r(),window.addEventListener("auth:ready",()=>r()),o.addEventListener("click",async()=>{if(!window.__authUser){const t=document.querySelector(".auth-sign-in-btn");t&&t.click();return}o.disabled=!0;try{const d=await(await fetch("/api/bookmarks",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:n})})).json();a(d.bookmarked)}catch(t){console.error(t)}finally{o.disabled=!1}})})}document.addEventListener("astro:page-load",l);</script> <a href="https://ko-fi.com/reliabledataengineering" target="_blank" rel="noopener noreferrer" class="kofi-btn" data-astro-cid-aomqc7ru> <svg class="kofi-icon" viewBox="0 0 24 24" width="20" height="20" data-astro-cid-aomqc7ru> <path fill="currentColor" d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z" data-astro-cid-aomqc7ru></path> </svg> <span data-astro-cid-aomqc7ru>Buy me a coffee</span> </a>  </div> <!-- Ad placement after article --> <!-- Ad slot: {slot} --><div class="ad-unit my-6 flex items-center justify-center my-8" data-ad-slot="in-article"> <!-- Google AdSense - Auto ads will display once approved --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9040516721758437" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins> <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script> </div> <div class="newsletter-signup my-8 rounded-lg border border-border bg-muted/30 p-6 text-center my-8" data-newsletter> <h3 class="mb-2 text-lg font-semibold">Stay in the loop</h3> <p class="mb-4 text-sm text-foreground/70">
+Get notified when new articles drop. No spam. Unsubscribe anytime.
+</p> <form class="newsletter-form mx-auto flex max-w-md gap-2"> <input type="email" name="email" placeholder="your@email.com" required class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none"> <button type="submit" class="rounded-md bg-accent px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50">
+Subscribe
+</button> </form> <p class="newsletter-message mt-3 text-sm hidden"></p> <p class="newsletter-error mt-3 text-sm text-red-400 hidden"></p> </div> <script type="module">function d(){document.querySelectorAll("[data-newsletter]:not([data-nl-initialized])").forEach(t=>{t.dataset.nlInitialized="true";const r=t.querySelector(".newsletter-form"),s=t.querySelector(".newsletter-message"),n=t.querySelector(".newsletter-error");r.addEventListener("submit",async l=>{l.preventDefault();const c=r.querySelector('[name="email"]'),a=r.querySelector('[type="submit"]'),o=c.value.trim();if(o){a.disabled=!0,s.classList.add("hidden"),n.classList.add("hidden");try{const e=await fetch("/api/newsletter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:o})}),i=await e.json();if(!e.ok)throw new Error(i.error||"Failed to subscribe");s.textContent=i.message,s.classList.remove("hidden"),s.style.color="var(--accent)",r.reset()}catch(e){n.textContent=e instanceof Error?e.message:"Something went wrong",n.classList.remove("hidden")}finally{a.disabled=!1}}})})}document.addEventListener("astro:page-load",d);</script> <div class="comments-section" data-slug="article_toon_sql_migration" data-astro-cid-jvxsf75u> <h3 class="comments-title text-foreground" data-astro-cid-jvxsf75u>Comments</h3> <form class="comment-form" data-astro-cid-jvxsf75u> <div class="form-group comment-name-group" data-astro-cid-jvxsf75u> <input type="text" name="authorName" placeholder="Your name" maxlength="100" required data-astro-cid-jvxsf75u> </div> <div class="form-group" data-astro-cid-jvxsf75u> <textarea name="content" placeholder="Write a comment..." maxlength="2000" rows="4" required data-astro-cid-jvxsf75u></textarea> </div> <input type="hidden" name="parentId" value="" data-astro-cid-jvxsf75u> <div class="form-actions" data-astro-cid-jvxsf75u> <button type="submit" class="submit-btn" data-astro-cid-jvxsf75u>Post Comment</button> <button type="button" class="cancel-reply-btn hidden" data-astro-cid-jvxsf75u>Cancel Reply</button> </div> <p class="reply-indicator hidden" data-astro-cid-jvxsf75u></p> <p class="form-error" data-astro-cid-jvxsf75u></p> </form> <div class="comments-list" data-astro-cid-jvxsf75u> <p class="loading text-foreground/70" data-astro-cid-jvxsf75u>Loading comments...</p> </div> </div>  <script type="module" src="/_astro/Comments.astro_astro_type_script_index_0_lang.Cg2zCPj3.js"></script> <div class="related-posts" data-astro-cid-dpgbfi7r><h3 class="related-title text-foreground" data-astro-cid-dpgbfi7r>Related Articles</h3><div class="related-grid" data-astro-cid-dpgbfi7r><a href="/posts/article_vectorless_rag_pageindex" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/vectorless.png" alt="Build a RAG System Without Embeddings or Vector Databases" class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>Build a RAG System Without Embeddings or Vector Databases</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>PageIndex turns documents into navigable trees. An LLM reasons through the hierarchy to find answers — no embeddings, no similarity search, just structured retrieval.</p></div></a><a href="/posts/article_clawwork_ai_agent_benchmark" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/clawwork-ai-benchmark.png" alt="An AI Agent Made $19,915 in 8 Hours. The Benchmark That Proved It Is Open Source." class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>An AI Agent Made $19,915 in 8 Hours. The Benchmark That Proved It Is Open Source.</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>ClawWork dropped 220 professional tasks across 44 job categories, gave AI agents $10 each, and told them to survive. One agent turned that into nearly twenty grand.</p></div></a><a href="/posts/article_context_engineering_ai_agents" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/context-engineering.png" alt="The AI Doesn't Need to Read Your Codebase. It Needs a Map." class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>The AI Doesn&#39;t Need to Read Your Codebase. It Needs a Map.</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>Context Hub, Code Review Graph, and the emerging discipline of giving AI agents less to make them smarter.</p></div></a></div></div> <hr class="my-6 border-dashed"> <!-- Previous/Next Post Buttons --> <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2"> <a href="/posts/article_nvidia_ai_models" class="flex w-full gap-1 hover:opacity-75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <div> <span>Previous Post</span> <div class="text-sm text-accent/85">NVIDIA Built a One-Stop Shop for Every Open AI Model — Most Developers Don&#39;t Know It Exists</div> </div> </a> <a href="/posts/article_openclaw" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"> <div> <span>Next Post</span> <div class="text-sm text-accent/85">OpenClaw Is the New Computer — Jensen Huang Was Right, and 320K Developers Agree</div> </div> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l6 6l-6 6" /></svg> </a> </div> </main> <div class="reading-progress-tracker" data-progress-slug="article_toon_sql_migration"></div> <script type="module">function h(){document.querySelectorAll("[data-progress-slug]:not([data-rp-initialized])").forEach(n=>{n.dataset.rpInitialized="true";const o=n.dataset.progressSlug;if(!o)return;let i=0,r=null;function c(e){if(!window.__authUser)return;const t=Math.round(e*10)/10;t<=i||(i=t,fetch("/api/reading-history",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:o,progress:t})}).catch(()=>{}))}function s(){const e=document.getElementById("article");if(!e)return;const t=e.getBoundingClientRect(),d=t.top+window.scrollY,l=t.height,u=window.scrollY+window.innerHeight,g=Math.min(1,Math.max(0,(u-d)/l));r&&clearTimeout(r),r=setTimeout(()=>c(g),2e3)}function a(){window.__authUser&&(window.addEventListener("scroll",s,{passive:!0}),s())}window.addEventListener("auth:ready",a),window.__authUser&&a()})}document.addEventListener("astro:page-load",h);</script> <aside class="toc-container" data-toc data-astro-cid-xvrfupwn> <div class="toc-wrapper" data-astro-cid-xvrfupwn> <h4 class="toc-title" data-astro-cid-xvrfupwn>On this page</h4> <nav class="toc-nav" data-astro-cid-xvrfupwn> <ul class="toc-list" data-astro-cid-xvrfupwn></ul> </nav> </div> </aside>  <script type="module">function d(){document.querySelectorAll("[data-toc]:not([data-initialized])").forEach(n=>{n.dataset.initialized="true";const r=n.querySelector(".toc-list");if(!r)return;const i=document.getElementById("article");if(!i)return;const c=i.querySelectorAll("h2, h3, h4");if(c.length===0){n.style.display="none";return}c.forEach(t=>{if(!t.id)return;const o=document.createElement("li"),e=document.createElement("a");e.href=`#${t.id}`,e.textContent=t.textContent?.replace(/#$/,"").trim()||"",e.classList.add(`toc-${t.tagName.toLowerCase()}`),o.appendChild(e),r.appendChild(o)});const s=r.querySelectorAll("a"),l=new IntersectionObserver(t=>{t.forEach(o=>{if(o.isIntersecting){const e=o.target.id;s.forEach(a=>{a.classList.toggle("active",a.getAttribute("href")===`#${e}`)})}})},{rootMargin:"-80px 0px -80% 0px"});c.forEach(t=>l.observe(t))})}document.addEventListener("astro:page-load",d);</script> <footer class="app-layout mt-auto"> <div class="py-6 sm:py-4 border-t border-border flex flex-col items-center justify-between sm:flex-row-reverse"> <div class="flex flex-wrap items-center gap-1">  </div> <div class="my-2 flex flex-col items-center whitespace-nowrap sm:flex-row"> <span>Copyright &#169; 2026</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>All rights reserved.</span> </div> </div> </footer>  <!-- Load full theme logic --> <script type="module">const d="theme",r="light",m="dark";function i(){const e=localStorage.getItem(d);return e||(window.matchMedia("(prefers-color-scheme: dark)").matches?m:r)}let t=window.theme?.themeValue??i();function c(){localStorage.setItem(d,t),o()}function o(){document.firstElementChild?.setAttribute("data-theme",t),document.querySelector("#theme-btn")?.setAttribute("aria-label",t);const e=document.body;if(e){const n=window.getComputedStyle(e).backgroundColor;document.querySelector("meta[name='theme-color']")?.setAttribute("content",n)}}window.theme?(window.theme.setPreference=c,window.theme.reflectPreference=o):window.theme={themeValue:t,setPreference:c,reflectPreference:o,getTheme:()=>t,setTheme:e=>{t=e}};o();function s(){o(),document.querySelector("#theme-btn")?.addEventListener("click",()=>{t=t===r?m:r,window.theme?.setTheme(t),c()})}s();document.addEventListener("astro:after-swap",s);document.addEventListener("astro:before-swap",e=>{const a=e,n=document.querySelector("meta[name='theme-color']")?.getAttribute("content");n&&a.newDocument.querySelector("meta[name='theme-color']")?.setAttribute("content",n)});window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",({matches:e})=>{t=e?m:r,window.theme?.setTheme(t),c()});</script> </body> </html> <script data-astro-rerun>
+  /** Create a progress indicator
+   *  at the top */
+  function createProgressBar() {
+    // Create the main container div
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    // Create the progress bar div
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    // Append the progress bar to the progress container
+    progressContainer.appendChild(progressBar);
+
+    // Append the progress container to the document body or any other desired parent element
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  /** Update the progress bar
+   *  when user scrolls */
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      if (document) {
+        const myBar = document.getElementById("myBar");
+        if (myBar) {
+          myBar.style.width = scrolled + "%";
+        }
+      }
+    });
+  }
+  updateScrollProgress();
+
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      // Check if --file-name-offset custom property exists
+      const computedStyle = getComputedStyle(codeBlock);
+      const hasFileNameOffset =
+        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+
+      // Determine the top positioning class
+      const topClass = hasFileNameOffset
+        ? "top-(--file-name-offset)"
+        : "-top-3";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      // wrap codebock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      const code = block.querySelector("code");
+      const text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      // visual feedback that task is completed
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  /* Go to page start after page swap */
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
+</script>

@@ -1,0 +1,312 @@
+---
+
+---
+
+<div class="auth-container" data-auth>
+  <!-- Logged out state -->
+  <div class="auth-logged-out">
+    <button class="auth-sign-in-btn" aria-label="Sign in" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+      </svg>
+      <span class="auth-text">Sign in</span>
+    </button>
+    <div class="auth-dropdown hidden">
+      <a href="/api/auth/google" class="auth-option">
+        <svg viewBox="0 0 24 24" width="18" height="18">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        <span>Continue with Google</span>
+      </a>
+      <a href="/api/auth/github" class="auth-option">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        <span>Continue with GitHub</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Logged in state (hidden by default) -->
+  <div class="auth-logged-in hidden">
+    <button class="auth-avatar-btn" aria-label="Account menu" aria-expanded="false">
+      <img class="auth-avatar" src="" alt="" width="32" height="32" />
+    </button>
+    <div class="auth-user-dropdown hidden">
+      <div class="auth-user-info">
+        <span class="auth-user-name"></span>
+        <span class="auth-user-email"></span>
+      </div>
+      <hr class="auth-divider" />
+      <a href="/bookmarks" class="auth-menu-item">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+        Bookmarks
+      </a>
+      <a href="/history" class="auth-menu-item">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        Reading History
+      </a>
+      <hr class="auth-divider" />
+      <button class="auth-menu-item auth-logout">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        Sign out
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .auth-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .auth-sign-in-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    background: transparent;
+    color: var(--foreground);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .auth-sign-in-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .auth-avatar-btn {
+    background: none;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    padding: 0;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .auth-avatar-btn:hover {
+    border-color: var(--accent);
+  }
+
+  .auth-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .auth-dropdown,
+  .auth-user-dropdown {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    min-width: 220px;
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  .auth-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    color: var(--foreground);
+    font-size: 0.875rem;
+    transition: background 0.15s;
+  }
+
+  .auth-option:hover {
+    background: var(--muted);
+  }
+
+  .auth-user-info {
+    padding: 0.75rem 1rem;
+  }
+
+  .auth-user-name {
+    display: block;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--foreground);
+  }
+
+  .auth-user-email {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--foreground);
+    opacity: 0.6;
+    margin-top: 0.125rem;
+  }
+
+  .auth-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  .auth-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1rem;
+    text-decoration: none;
+    color: var(--foreground);
+    font-size: 0.8125rem;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .auth-menu-item:hover {
+    background: var(--muted);
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .auth-text {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .auth-text {
+      display: inline;
+    }
+  }
+</style>
+
+<script>
+  interface AuthUser {
+    id: number;
+    provider: string;
+    email: string | null;
+    displayName: string;
+    avatarUrl: string | null;
+  }
+
+  // Global auth state accessible to other components
+  declare global {
+    interface Window {
+      __authUser: AuthUser | null;
+      __authReady: Promise<AuthUser | null>;
+    }
+  }
+
+  function initAuth() {
+    const containers = document.querySelectorAll<HTMLDivElement>("[data-auth]:not([data-initialized])");
+
+    containers.forEach(container => {
+      container.dataset.initialized = "true";
+
+      const loggedOut = container.querySelector<HTMLDivElement>(".auth-logged-out")!;
+      const loggedIn = container.querySelector<HTMLDivElement>(".auth-logged-in")!;
+      const signInBtn = container.querySelector<HTMLButtonElement>(".auth-sign-in-btn")!;
+      const dropdown = container.querySelector<HTMLDivElement>(".auth-dropdown")!;
+      const avatarBtn = container.querySelector<HTMLButtonElement>(".auth-avatar-btn")!;
+      const userDropdown = container.querySelector<HTMLDivElement>(".auth-user-dropdown")!;
+      const avatar = container.querySelector<HTMLImageElement>(".auth-avatar")!;
+      const userName = container.querySelector<HTMLSpanElement>(".auth-user-name")!;
+      const userEmail = container.querySelector<HTMLSpanElement>(".auth-user-email")!;
+      const logoutBtn = container.querySelector<HTMLButtonElement>(".auth-logout")!;
+
+      function showUser(user: AuthUser) {
+        loggedOut.classList.add("hidden");
+        loggedIn.classList.remove("hidden");
+        avatar.src = user.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName)}&background=3b82f6&color=fff&size=64`;
+        avatar.alt = user.displayName;
+        userName.textContent = user.displayName;
+        userEmail.textContent = user.email || "";
+      }
+
+      function showSignIn() {
+        loggedOut.classList.remove("hidden");
+        loggedIn.classList.add("hidden");
+      }
+
+      // Fetch auth state
+      window.__authReady = fetch("/api/auth/me")
+        .then(res => res.json())
+        .then(data => {
+          window.__authUser = data.user;
+          if (data.user) {
+            showUser(data.user);
+          } else {
+            showSignIn();
+          }
+          // Dispatch event for other components
+          window.dispatchEvent(new CustomEvent("auth:ready", { detail: data.user }));
+          return data.user;
+        })
+        .catch(() => {
+          window.__authUser = null;
+          showSignIn();
+          window.dispatchEvent(new CustomEvent("auth:ready", { detail: null }));
+          return null;
+        });
+
+      // Toggle sign-in dropdown
+      signInBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = !dropdown.classList.contains("hidden");
+        dropdown.classList.toggle("hidden", isOpen);
+        signInBtn.setAttribute("aria-expanded", (!isOpen).toString());
+      });
+
+      // Toggle user dropdown
+      avatarBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const isOpen = !userDropdown.classList.contains("hidden");
+        userDropdown.classList.toggle("hidden", isOpen);
+        avatarBtn.setAttribute("aria-expanded", (!isOpen).toString());
+      });
+
+      // Logout
+      logoutBtn.addEventListener("click", async () => {
+        await fetch("/api/auth/logout", { method: "POST" });
+        window.__authUser = null;
+        showSignIn();
+        userDropdown.classList.add("hidden");
+        window.dispatchEvent(new CustomEvent("auth:logout"));
+      });
+
+      // Close dropdowns on outside click
+      document.addEventListener("click", () => {
+        dropdown.classList.add("hidden");
+        signInBtn.setAttribute("aria-expanded", "false");
+        userDropdown.classList.add("hidden");
+        avatarBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initAuth);
+</script>

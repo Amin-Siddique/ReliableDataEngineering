@@ -10,7 +10,7 @@ const { slug } = Astro.props;
   <h3 class="comments-title text-foreground">Comments</h3>
 
   <form class="comment-form">
-    <div class="form-group">
+    <div class="form-group comment-name-group">
       <input
         type="text"
         name="authorName"
@@ -28,7 +28,12 @@ const { slug } = Astro.props;
         required
       ></textarea>
     </div>
-    <button type="submit" class="submit-btn">Post Comment</button>
+    <input type="hidden" name="parentId" value="" />
+    <div class="form-actions">
+      <button type="submit" class="submit-btn">Post Comment</button>
+      <button type="button" class="cancel-reply-btn hidden">Cancel Reply</button>
+    </div>
+    <p class="reply-indicator hidden"></p>
     <p class="form-error"></p>
   </form>
 
@@ -41,14 +46,13 @@ const { slug } = Astro.props;
   .comments-section {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid var(--border-color, #374151);
+    border-top: 1px solid var(--border);
   }
 
   .comments-title {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    color: var(--heading-color, #f3f4f6);
   }
 
   .comment-form {
@@ -63,10 +67,10 @@ const { slug } = Astro.props;
   .comment-form textarea {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid var(--border-color, #374151);
+    border: 1px solid var(--border);
     border-radius: 0.5rem;
-    background: var(--input-bg, #1f2937);
-    color: var(--text-color, #d1d5db);
+    background: var(--background);
+    color: var(--foreground);
     font-family: inherit;
     font-size: 0.875rem;
   }
@@ -74,13 +78,19 @@ const { slug } = Astro.props;
   .comment-form input:focus,
   .comment-form textarea:focus {
     outline: none;
-    border-color: var(--accent-color, #3b82f6);
+    border-color: var(--accent);
+  }
+
+  .form-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   .submit-btn {
     padding: 0.625rem 1.25rem;
-    background: var(--accent-color, #3b82f6);
-    color: white;
+    background: var(--accent);
+    color: var(--background);
     border: none;
     border-radius: 0.5rem;
     font-weight: 500;
@@ -97,6 +107,23 @@ const { slug } = Astro.props;
     cursor: not-allowed;
   }
 
+  .cancel-reply-btn {
+    padding: 0.625rem 1.25rem;
+    background: transparent;
+    color: var(--foreground);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+
+  .reply-indicator {
+    font-size: 0.8125rem;
+    color: var(--accent);
+    margin-top: 0.5rem;
+  }
+
   .form-error {
     color: #ef4444;
     font-size: 0.875rem;
@@ -111,51 +138,37 @@ const { slug } = Astro.props;
   .comments-list {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
   .loading {
-    color: var(--text-muted, #6b7280);
     font-style: italic;
   }
 
   .no-comments {
-    color: var(--text-muted, #6b7280);
+    color: var(--foreground);
+    opacity: 0.6;
   }
 
-  .comment {
-    padding: 1rem;
-    background: var(--card-bg, #111827);
-    border-radius: 0.5rem;
-    border: 1px solid var(--border-color, #374151);
-  }
-
-  .comment-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-  }
-
-  .comment-author {
-    font-weight: 600;
-    color: var(--heading-color, #f3f4f6);
-  }
-
-  .comment-date {
-    font-size: 0.75rem;
-    color: var(--text-muted, #6b7280);
-  }
-
-  .comment-content {
-    color: var(--text-color, #d1d5db);
-    line-height: 1.6;
-    white-space: pre-wrap;
-    word-break: break-word;
+  .hidden {
+    display: none !important;
   }
 </style>
 
 <script>
+  interface Comment {
+    id: number;
+    author_name: string;
+    content: string;
+    created_at: string;
+    updated_at: string | null;
+    parent_id: number | null;
+    user_id: number | null;
+    user_display_name: string | null;
+    user_avatar_url: string | null;
+    user_provider: string | null;
+  }
+
   function escapeHtml(text: string): string {
     const div = document.createElement("div");
     div.textContent = text;
@@ -163,24 +176,70 @@ const { slug } = Astro.props;
   }
 
   function formatDate(dateStr: string): string {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
+    return new Date(dateStr).toLocaleDateString("en-US", {
+      year: "numeric", month: "short", day: "numeric",
     });
   }
 
-  function renderComment(comment: { id: number; author_name: string; content: string; created_at: string }): string {
+  function renderComment(comment: Comment, currentUserId: number | null, depth: number = 0): string {
+    const displayName = comment.user_display_name || comment.author_name;
+    const avatarUrl = comment.user_avatar_url
+      || `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=374151&color=9ca3af&size=40`;
+    const isOwn = currentUserId && comment.user_id === currentUserId;
+    const isVerified = !!comment.user_id;
+    const edited = comment.updated_at ? ' <span style="font-size:0.7rem;opacity:0.5">(edited)</span>' : "";
+    const indent = Math.min(depth, 3) * 1.5;
+
     return `
-      <div class="comment">
-        <div class="comment-header">
-          <span class="comment-author">${escapeHtml(comment.author_name)}</span>
-          <span class="comment-date">${formatDate(comment.created_at)}</span>
+      <div class="comment" data-comment-id="${comment.id}" style="margin-left: ${indent}rem">
+        <div class="comment-header" style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+          <img src="${escapeHtml(avatarUrl)}" alt="" width="28" height="28"
+               style="border-radius:50%;flex-shrink:0" />
+          <div style="flex:1;display:flex;align-items:baseline;gap:0.5rem;flex-wrap:wrap">
+            <span style="font-weight:600;font-size:0.875rem;color:var(--foreground)">${escapeHtml(displayName)}</span>
+            ${isVerified ? '<span style="font-size:0.65rem;background:var(--accent);color:var(--background);padding:0.1rem 0.35rem;border-radius:0.25rem">verified</span>' : ""}
+            <span style="font-size:0.75rem;opacity:0.5">${formatDate(comment.created_at)}${edited}</span>
+          </div>
         </div>
-        <div class="comment-content">${escapeHtml(comment.content)}</div>
+        <div style="color:var(--foreground);opacity:0.85;line-height:1.6;white-space:pre-wrap;word-break:break-word;font-size:0.875rem;padding-left:2.25rem">
+          ${escapeHtml(comment.content)}
+        </div>
+        <div style="padding-left:2.25rem;margin-top:0.5rem;display:flex;gap:0.75rem">
+          <button class="reply-btn" data-reply-id="${comment.id}" data-reply-name="${escapeHtml(displayName)}"
+                  style="background:none;border:none;color:var(--accent);font-size:0.75rem;cursor:pointer;padding:0">Reply</button>
+          ${isOwn ? `
+            <button class="edit-btn" data-edit-id="${comment.id}"
+                    style="background:none;border:none;color:var(--foreground);opacity:0.5;font-size:0.75rem;cursor:pointer;padding:0">Edit</button>
+            <button class="delete-btn" data-delete-id="${comment.id}"
+                    style="background:none;border:none;color:#ef4444;opacity:0.6;font-size:0.75rem;cursor:pointer;padding:0">Delete</button>
+          ` : ""}
+        </div>
       </div>
     `;
+  }
+
+  function buildCommentTree(comments: Comment[], currentUserId: number | null): string {
+    const rootComments = comments.filter(c => !c.parent_id);
+    const childMap = new Map<number, Comment[]>();
+
+    comments.forEach(c => {
+      if (c.parent_id) {
+        const children = childMap.get(c.parent_id) || [];
+        children.push(c);
+        childMap.set(c.parent_id, children);
+      }
+    });
+
+    function renderTree(comment: Comment, depth: number): string {
+      let html = renderComment(comment, currentUserId, depth);
+      const children = childMap.get(comment.id) || [];
+      children.forEach(child => {
+        html += renderTree(child, depth + 1);
+      });
+      return html;
+    }
+
+    return rootComments.map(c => renderTree(c, 0)).join("");
   }
 
   function initComments() {
@@ -189,26 +248,116 @@ const { slug } = Astro.props;
     sections.forEach(section => {
       section.dataset.initialized = "true";
 
-      const slug = section.dataset.slug;
+      const slug = section.dataset.slug || "";
       if (!slug) return;
 
-      const form = section.querySelector<HTMLFormElement>(".comment-form");
-      const list = section.querySelector<HTMLDivElement>(".comments-list");
-      const errorEl = section.querySelector<HTMLParagraphElement>(".form-error");
-      if (!form || !list || !errorEl) return;
+      const form = section.querySelector<HTMLFormElement>(".comment-form")!;
+      const list = section.querySelector<HTMLDivElement>(".comments-list")!;
+      const errorEl = section.querySelector<HTMLParagraphElement>(".form-error")!;
+      const nameGroup = section.querySelector<HTMLDivElement>(".comment-name-group")!;
+      const nameInput = section.querySelector<HTMLInputElement>('[name="authorName"]')!;
+      const parentInput = section.querySelector<HTMLInputElement>('[name="parentId"]')!;
+      const cancelReplyBtn = section.querySelector<HTMLButtonElement>(".cancel-reply-btn")!;
+      const replyIndicator = section.querySelector<HTMLParagraphElement>(".reply-indicator")!;
+
+      let allComments: Comment[] = [];
+      let currentUserId: number | null = null;
+
+      // Hide name field if authenticated
+      function updateFormForAuth() {
+        if (window.__authUser) {
+          nameGroup.classList.add("hidden");
+          nameInput.removeAttribute("required");
+        } else {
+          nameGroup.classList.remove("hidden");
+          nameInput.setAttribute("required", "");
+        }
+      }
+
+      window.addEventListener("auth:ready", () => updateFormForAuth());
+      if (window.__authUser !== undefined) updateFormForAuth();
+
+      function refreshComments() {
+        list.innerHTML = allComments.length === 0
+          ? '<p class="no-comments">No comments yet. Be the first to comment!</p>'
+          : buildCommentTree(allComments, currentUserId);
+
+        // Bind reply buttons
+        list.querySelectorAll<HTMLButtonElement>(".reply-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            parentInput.value = btn.dataset.replyId || "";
+            replyIndicator.textContent = `Replying to ${btn.dataset.replyName}`;
+            replyIndicator.classList.remove("hidden");
+            cancelReplyBtn.classList.remove("hidden");
+            form.querySelector("textarea")?.focus();
+          });
+        });
+
+        // Bind edit buttons
+        list.querySelectorAll<HTMLButtonElement>(".edit-btn").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const id = parseInt(btn.dataset.editId || "0");
+            const comment = allComments.find(c => c.id === id);
+            if (!comment) return;
+
+            const newContent = prompt("Edit your comment:", comment.content);
+            if (newContent === null || newContent.trim() === "") return;
+
+            try {
+              const res = await fetch(`/api/comments?slug=${encodeURIComponent(slug)}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ commentId: id, content: newContent }),
+              });
+              if (res.ok) {
+                const data = await res.json();
+                const idx = allComments.findIndex(c => c.id === id);
+                if (idx >= 0) {
+                  allComments[idx] = { ...allComments[idx], ...data.comment };
+                  refreshComments();
+                }
+              }
+            } catch (err) { console.error(err); }
+          });
+        });
+
+        // Bind delete buttons
+        list.querySelectorAll<HTMLButtonElement>(".delete-btn").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            if (!confirm("Delete this comment?")) return;
+            const id = parseInt(btn.dataset.deleteId || "0");
+
+            try {
+              const res = await fetch(`/api/comments?slug=${encodeURIComponent(slug)}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ commentId: id }),
+              });
+              if (res.ok) {
+                allComments = allComments.filter(c => c.id !== id && c.parent_id !== id);
+                refreshComments();
+              }
+            } catch (err) { console.error(err); }
+          });
+        });
+      }
+
+      // Cancel reply
+      cancelReplyBtn.addEventListener("click", () => {
+        parentInput.value = "";
+        replyIndicator.classList.add("hidden");
+        cancelReplyBtn.classList.add("hidden");
+      });
 
       // Fetch comments
       fetch(`/api/comments?slug=${encodeURIComponent(slug)}`)
         .then(res => res.json())
         .then(data => {
-          if (data.comments.length === 0) {
-            list.innerHTML = '<p class="no-comments">No comments yet. Be the first to comment!</p>';
-          } else {
-            list.innerHTML = data.comments.map(renderComment).join("");
-          }
+          allComments = data.comments || [];
+          currentUserId = data.currentUserId;
+          refreshComments();
         })
-        .catch(err => {
-          console.error(err);
+        .catch(() => {
           list.innerHTML = '<p class="no-comments">Failed to load comments.</p>';
         });
 
@@ -219,16 +368,21 @@ const { slug } = Astro.props;
         const formData = new FormData(form);
         const authorName = formData.get("authorName") as string;
         const content = formData.get("content") as string;
+        const parentId = formData.get("parentId") as string;
 
-        const submitBtn = form.querySelector<HTMLButtonElement>(".submit-btn");
-        if (submitBtn) submitBtn.disabled = true;
+        const submitBtn = form.querySelector<HTMLButtonElement>(".submit-btn")!;
+        submitBtn.disabled = true;
         errorEl.classList.remove("visible");
 
         try {
           const res = await fetch(`/api/comments?slug=${encodeURIComponent(slug)}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ authorName, content }),
+            body: JSON.stringify({
+              authorName: window.__authUser ? undefined : authorName,
+              content,
+              parentId: parentId ? parseInt(parentId) : undefined,
+            }),
           });
 
           const data = await res.json();
@@ -237,22 +391,21 @@ const { slug } = Astro.props;
             throw new Error(data.error || "Failed to post comment");
           }
 
-          // Add new comment to top of list
-          const noComments = list.querySelector(".no-comments");
-          if (noComments) noComments.remove();
-
-          list.insertAdjacentHTML("afterbegin", renderComment(data.comment));
+          allComments.push(data.comment);
+          refreshComments();
           form.reset();
+          parentInput.value = "";
+          replyIndicator.classList.add("hidden");
+          cancelReplyBtn.classList.add("hidden");
         } catch (err) {
           errorEl.textContent = err instanceof Error ? err.message : "Failed to post comment";
           errorEl.classList.add("visible");
         } finally {
-          if (submitBtn) submitBtn.disabled = false;
+          submitBtn.disabled = false;
         }
       });
     });
   }
 
-  // Run on initial load and after Astro page transitions
   document.addEventListener("astro:page-load", initComments);
 </script>

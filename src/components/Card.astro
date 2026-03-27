@@ -36,17 +36,50 @@ if (typeof ogImage === "string") {
       )
     }
     <div class="flex-1">
-      <Heading
-        class:list={[
-          "text-lg font-medium text-accent",
-          "decoration-dashed underline-offset-4 group-hover:underline",
-        ]}
-        style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
-      >
-        {title}
-      </Heading>
+      <div class="flex items-start justify-between gap-2">
+        <Heading
+          class:list={[
+            "text-lg font-medium text-accent",
+            "decoration-dashed underline-offset-4 group-hover:underline",
+          ]}
+          style={{ viewTransitionName: slugifyStr(title.replaceAll(".", "-")) }}
+        >
+          {title}
+        </Heading>
+        <span class="card-bookmark-indicator hidden flex-shrink-0 text-accent" data-card-slug={id}>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </span>
+      </div>
       <Datetime {...props} />
       <p class="mt-1 text-foreground/80">{description}</p>
     </div>
   </a>
 </li>
+
+<script>
+  function initCardIndicators() {
+    // Show bookmark indicators for bookmarked articles
+    function updateIndicators() {
+      if (!window.__authUser) return;
+      fetch("/api/bookmarks")
+        .then(res => res.json())
+        .then(data => {
+          const slugs = new Set((data.bookmarks || []).map((b: { post_slug: string }) => b.post_slug));
+          document.querySelectorAll<HTMLSpanElement>("[data-card-slug]").forEach(el => {
+            el.classList.toggle("hidden", !slugs.has(el.dataset.cardSlug || ""));
+          });
+        })
+        .catch(() => {});
+    }
+
+    window.addEventListener("auth:ready", updateIndicators);
+  }
+
+  // Only init once per page, not per card instance
+  if (!(window as any).__cardIndicatorsInit) {
+    (window as any).__cardIndicatorsInit = true;
+    document.addEventListener("astro:page-load", initCardIndicators);
+  }
+</script>

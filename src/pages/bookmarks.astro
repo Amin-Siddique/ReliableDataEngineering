@@ -1,0 +1,102 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+---
+
+<Layout title={`Bookmarks | ${SITE.title}`}>
+  <Header />
+  <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12">
+    <h1 class="text-3xl font-bold text-foreground mt-8 mb-2">Your Bookmarks</h1>
+    <p class="text-foreground/70 mb-8 text-sm">Articles you saved for later.</p>
+
+    <div id="bookmarks-auth-prompt" class="hidden text-center py-12">
+      <p class="text-foreground/70 mb-4">Sign in to see your saved articles.</p>
+      <a href="/api/auth/google" class="inline-block rounded bg-accent px-6 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90">
+        Sign in
+      </a>
+    </div>
+
+    <div id="bookmarks-loading" class="text-center py-12">
+      <p class="text-foreground/70">Loading bookmarks...</p>
+    </div>
+
+    <div id="bookmarks-empty" class="hidden text-center py-12">
+      <p class="text-foreground/70 mb-4">No bookmarks yet. Save articles while reading to find them here.</p>
+      <a href="/posts" class="inline-block text-accent hover:underline">Browse articles</a>
+    </div>
+
+    <div id="bookmarks-list" class="hidden grid gap-4"></div>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  function initBookmarksPage() {
+    const authPrompt = document.getElementById("bookmarks-auth-prompt");
+    const loading = document.getElementById("bookmarks-loading");
+    const empty = document.getElementById("bookmarks-empty");
+    const list = document.getElementById("bookmarks-list");
+
+    if (!authPrompt || !loading || !empty || !list) return;
+
+    function renderBookmarks(bookmarks: { post_slug: string; created_at: string }[]) {
+      loading?.classList.add("hidden");
+
+      if (bookmarks.length === 0) {
+        empty?.classList.remove("hidden");
+        return;
+      }
+
+      if (!list) return;
+      list.innerHTML = bookmarks.map(b => {
+        const slug = b.post_slug;
+        // Convert slug to a path - articles are stored as article_*.md
+        const path = `/posts/${slug.replace(/^article_/, "").replace(/_/g, "-").replace(/\.md$/, "")}/`;
+        const title = slug
+          .replace(/^article_/, "")
+          .replace(/\.md$/, "")
+          .replace(/_/g, " ")
+          .replace(/\b\w/g, l => l.toUpperCase());
+        const date = new Date(b.created_at).toLocaleDateString("en-US", {
+          year: "numeric", month: "short", day: "numeric"
+        });
+
+        return `
+          <a href="${path}" class="bookmark-card block p-4 border border-border rounded-lg hover:border-accent transition-colors">
+            <h3 class="font-semibold text-foreground text-sm">${title}</h3>
+            <p class="text-foreground/50 text-xs mt-1">Saved ${date}</p>
+          </a>
+        `;
+      }).join("");
+
+      list?.classList.remove("hidden");
+    }
+
+    function loadBookmarks() {
+      window.addEventListener("auth:ready", (e: Event) => {
+        const user = (e as CustomEvent).detail;
+        loading?.classList.add("hidden");
+
+        if (!user) {
+          authPrompt?.classList.remove("hidden");
+          return;
+        }
+
+        loading?.classList.remove("hidden");
+        fetch("/api/bookmarks")
+          .then(res => res.json())
+          .then(data => renderBookmarks(data.bookmarks || []))
+          .catch(() => {
+            loading?.classList.add("hidden");
+            empty?.classList.remove("hidden");
+          });
+      });
+    }
+
+    loadBookmarks();
+  }
+
+  document.addEventListener("astro:page-load", initBookmarksPage);
+</script>

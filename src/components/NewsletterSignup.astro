@@ -4,8 +4,6 @@ type Props = {
 };
 
 const { class: className } = Astro.props;
-
-const mediumUrl = "https://medium.com/@reliabledataengineering";
 ---
 
 <div
@@ -13,28 +11,83 @@ const mediumUrl = "https://medium.com/@reliabledataengineering";
     "newsletter-signup my-8 rounded-lg border border-border bg-muted/30 p-6 text-center",
     className,
   ]}
+  data-newsletter
 >
-  <h3 class="mb-2 text-lg font-semibold">Follow on Medium</h3>
+  <h3 class="mb-2 text-lg font-semibold">Stay in the loop</h3>
   <p class="mb-4 text-sm text-foreground/70">
-    Get notified when new articles drop. Join the data engineering community.
+    Get notified when new articles drop. No spam. Unsubscribe anytime.
   </p>
-  <a
-    href={mediumUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="inline-flex items-center gap-2 rounded bg-accent px-6 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="currentColor"
+
+  <form class="newsletter-form mx-auto flex max-w-md gap-2">
+    <input
+      type="email"
+      name="email"
+      placeholder="your@email.com"
+      required
+      class="flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none"
+    />
+    <button
+      type="submit"
+      class="rounded-md bg-accent px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50"
     >
-      <path
-        d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"
-      />
-    </svg>
-    Follow on Medium
-  </a>
+      Subscribe
+    </button>
+  </form>
+
+  <p class="newsletter-message mt-3 text-sm hidden"></p>
+  <p class="newsletter-error mt-3 text-sm text-red-400 hidden"></p>
 </div>
+
+<script>
+  function initNewsletterForms() {
+    const signups = document.querySelectorAll<HTMLDivElement>("[data-newsletter]:not([data-nl-initialized])");
+
+    signups.forEach(signup => {
+      signup.dataset.nlInitialized = "true";
+
+      const form = signup.querySelector<HTMLFormElement>(".newsletter-form")!;
+      const message = signup.querySelector<HTMLParagraphElement>(".newsletter-message")!;
+      const error = signup.querySelector<HTMLParagraphElement>(".newsletter-error")!;
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const emailInput = form.querySelector<HTMLInputElement>('[name="email"]')!;
+        const submitBtn = form.querySelector<HTMLButtonElement>('[type="submit"]')!;
+        const email = emailInput.value.trim();
+
+        if (!email) return;
+
+        submitBtn.disabled = true;
+        message.classList.add("hidden");
+        error.classList.add("hidden");
+
+        try {
+          const res = await fetch("/api/newsletter", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || "Failed to subscribe");
+          }
+
+          message.textContent = data.message;
+          message.classList.remove("hidden");
+          message.style.color = "var(--accent)";
+          form.reset();
+        } catch (err) {
+          error.textContent = err instanceof Error ? err.message : "Something went wrong";
+          error.classList.remove("hidden");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    });
+  }
+
+  document.addEventListener("astro:page-load", initNewsletterForms);
+</script>
