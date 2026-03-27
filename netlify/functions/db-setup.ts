@@ -121,6 +121,19 @@ export default async () => {
     )
   `;
 
+  // Create comment likes table
+  await sql`
+    CREATE TABLE IF NOT EXISTS comment_likes (
+      id SERIAL PRIMARY KEY,
+      comment_id INTEGER REFERENCES comments(id) ON DELETE CASCADE,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      created_at TIMESTAMP DEFAULT NOW(),
+      UNIQUE(comment_id, user_id)
+    )
+  `;
+  await sql`CREATE INDEX IF NOT EXISTS idx_comment_likes_comment ON comment_likes(comment_id)`;
+  await sql`CREATE INDEX IF NOT EXISTS idx_comment_likes_user ON comment_likes(user_id)`;
+
   // Create notifications table
   await sql`
     CREATE TABLE IF NOT EXISTS notifications (

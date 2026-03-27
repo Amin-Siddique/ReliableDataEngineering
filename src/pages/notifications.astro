@@ -174,8 +174,8 @@ import { SITE } from "@/config";
       actions?.classList.remove("hidden");
 
       list!.innerHTML = notifications.map(n => {
-        const iconType = n.type === "reply" ? "reply" : "comment";
-        const emoji = n.type === "reply" ? "&#8617;" : "&#128172;";
+        const iconType = n.type === "like" ? "like" : n.type === "reply" ? "reply" : "comment";
+        const emoji = n.type === "like" ? "&#10084;" : n.type === "reply" ? "&#8617;" : "&#128172;";
         const href = n.post_slug ? `/posts/${n.post_slug.replace(/^article_/, "").replace(/_/g, "-").replace(/\.md$/, "")}/` : "#";
 
         return `
@@ -306,6 +306,11 @@ import { SITE } from "@/config";
   .notif-page-icon-comment {
     background: color-mix(in srgb, #22c55e 15%, transparent);
     color: #22c55e;
+  }
+
+  .notif-page-icon-like {
+    background: color-mix(in srgb, #ef4444 15%, transparent);
+    color: #ef4444;
   }
 
   .notif-page-body {

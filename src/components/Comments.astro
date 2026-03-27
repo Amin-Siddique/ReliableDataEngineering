@@ -204,7 +204,15 @@ const { slug } = Astro.props;
         <div style="color:var(--foreground);opacity:0.85;line-height:1.6;white-space:pre-wrap;word-break:break-word;font-size:0.875rem;padding-left:2.25rem">
           ${escapeHtml(comment.content)}
         </div>
-        <div style="padding-left:2.25rem;margin-top:0.5rem;display:flex;gap:0.75rem">
+        <div style="padding-left:2.25rem;margin-top:0.5rem;display:flex;gap:0.75rem;align-items:center">
+          <button class="comment-like-btn" data-like-id="${comment.id}"
+                  style="background:none;border:none;display:inline-flex;align-items:center;gap:0.25rem;font-size:0.75rem;cursor:pointer;padding:0;color:var(--foreground);opacity:0.5;transition:all 0.15s"
+                  title="Like this comment">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span class="comment-like-count">0</span>
+          </button>
           <button class="reply-btn" data-reply-id="${comment.id}" data-reply-name="${escapeHtml(displayName)}"
                   style="background:none;border:none;color:var(--accent);font-size:0.75rem;cursor:pointer;padding:0">Reply</button>
           ${isOwn ? `
@@ -263,6 +271,10 @@ const { slug } = Astro.props;
       let allComments: Comment[] = [];
       let currentUserId: number | null = null;
 
+      // Like state
+      let likeCounts: Record<number, number> = {};
+      let userLikes: Set<number> = new Set();
+
       // Hide name field if authenticated
       function updateFormForAuth() {
         if (window.__authUser) {
@@ -277,10 +289,88 @@ const { slug } = Astro.props;
       window.addEventListener("auth:ready", () => updateFormForAuth());
       if (window.__authUser !== undefined) updateFormForAuth();
 
+      function fetchCommentLikes() {
+        fetch(`/api/comment-likes?slug=${encodeURIComponent(slug)}`)
+          .then(res => res.json())
+          .then(data => {
+            likeCounts = data.counts || {};
+            userLikes = new Set(data.userLikes || []);
+            updateLikeButtons();
+          })
+          .catch(() => {});
+      }
+
+      function updateLikeButtons() {
+        list.querySelectorAll<HTMLButtonElement>(".comment-like-btn").forEach(btn => {
+          const id = parseInt(btn.dataset.likeId || "0");
+          const count = likeCounts[id] || 0;
+          const liked = userLikes.has(id);
+
+          const countEl = btn.querySelector<HTMLSpanElement>(".comment-like-count");
+          if (countEl) countEl.textContent = count > 0 ? count.toString() : "";
+
+          const svg = btn.querySelector("svg");
+          if (liked) {
+            btn.style.color = "#ef4444";
+            btn.style.opacity = "1";
+            if (svg) {
+              svg.setAttribute("fill", "#ef4444");
+              svg.setAttribute("stroke", "#ef4444");
+            }
+          } else {
+            btn.style.color = "var(--foreground)";
+            btn.style.opacity = "0.5";
+            if (svg) {
+              svg.setAttribute("fill", "none");
+              svg.setAttribute("stroke", "currentColor");
+            }
+          }
+        });
+      }
+
       function refreshComments() {
         list.innerHTML = allComments.length === 0
           ? '<p class="no-comments">No comments yet. Be the first to comment!</p>'
           : buildCommentTree(allComments, currentUserId);
+
+        // Update like button states
+        updateLikeButtons();
+
+        // Bind like buttons
+        list.querySelectorAll<HTMLButtonElement>(".comment-like-btn").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            if (!window.__authUser) {
+              alert("Sign in to like comments");
+              return;
+            }
+
+            const id = parseInt(btn.dataset.likeId || "0");
+
+            try {
+              const res = await fetch("/api/comment-likes", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ commentId: id }),
+              });
+              const data = await res.json();
+
+              if (!res.ok) {
+                if (data.error) alert(data.error);
+                return;
+              }
+
+              likeCounts[id] = data.count;
+              if (data.hasLiked) {
+                userLikes.add(id);
+              } else {
+                userLikes.delete(id);
+              }
+              updateLikeButtons();
+            } catch {
+              // silently fail
+            }
+          });
+        });
 
         // Bind reply buttons
         list.querySelectorAll<HTMLButtonElement>(".reply-btn").forEach(btn => {
@@ -356,6 +446,7 @@ const { slug } = Astro.props;
           allComments = data.comments || [];
           currentUserId = data.currentUserId;
           refreshComments();
+          fetchCommentLikes();
         })
         .catch(() => {
           list.innerHTML = '<p class="no-comments">Failed to load comments.</p>';
