@@ -54,12 +54,12 @@ const { posts } = Astro.props;
   </template>
 </aside>
 
-<style>
+<style is:global>
   .trending-sidebar {
     margin-bottom: 2rem;
   }
 
-  .trending-heading {
+  .trending-sidebar .trending-heading {
     font-size: 1rem;
     font-weight: 700;
     color: var(--foreground);
@@ -70,7 +70,7 @@ const { posts } = Astro.props;
     display: inline-block;
   }
 
-  .trending-list {
+  .trending-sidebar .trending-list {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -79,7 +79,7 @@ const { posts } = Astro.props;
     gap: 0;
   }
 
-  .trending-item {
+  .trending-sidebar .trending-item {
     display: flex;
     flex-direction: row;
     gap: 1rem;
@@ -88,16 +88,16 @@ const { posts } = Astro.props;
     border-bottom: 1px solid var(--border);
   }
 
-  .trending-item:first-child {
+  .trending-sidebar .trending-item:first-child {
     padding-top: 0;
   }
 
-  .trending-item:last-child {
+  .trending-sidebar .trending-item:last-child {
     border-bottom: none;
     padding-bottom: 0;
   }
 
-  .trending-number {
+  .trending-sidebar .trending-number {
     font-size: 2rem;
     font-weight: 800;
     color: var(--foreground);
@@ -108,36 +108,36 @@ const { posts } = Astro.props;
     text-align: center;
   }
 
-  .trending-body {
+  .trending-sidebar .trending-body {
     flex: 1;
     min-width: 0;
     padding-top: 0.125rem;
   }
 
-  .trending-link {
-    font-size: 0.9375rem;
-    font-weight: 700;
+  .trending-sidebar .trending-link {
+    font-size: 0.875rem;
+    font-weight: 600;
     color: var(--foreground);
     text-decoration: none;
     line-height: 1.4;
     display: block;
   }
 
-  .trending-link:hover {
+  .trending-sidebar .trending-link:hover {
     color: var(--accent);
   }
 
-  .trending-meta {
+  .trending-sidebar .trending-meta {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     color: var(--foreground);
     opacity: 0.4;
     margin-top: 0.375rem;
   }
 
-  .trending-dot {
+  .trending-sidebar .trending-dot {
     width: 3px;
     height: 3px;
     background: currentColor;
@@ -145,8 +145,8 @@ const { posts } = Astro.props;
     flex-shrink: 0;
   }
 
-  .trending-views {
-    font-size: 0.75rem;
+  .trending-sidebar .trending-views {
+    font-size: 0.6875rem;
   }
 </style>
 
