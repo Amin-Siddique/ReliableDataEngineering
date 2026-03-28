@@ -51,7 +51,8 @@ async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
   try {
     // Prefer Brevo (no domain verification needed — just verify your sender email)
     if (BREVO_API_KEY) {
-      await fetch("https://api.brevo.com/v3/smtp/email", {
+      console.log("[newsletter] Sending welcome email via Brevo to:", toEmail);
+      const res = await fetch("https://api.brevo.com/v3/smtp/email", {
         method: "POST",
         headers: {
           "api-key": BREVO_API_KEY,
@@ -64,12 +65,15 @@ async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
           htmlContent: html,
         }),
       });
+      const resBody = await res.text();
+      console.log("[newsletter] Brevo response:", res.status, resBody);
       return;
     }
 
     // Fallback to Resend (requires verified domain)
     if (RESEND_API_KEY) {
-      await fetch("https://api.resend.com/emails", {
+      console.log("[newsletter] Sending welcome email via Resend to:", toEmail);
+      const res = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${RESEND_API_KEY}`,
@@ -82,12 +86,14 @@ async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
           html,
         }),
       });
+      const resBody = await res.text();
+      console.log("[newsletter] Resend response:", res.status, resBody);
       return;
     }
 
-    // No email provider configured — skip silently
-  } catch {
-    console.error("Failed to send welcome email");
+    console.log("[newsletter] No email provider configured (BREVO_API_KEY and RESEND_API_KEY are both empty)");
+  } catch (err) {
+    console.error("[newsletter] Failed to send welcome email:", err);
   }
 }
 
