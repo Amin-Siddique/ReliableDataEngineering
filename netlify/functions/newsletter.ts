@@ -2,16 +2,15 @@ import { neon } from "@netlify/neon";
 import { generateToken, jsonResponse, getSiteUrl } from "./auth-utils";
 
 const sql = neon();
+
+// Supports Brevo (recommended, no domain needed) or Resend
+const BREVO_API_KEY = process.env.BREVO_API_KEY || "";
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-const FROM_EMAIL = process.env.NEWSLETTER_FROM_EMAIL || "Reliable Data Engineering <onboarding@resend.dev>";
+const FROM_EMAIL = process.env.NEWSLETTER_FROM_EMAIL || "aminsiddique95@gmail.com";
+const FROM_NAME = process.env.NEWSLETTER_FROM_NAME || "Reliable Data Engineering";
 
-async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
-  if (!RESEND_API_KEY) return; // Skip if no API key configured
-
-  const siteUrl = getSiteUrl();
-  const unsubscribeUrl = `${siteUrl}/api/newsletter?action=unsubscribe&token=${unsubscribeToken}`;
-
-  const html = `
+function buildWelcomeHtml(siteUrl: string, unsubscribeUrl: string): string {
+  return `
     <div style="font-family:system-ui,-apple-system,sans-serif;max-width:560px;margin:0 auto;padding:32px 20px;color:#1f2937">
       <h1 style="font-size:24px;font-weight:700;color:#111827;margin-bottom:8px">Welcome to Reliable Data Engineering</h1>
       <p style="font-size:16px;line-height:1.6;color:#374151">
@@ -41,23 +40,53 @@ async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
       </p>
     </div>
   `;
+}
+
+async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
+  const siteUrl = getSiteUrl();
+  const unsubscribeUrl = `${siteUrl}/api/newsletter?action=unsubscribe&token=${unsubscribeToken}`;
+  const subject = "Welcome to Reliable Data Engineering!";
+  const html = buildWelcomeHtml(siteUrl, unsubscribeUrl);
 
   try {
-    await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: FROM_EMAIL,
-        to: [toEmail],
-        subject: "Welcome to Reliable Data Engineering!",
-        html,
-      }),
-    });
+    // Prefer Brevo (no domain verification needed — just verify your sender email)
+    if (BREVO_API_KEY) {
+      await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+          "api-key": BREVO_API_KEY,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          sender: { name: FROM_NAME, email: FROM_EMAIL },
+          to: [{ email: toEmail }],
+          subject,
+          htmlContent: html,
+        }),
+      });
+      return;
+    }
+
+    // Fallback to Resend (requires verified domain)
+    if (RESEND_API_KEY) {
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from: `${FROM_NAME} <${FROM_EMAIL}>`,
+          to: [toEmail],
+          subject,
+          html,
+        }),
+      });
+      return;
+    }
+
+    // No email provider configured — skip silently
   } catch {
-    // Don't fail the subscription if email sending fails
     console.error("Failed to send welcome email");
   }
 }
