@@ -166,7 +166,7 @@ export default async (req: Request) => {
         UPDATE newsletter_subscribers SET subscribed = TRUE WHERE id = ${existing.id}
         RETURNING unsubscribe_token
       `;
-      sendWelcomeEmail(email.toLowerCase(), resubbed.unsubscribe_token);
+      await sendWelcomeEmail(email.toLowerCase(), resubbed.unsubscribe_token);
       return jsonResponse({ message: "Welcome back! Re-subscribed successfully." });
     }
 
@@ -177,8 +177,7 @@ export default async (req: Request) => {
       VALUES (${email.toLowerCase()}, ${name || null}, ${unsubscribeToken})
     `;
 
-    // Send welcome email (fire and forget)
-    sendWelcomeEmail(email.toLowerCase(), unsubscribeToken);
+    await sendWelcomeEmail(email.toLowerCase(), unsubscribeToken);
 
     return jsonResponse({ message: "Subscribed successfully!" }, 201);
   }
