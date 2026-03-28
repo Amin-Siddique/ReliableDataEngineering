@@ -10,35 +10,101 @@ const FROM_EMAIL = process.env.NEWSLETTER_FROM_EMAIL || "aminsiddique95@gmail.co
 const FROM_NAME = process.env.NEWSLETTER_FROM_NAME || "Reliable Data Engineering";
 
 function buildWelcomeHtml(siteUrl: string, unsubscribeUrl: string): string {
+  const articles = [
+    { slug: "article_context_engineering", title: "Context Engineering for AI Agents", desc: "Why the way you feed context to AI agents matters more than the model itself." },
+    { slug: "article_claude_code", title: "Claude Code: The AI Developer Tool", desc: "How Claude Code changes the way engineers ship software." },
+    { slug: "article_our_2m_data_lakehouse_is_just_postgres_with_extra_", title: "Our $2M Data Lakehouse Is Just Postgres", desc: "Sometimes the boring choice is the right architecture." },
+  ];
+
+  const articleCards = articles.map(a => `
+    <a href="${siteUrl}/posts/${a.slug}/" style="display:block;text-decoration:none;background:#1a2332;border:1px solid #1a3a4a;border-radius:8px;padding:16px;margin-bottom:10px">
+      <div style="font-size:15px;font-weight:600;color:#2dd4bf;margin-bottom:4px">${a.title}</div>
+      <div style="font-size:13px;color:#94a3b8;line-height:1.4">${a.desc}</div>
+    </a>
+  `).join("");
+
   return `
-    <div style="font-family:system-ui,-apple-system,sans-serif;max-width:560px;margin:0 auto;padding:32px 20px;color:#1f2937">
-      <h1 style="font-size:24px;font-weight:700;color:#111827;margin-bottom:8px">Welcome to Reliable Data Engineering</h1>
-      <p style="font-size:16px;line-height:1.6;color:#374151">
-        Thanks for subscribing! You'll get notified when new articles drop — no spam, just practical guides on data engineering, AI, and the tools shaping modern infrastructure.
-      </p>
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+    <body style="margin:0;padding:0;background:#0a0f18;font-family:'Segoe UI',system-ui,-apple-system,sans-serif">
+      <div style="max-width:580px;margin:0 auto;padding:0">
 
-      <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,#0f1923 0%,#162231 100%);padding:40px 32px 32px;text-align:center;border-bottom:2px solid #2dd4bf">
+          <div style="font-size:13px;font-weight:600;color:#2dd4bf;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px">Welcome aboard</div>
+          <h1 style="margin:0;font-size:26px;font-weight:700;color:#e2e8f0;line-height:1.3">Reliable Data Engineering</h1>
+          <p style="margin:16px 0 0;font-size:15px;color:#94a3b8;line-height:1.5">
+            You're in. New articles on data engineering, AI tools,<br>and modern infrastructure — straight to your inbox.
+          </p>
+        </div>
 
-      <h2 style="font-size:18px;font-weight:600;color:#111827;margin-bottom:12px">While you're here, check out some reader favorites:</h2>
+        <!-- Body -->
+        <div style="background:#0f1923;padding:32px">
 
-      <ul style="padding-left:20px;line-height:2;color:#374151">
-        <li><a href="${siteUrl}/posts/article_context_engineering/" style="color:#3b82f6;text-decoration:none">Context Engineering for AI Agents</a></li>
-        <li><a href="${siteUrl}/posts/article_claude_code/" style="color:#3b82f6;text-decoration:none">Claude Code: The AI Developer Tool</a></li>
-        <li><a href="${siteUrl}/posts/article_our_2m_data_lakehouse_is_just_postgres_with_extra_/" style="color:#3b82f6;text-decoration:none">Our $2M Data Lakehouse Is Just Postgres</a></li>
-        <li><a href="${siteUrl}/posts/" style="color:#3b82f6;text-decoration:none">Browse all articles →</a></li>
-      </ul>
+          <!-- What you'll get -->
+          <div style="margin-bottom:32px">
+            <h2 style="font-size:14px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin:0 0 16px">What you'll get</h2>
+            <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+              <tr>
+                <td style="padding:10px 12px;border-bottom:1px solid #1a3a4a">
+                  <span style="font-size:16px;margin-right:8px">&#128218;</span>
+                  <span style="font-size:14px;color:#e2e8f0">Deep dives on tools and architectures</span>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:10px 12px;border-bottom:1px solid #1a3a4a">
+                  <span style="font-size:16px;margin-right:8px">&#128161;</span>
+                  <span style="font-size:14px;color:#e2e8f0">Honest reviews — no marketing fluff</span>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:10px 12px;border-bottom:1px solid #1a3a4a">
+                  <span style="font-size:16px;margin-right:8px">&#128640;</span>
+                  <span style="font-size:14px;color:#e2e8f0">Practical guides you can use today</span>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:10px 12px">
+                  <span style="font-size:16px;margin-right:8px">&#128274;</span>
+                  <span style="font-size:14px;color:#e2e8f0">No spam. Unsubscribe anytime.</span>
+                </td>
+              </tr>
+            </table>
+          </div>
 
-      <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0" />
+          <!-- Popular articles -->
+          <div style="margin-bottom:32px">
+            <h2 style="font-size:14px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:1px;margin:0 0 16px">Start reading</h2>
+            ${articleCards}
+            <a href="${siteUrl}/posts/" style="display:inline-block;margin-top:8px;font-size:13px;color:#2dd4bf;text-decoration:none;font-weight:600">
+              Browse all articles &#8594;
+            </a>
+          </div>
 
-      <p style="font-size:14px;line-height:1.6;color:#374151">
-        You can also <a href="${siteUrl}/api/auth/google" style="color:#3b82f6;text-decoration:none">create an account</a> to bookmark articles, track your reading progress, and join the conversation in comments.
-      </p>
+          <!-- CTA -->
+          <div style="background:linear-gradient(135deg,#162231 0%,#1a2332 100%);border:1px solid #1a3a4a;border-radius:10px;padding:24px;text-align:center;margin-bottom:8px">
+            <div style="font-size:15px;color:#e2e8f0;margin-bottom:4px;font-weight:600">Get more from every article</div>
+            <div style="font-size:13px;color:#94a3b8;margin-bottom:16px">Bookmark posts, highlight text, track your reading, and join the conversation.</div>
+            <a href="${siteUrl}/api/auth/google" style="display:inline-block;background:#2dd4bf;color:#0f1923;padding:10px 28px;border-radius:6px;font-size:14px;font-weight:700;text-decoration:none">
+              Create free account
+            </a>
+          </div>
+        </div>
 
-      <p style="font-size:12px;color:#9ca3af;margin-top:32px">
-        You're receiving this because you subscribed at ${siteUrl}.<br />
-        <a href="${unsubscribeUrl}" style="color:#9ca3af">Unsubscribe</a>
-      </p>
-    </div>
+        <!-- Footer -->
+        <div style="background:#0a0f18;padding:24px 32px;text-align:center;border-top:1px solid #1a3a4a">
+          <div style="font-size:12px;color:#475569;line-height:1.6">
+            You're receiving this because you subscribed at
+            <a href="${siteUrl}" style="color:#64748b;text-decoration:none">${siteUrl.replace("https://", "")}</a>
+            <br>
+            <a href="${unsubscribeUrl}" style="color:#64748b;text-decoration:underline">Unsubscribe</a>
+          </div>
+        </div>
+
+      </div>
+    </body>
+    </html>
   `;
 }
 
