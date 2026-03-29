@@ -183,7 +183,7 @@ export default async () => {
 
   // Get all slugs we've already sent newsletters for
   const sentRows = await sql`SELECT post_slug FROM newsletter_sent_articles`;
-  const sentSlugs = new Set(sentRows.map((r: { post_slug: string }) => r.post_slug));
+  const sentSlugs = new Set(sentRows.map((r: Record<string, any>) => r.post_slug as string));
 
   // Find new articles (in RSS but not in sent table)
   const newArticles = rssItems.filter(item => !sentSlugs.has(item.slug));
