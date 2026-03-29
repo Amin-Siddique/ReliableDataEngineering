@@ -170,6 +170,16 @@ export default async () => {
   `;
   await sql`CREATE INDEX IF NOT EXISTS idx_notifications_user ON notifications(user_id, read)`;
 
+  // Track which articles have had newsletters sent (for auto-newsletter)
+  await sql`
+    CREATE TABLE IF NOT EXISTS newsletter_sent_articles (
+      id SERIAL PRIMARY KEY,
+      post_slug VARCHAR(255) NOT NULL UNIQUE,
+      title TEXT,
+      sent_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+
   // Create indexes for faster queries
   await sql`CREATE INDEX IF NOT EXISTS idx_likes_post_slug ON likes(post_slug)`;
   await sql`CREATE INDEX IF NOT EXISTS idx_comments_post_slug ON comments(post_slug)`;
