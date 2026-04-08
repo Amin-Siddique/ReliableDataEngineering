@@ -58,17 +58,12 @@ const structuredData = {
   class={`${scrollSmooth && "scroll-smooth"}`}
 >
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-JHSDCEZ9EK"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-JHSDCEZ9EK');
-    </script>
-
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+
+    <!-- Preconnect to third-party origins for faster loading -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
@@ -154,13 +149,19 @@ const structuredData = {
 
     <ClientRouter />
 
-    <!-- Google AdSense -->
+    <!-- Google AdSense account verification -->
     <meta name="google-adsense-account" content="ca-pub-9040516721758437">
-    <script
-      is:inline
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437"
-      crossorigin="anonymous"></script>
+
+    <!-- AdSense - loaded in head (async, non-blocking) gated on cookie consent -->
+    <script is:inline>
+      if (localStorage.getItem('cookie-consent') !== 'rejected') {
+        var s = document.createElement('script');
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        document.currentScript.parentNode.insertBefore(s, document.currentScript);
+      }
+    </script>
 
     <!-- Minimal inline script to prevent FOUC - sets theme immediately -->
     <script is:inline>
@@ -198,5 +199,33 @@ const structuredData = {
 
     <!-- Load full theme logic -->
     <script src="../scripts/theme.ts"></script>
+
+    <!-- Deferred: Google Analytics (loaded after page paint, gated on consent) -->
+    <script is:inline>
+      window.addEventListener('load', function () {
+        if (localStorage.getItem('cookie-consent') === 'rejected') return;
+
+        var gaScript = document.createElement('script');
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-JHSDCEZ9EK';
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
+        gaScript.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-JHSDCEZ9EK');
+        };
+      });
+
+      // Track SPA navigations (Astro view transitions)
+      document.addEventListener('astro:page-load', function () {
+        if (window.gtag) {
+          window.gtag('config', 'G-JHSDCEZ9EK', {
+            page_path: window.location.pathname
+          });
+        }
+      });
+    </script>
   </body>
 </html>

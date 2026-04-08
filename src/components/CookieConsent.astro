@@ -30,23 +30,49 @@
 
 <script is:inline>
   (function () {
-    const consent = localStorage.getItem("cookie-consent");
+    var consent = localStorage.getItem("cookie-consent");
 
     if (!consent) {
-      const banner = document.getElementById("cookie-consent");
+      var banner = document.getElementById("cookie-consent");
       if (banner) banner.classList.remove("hidden");
+    }
+
+    function loadAnalytics() {
+      // Load AdSense if not already present
+      if (!document.querySelector('script[src*="adsbygoogle"]')) {
+        var s = document.createElement('script');
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        document.head.appendChild(s);
+      }
+      // Load GA if not already present
+      if (!document.querySelector('script[src*="googletagmanager"]')) {
+        var g = document.createElement('script');
+        g.src = 'https://www.googletagmanager.com/gtag/js?id=G-JHSDCEZ9EK';
+        g.async = true;
+        document.head.appendChild(g);
+        g.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-JHSDCEZ9EK');
+        };
+      }
     }
 
     document.addEventListener("click", function (e) {
       if (e.target && e.target.id === "cookie-accept") {
         localStorage.setItem("cookie-consent", "accepted");
-        const banner = document.getElementById("cookie-consent");
+        var banner = document.getElementById("cookie-consent");
         if (banner) banner.classList.add("hidden");
+        loadAnalytics();
       }
 
       if (e.target && e.target.id === "cookie-reject") {
         localStorage.setItem("cookie-consent", "rejected");
-        const banner = document.getElementById("cookie-consent");
+        var banner = document.getElementById("cookie-consent");
         if (banner) banner.classList.add("hidden");
       }
     });
