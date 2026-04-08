@@ -7,7 +7,7 @@ tags:
   - claude-code
   - developer-tools
   - architecture
-ogImage: "../../assets/images/article_oh_my_mermaid.png"
+ogImage: "/images/blog/blindspot.png"
 ---
 
 # Your Codebase Has a Blind Spot. Oh-My-Mermaid Fixes It.
