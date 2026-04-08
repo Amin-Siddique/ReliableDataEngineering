@@ -8,7 +8,7 @@ tags:
   - obsidian
   - productivity
   - ai-workflows
-ogImage: "/images/blog/karpathy-llm-knowledge.png"
+ogImage: "/images/blog/karpathy-llm-knowledge.webp"
 ---
 
 # Karpathy Stopped Using LLMs to Write Code. He's Using Them to Think.

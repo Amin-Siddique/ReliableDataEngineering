@@ -7,7 +7,7 @@ tags:
   - llm
   - data-engineering
   - migration
-ogImage: "/images/blog/ast.png"
+ogImage: "/images/blog/ast.webp"
 ---
 
 # How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression

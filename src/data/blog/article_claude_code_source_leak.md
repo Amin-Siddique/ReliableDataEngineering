@@ -8,7 +8,7 @@ tags:
   - supply-chain
   - npm
   - incident-analysis
-ogImage: "/images/blog/claude-code-leak.png"
+ogImage: "/images/blog/claude-code-leak.webp"
 ---
 
 # The Claude Code Source Leak: What Actually Happened, What It Exposes, and What You Should Do

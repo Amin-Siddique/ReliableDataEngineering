@@ -8,7 +8,7 @@ tags:
   - interview-prep
   - machine-learning
   - transformers
-ogImage: "/images/blog/10_research_paper.png"
+ogImage: "/images/blog/10_research_paper.webp"
 ---
 
 # 10 Research Papers Every AI Engineer Must Read Before Their Next Interview

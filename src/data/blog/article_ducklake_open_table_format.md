@@ -8,7 +8,7 @@ tags:
   - delta-lake
   - lakehouse
   - duckdb
-ogImage: "/images/blog/ducklake.png"
+ogImage: "/images/blog/ducklake.webp"
 ---
 
 # Iceberg Built a Maze. DuckLake Just Handed You a Map.

@@ -9,7 +9,7 @@ tags:
   - mcp
   - data-architecture
   - llm-observability
-ogImage: "/images/blog/ai-agents-data-stack.png"
+ogImage: "/images/blog/ai-agents-data-stack.webp"
 ---
 
 # Your Data Stack Wasn't Built for This. What Changes When AI Agents Become First-Class Consumers.

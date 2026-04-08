@@ -6,7 +6,7 @@ tags:
   - database
   - etl
   - data-warehouses
-ogImage: "/images/blog/2m.png"
+ogImage: "/images/blog/2m.webp"
 ---
 
 ## A controversial thesis on why ETL, data warehouses, and the entire modern data stack are about to become as obsolete as floppy disks — and what’s coming to replace them

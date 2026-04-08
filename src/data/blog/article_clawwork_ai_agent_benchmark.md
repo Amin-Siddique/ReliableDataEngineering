@@ -7,7 +7,7 @@ tags:
   - benchmarks
   - autonomous-ai
   - llm
-ogImage: "/images/blog/clawwork-ai-benchmark.png"
+ogImage: "/images/blog/clawwork-ai-benchmark.webp"
 ---
 
 # An AI Agent Made $19,915 in 8 Hours. The Benchmark That Proved It Is Open Source.

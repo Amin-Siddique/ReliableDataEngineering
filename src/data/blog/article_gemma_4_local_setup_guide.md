@@ -8,7 +8,7 @@ tags:
   - tutorial
   - apple-silicon
   - ollama
-ogImage: "/images/blog/gemma-4-local-setup-guide.png"
+ogImage: "/images/blog/gemma-4-local-setup-guide.webp"
 ---
 
 # The Gemma 4 Local Setup Guide Nobody Wrote Yet

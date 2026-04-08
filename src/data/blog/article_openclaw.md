@@ -5,7 +5,7 @@ pubDatetime: 2026-03-22
 tags:
   - openclaw
   - nvidia
-ogImage: "/images/blog/nvidia.png"
+ogImage: "/images/blog/nvidia.webp"
 ---
 
 # "OpenClaw Is the New Computer" — Jensen Huang Was Right, and 320K Developers Agree

@@ -7,7 +7,7 @@ tags:
   - ai-agents
   - data-engineering
   - etl
-ogImage: "/images/blog/databricks-agent-bricks.png"
+ogImage: "/images/blog/databricks-agent-bricks.webp"
 ---
 
 # Databricks Agent Bricks Is Quietly Changing How Data Engineers Work

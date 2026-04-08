@@ -7,7 +7,7 @@ tags:
   - productivity
   - token-optimization
   - practical-guide
-ogImage: "/images/blog/unstable.png"
+ogImage: "/images/blog/unstable.webp"
 ---
 
 # I Stopped Hitting Claude's Limits. Here Are the 10 Things I Changed.

@@ -8,7 +8,7 @@ tags:
   - google
   - local-inference
   - ai-engineering
-ogImage: "/images/blog/gemma-4-local.png"
+ogImage: "/images/blog/gemma-4-local.webp"
 ---
 
 # The Pocket Rocket That Wants to Kill Your API Bill

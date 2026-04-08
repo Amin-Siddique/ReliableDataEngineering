@@ -7,7 +7,7 @@ tags:
   - llm
   - information-retrieval
   - ai-agents
-ogImage: "/images/blog/vectorless.png"
+ogImage: "/images/blog/vectorless.webp"
 ---
 
 # Build a RAG System Without Embeddings or Vector Databases

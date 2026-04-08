@@ -8,7 +8,7 @@ tags:
   - vector-search
   - google-research
   - llm-inference
-ogImage: "/images/blog/turboquant.png"
+ogImage: "/images/blog/turboquant.webp"
 ---
 
 # Your AI Is Drowning in Its Own Memory. Google Just Threw It a Lifeline.

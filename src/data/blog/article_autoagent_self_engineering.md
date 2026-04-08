@@ -8,7 +8,7 @@ tags:
   - benchmarks
   - automation
   - llm
-ogImage: "/images/blog/autoagent-self-engineering.png"
+ogImage: "/images/blog/autoagent-self-engineering.webp"
 ---
 
 # The AI That Fires Its Own Engineer

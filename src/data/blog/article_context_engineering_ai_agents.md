@@ -7,7 +7,7 @@ tags:
   - context-engineering
   - developer-tools
   - llm
-ogImage: "/images/blog/context-engineering.png"
+ogImage: "/images/blog/context-engineering.webp"
 ---
 
 # The AI Doesn't Need to Read Your Codebase. It Needs a Map.

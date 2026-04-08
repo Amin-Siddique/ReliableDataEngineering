@@ -9,7 +9,7 @@ tags:
   - chunking
   - debugging
   - vector-search
-ogImage: "/images/blog/rag-pipeline-failures.png"
+ogImage: "/images/blog/rag-pipeline-failures.webp"
 ---
 
 # RAG Is Lying to You: The Data Pipeline Failures Hiding Behind Your LLM

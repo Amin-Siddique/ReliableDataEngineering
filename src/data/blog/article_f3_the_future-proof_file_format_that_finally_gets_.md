@@ -6,7 +6,7 @@ tags:
   - f3
   - parquet
   - file format
-ogImage: "/images/blog/f3.png"
+ogImage: "/images/blog/f3.webp"
 ---
 
 
@@ -23,7 +23,7 @@ But F3 is different. And I’m not just saying that because it’s from CMU ( Ca
 
 Here’s what nobody tells you in those glossy “Why Parquet is Amazing” blog posts:
 
-![Parquet file structure](/images/blog/f3_parquet.png) 
+![Parquet file structure](/images/blog/f3_parquet.webp) 
 
 Please read more: https://parquet.apache.org/docs/file-format/
 
@@ -41,7 +41,7 @@ The breaking point? Imagine working on a feature store with 50,000+ columns. A s
 
 The F3 team didn’t just iterate on Parquet. They fundamentally rethought what a columnar format should be in 2025. And the results are stunning .
 
-![f32](/images/blog/f3_2.png) 
+![f32](/images/blog/f3_2.webp) 
 
 
 ## Fix #1: Metadata That Doesn’t Hate You
@@ -86,7 +86,7 @@ The practical impact? I can write a 10GB row group without holding 10GB in memor
 
 Here’s what this looks like in practice:
 
-![f33](/images/blog/f3_3.png) 
+![f33](/images/blog/f3_3.webp) 
 
 ## Fix #3: Dictionaries That Make Sense
 

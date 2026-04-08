@@ -7,7 +7,7 @@ tags:
   - ai-agents
   - developer-tools
   - memory-systems
-ogImage: "/images/blog/claude.png"
+ogImage: "/images/blog/claude.webp"
 ---
 
 # Claude Subconscious Gives Claude Code a Persistent Memory That Actually Works

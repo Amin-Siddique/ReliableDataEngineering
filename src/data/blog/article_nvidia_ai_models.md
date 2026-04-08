@@ -7,7 +7,7 @@ tags:
   - ai-models
   - developer-tools
   - llm-deployment
-ogImage: "/images/blog/nvidia.png"
+ogImage: "/images/blog/nvidia.webp"
 ---
 
 # NVIDIA Built a One-Stop Shop for Every Open AI Model. Most Developers Don't Know It Exists.

@@ -8,7 +8,7 @@ tags:
   - ai-safety
   - cybersecurity
   - frontier-models
-ogImage: "/images/blog/claude_mythos.png"
+ogImage: "/images/blog/claude_mythos.webp"
 ---
 
 # Anthropic's 10-Trillion Parameter Model Just Leaked. It Wasn't a Hack. It Was a Default Setting.

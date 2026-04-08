@@ -7,7 +7,7 @@ tags:
   - ai-agents
   - automation
   - karpathy
-ogImage: "/images/blog/research.png"
+ogImage: "/images/blog/research.webp"
 ---
 
 # Karpathy Let an AI Agent Do ML Research While He Slept. It Ran 100 Experiments by Morning.

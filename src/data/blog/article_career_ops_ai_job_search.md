@@ -8,7 +8,7 @@ tags:
   - claude-code
   - career
   - automation
-ogImage: "/images/blog/career-ops-ai-job-search.png"
+ogImage: "/images/blog/career-ops-ai-job-search.webp"
 ---
 
 # He Stopped Applying to Jobs and Built a System That Did It For Him

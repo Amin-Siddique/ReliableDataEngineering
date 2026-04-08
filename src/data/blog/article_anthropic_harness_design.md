@@ -9,7 +9,7 @@ tags:
   - agentic-coding
   - claude
   - harness-design
-ogImage: "/images/blog/anthropic-harness-design.png"
+ogImage: "/images/blog/anthropic-harness-design.webp"
 ---
 
 # The Engineer Who Made Claude Build a DAW in 4 Hours — And What He Learned About Harness Design

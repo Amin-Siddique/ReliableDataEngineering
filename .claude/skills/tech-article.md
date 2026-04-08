@@ -15,7 +15,7 @@ tags:
   - primary-topic
   - secondary-topic
   - category
-ogImage: "https://images.unsplash.com/photo-XXXXX?w=1200&h=630&fit=crop"
+ogImage: "/images/blog/your-image-name.webp"
 ---
 ```
 
@@ -154,24 +154,16 @@ tool-name do-something --flag value
 
 For OG/social images (`ogImage` in frontmatter):
 
-- Use Unsplash URLs with parameters: `?w=1200&h=630&fit=crop`
-- Choose images that match the article topic:
-
-| Topic | Search terms |
-| ----- | ------------ |
-| Terminal/CLI tools | "terminal", "command line", "code dark" |
-| AI/ML | "artificial intelligence", "neural network", "robot" |
-| Data engineering | "data center", "server", "database" |
-| DevOps/Infrastructure | "server room", "network", "cloud computing" |
-| Code/Programming | "code", "programming", "software development" |
-| Graphs/Networks | "network", "connections", "nodes" |
-
-- Format: `"https://images.unsplash.com/photo-XXXXX?w=1200&h=630&fit=crop"`
-- Always wrap URL in quotes in YAML
+- Use local WebP images stored in `public/images/blog/`
+- Format: `"/images/blog/your-image-name.webp"`
+- Always wrap path in quotes in YAML
+- Images should be max 1200px wide, WebP format, under 200KB
+- If adding a new image, convert to WebP: `cwebp -q 80 input.png -o public/images/blog/output.webp`
 
 For inline images:
 
 - Use sparingly — tables and code blocks convey more information
+- Store in `public/images/blog/` as WebP
 - If used, provide alt text describing what's shown
 - Prefer diagrams over screenshots (diagrams age better)
 
@@ -180,7 +172,7 @@ For inline images:
 - [ ] Title is specific and makes a claim (not "Introduction to X")
 - [ ] Description works as a standalone tweet
 - [ ] 3-5 relevant tags
-- [ ] **ogImage included** (Unsplash URL, 1200x630)
+- [ ] **ogImage included** (local WebP in `/images/blog/`, max 1200px wide)
 - [ ] ~10-15 min read (2500-4000 words)
 - [ ] At least one code example
 - [ ] At least one table

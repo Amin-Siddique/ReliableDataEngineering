@@ -8,7 +8,7 @@ tags:
   - open-source
   - graphrag
   - swarm-intelligence
-ogImage: "/images/blog/mirofish.png"
+ogImage: "/images/blog/mirofish.webp"
 ---
 
 # What If You Could Run the Future Before It Happens?

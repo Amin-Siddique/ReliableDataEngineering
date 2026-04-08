@@ -7,7 +7,7 @@ tags:
   - machine-learning
   - reverse-engineering
   - neural-engine
-ogImage: "/images/blog/apple-neural-engine-training.png"
+ogImage: "/images/blog/apple-neural-engine-training.webp"
 ---
 
 # Someone Reverse-Engineered Apple's Neural Engine. Then Trained a 600M Parameter Model on It.

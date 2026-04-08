@@ -6,7 +6,7 @@ tags:
   - postgres
   - lakehouse
   - data-architecture
-ogImage: “/images/blog/2m_lwh.png”
+ogImage: “/images/blog/2m_lwh.webp”
 ---
 
 # Our $2M “Data Lakehouse” Is Just Postgres With Extra Steps
