@@ -6,7 +6,7 @@ tags:
   - ai-agents
   - developer-tools
   - automation
-ogImage: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200&h=630&fit=crop"
+ogImage: "/images/blog/blindspot.png"
 ---
 
 # CLI-Anything turns Photoshop into a terminal command. Blender too. And GIMP. And Zoom.

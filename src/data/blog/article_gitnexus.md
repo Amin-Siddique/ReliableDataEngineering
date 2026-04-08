@@ -7,7 +7,7 @@ tags:
   - developer-tools
   - code-intelligence
   - mcp
-ogImage: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&h=630&fit=crop"
+ogImage: "/images/blog/map.png"
 ---
 
 # GitNexus: The Tool That Gives AI Agents a Nervous System for Code

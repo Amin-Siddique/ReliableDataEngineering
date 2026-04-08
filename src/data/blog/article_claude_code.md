@@ -7,7 +7,7 @@ tags:
   - developer-tools
   - cli
   - anthropic
-ogImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=1200&h=630&fit=crop"
+ogImage: "/images/blog/claude.png"
 ---
 
 # Claude Code Puts an AI Agent in Your Terminal — And It Actually Works

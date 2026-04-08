@@ -5,7 +5,7 @@ pubDatetime: 2026-03-23
 tags:
   - database
   - etl
-  - data warehouses
+  - data-warehouses
 ogImage: "/images/blog/2m.png"
 ---
 
@@ -556,18 +556,18 @@ That's it. Three layers:
 ```
 
 What disappears:
-- ❌ ETL tools (data never leaves the source)
-- ❌ Data warehouses (unified database handles both)
-- ❌ dbt (transformations happen in the semantic layer)
-- ❌ Reverse ETL (no copying needed)
-- ❌ Data catalogs (semantics are built-in)
-- ❌ Most data engineering (automated by AI)
+- ETL tools (data never leaves the source)
+- Data warehouses (unified database handles both)
+- dbt (transformations happen in the semantic layer)
+- Reverse ETL (no copying needed)
+- Data catalogs (semantics are built-in)
+- Most data engineering (automated by AI)
 
 What emerges:
-- ✅ Semantic engineers (defining meaning, not moving data)
-- ✅ AI orchestrators (teaching agents about your business)
-- ✅ Data product managers (treating data as products)
-- ✅ Real-time by default (no batch processing)
+- Semantic engineers (defining meaning, not moving data)
+- AI orchestrators (teaching agents about your business)
+- Data product managers (treating data as products)
+- Real-time by default (no batch processing)
 
 ## So What Do You Do Now?
 
@@ -636,10 +636,10 @@ I’m going all-in on:
 3. AI orchestration — Teaching AI to understand business context is the new data engineering.
 
 I’m betting against:
-- ❌ Complex multi-hop data pipelines
-- ❌ Massive cloud data warehouses
-- ❌ Batch-first architectures
-- ❌ “Data engineer” as a long-term job title
+- Complex multi-hop data pipelines
+- Massive cloud data warehouses
+- Batch-first architectures
+- “Data engineer” as a long-term job title
 
 If I’m right: In five years, “data engineer” sounds as dated as “webmaster” does today. We become semantic engineers, AI orchestrators, and data product managers.
 

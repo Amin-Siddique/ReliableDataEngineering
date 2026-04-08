@@ -16,7 +16,22 @@ export default defineConfig({
   site: SITE.website,
   integrations: [
     sitemap({
-      filter: page => SITE.showArchives || !page.endsWith("/archives"),
+      filter: page => {
+        const noIndexPages = [
+          "/activity",
+          "/bookmarks",
+          "/highlights",
+          "/history",
+          "/notifications",
+          "/profile",
+          "/search",
+          "/archives",
+        ];
+        const path = new URL(page).pathname.replace(/\/$/, "");
+        if (noIndexPages.includes(path)) return false;
+        if (!SITE.showArchives && page.endsWith("/archives")) return false;
+        return true;
+      },
     }),
   ],
   markdown: {

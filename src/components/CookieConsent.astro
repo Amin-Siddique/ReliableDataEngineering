@@ -1,0 +1,54 @@
+---
+---
+
+<div
+  id="cookie-consent"
+  class="fixed bottom-0 left-0 right-0 z-50 hidden border-t border-border bg-background/95 backdrop-blur-sm"
+>
+  <div class="mx-auto max-w-5xl px-4 py-4 sm:flex sm:items-center sm:justify-between sm:gap-4">
+    <p class="text-sm text-foreground/80 mb-3 sm:mb-0">
+      This site uses cookies for analytics and advertising (Google Analytics, Google AdSense).
+      By continuing to use this site, you consent to our use of cookies.
+      <a href="/cookie-policy" class="text-accent hover:underline">Learn more</a>.
+    </p>
+    <div class="flex gap-3 shrink-0">
+      <button
+        id="cookie-reject"
+        class="rounded border border-border px-4 py-1.5 text-sm text-foreground/70 transition-colors hover:border-accent hover:text-foreground"
+      >
+        Reject
+      </button>
+      <button
+        id="cookie-accept"
+        class="rounded bg-accent px-4 py-1.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+      >
+        Accept
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const consent = localStorage.getItem("cookie-consent");
+
+    if (!consent) {
+      const banner = document.getElementById("cookie-consent");
+      if (banner) banner.classList.remove("hidden");
+    }
+
+    document.addEventListener("click", function (e) {
+      if (e.target && e.target.id === "cookie-accept") {
+        localStorage.setItem("cookie-consent", "accepted");
+        const banner = document.getElementById("cookie-consent");
+        if (banner) banner.classList.add("hidden");
+      }
+
+      if (e.target && e.target.id === "cookie-reject") {
+        localStorage.setItem("cookie-consent", "rejected");
+        const banner = document.getElementById("cookie-consent");
+        if (banner) banner.classList.add("hidden");
+      }
+    });
+  })();
+</script>

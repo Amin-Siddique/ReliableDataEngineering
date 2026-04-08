@@ -1,6 +1,6 @@
 ---
 title: "F3: The Future-Proof File Format That Finally Gets It Right"
-description: "## Why the open-source data world is buzzing about CMU’s new columnar format — and why Parquet’s decade-long reign might actually be ending"
+description: "Why the open-source data world is buzzing about CMU’s new columnar format — and why Parquet’s decade-long reign might actually be ending"
 pubDatetime: 2026-03-23
 tags:
   - f3
@@ -13,11 +13,11 @@ ogImage: "/images/blog/f3.png"
 ## Why the open-source data world is buzzing about CMU’s new columnar format — and why Parquet’s decade-long reign might actually be ending
 
 
-When I first heard about “yet another file format,” I rolled my eyes so hard 🙄 I nearly sprained something. We’ve been here before. Every few years, someone announces the revolutionary format that will replace Parquet and save us all. I’ve watched Lance, Nimble, and a dozen others come through promising the moon.
+When I first heard about “yet another file format,” I rolled my eyes so hard I nearly sprained something. We’ve been here before. Every few years, someone announces the revolutionary format that will replace Parquet and save us all. I’ve watched Lance, Nimble, and a dozen others come through promising the moon.
 
 But F3 is different. And I’m not just saying that because it’s from CMU ( Carnegie-Mellon University )(though let’s be real, they’ve earned some credibility). I’m saying it because I spent the last month actually testing it, and it solved problems I didn’t even know I could solve.
 
-⚠️ F3 project is a research prototype. You should not use it in production.
+**Warning:** F3 project is a research prototype. You should not use it in production.
 
 ## The Parquet Reality Check
 
@@ -140,10 +140,10 @@ Every F3 file contains:
 3. The Wasm code to decode it
 
 This means:
-- ✅ Add new encodings without coordinating across implementations
-- ✅ Old readers can decode new files (via embedded Wasm)
-- ✅ New readers can use native code (faster) when available
-- ✅ Files are self-describing and future-proof
+- Add new encodings without coordinating across implementations
+- Old readers can decode new files (via embedded Wasm)
+- New readers can use native code (faster) when available
+- Files are self-describing and future-proof
 
 The overhead? About 150KB per encoding. For a typical file, that’s 0.001% of the total size.
 
@@ -153,21 +153,21 @@ The performance hit? 15–35% slower than native code for the Wasm path. But her
 
 I’ve been running F3 in our feature store pipeline for three weeks. Here’s the honest assessment:
 
-✅ Metadata performance is transformative. Wide table queries are 5–10x faster. This alone justifies trying F3.
+**Metadata performance is transformative.** Wide table queries are 5-10x faster. This alone justifies trying F3.
 
-✅ Write memory is predictable. No more OOM crashes on wide tables. Our writers went from “fingers crossed” to “just works.”
+**Write memory is predictable.** No more OOM crashes on wide tables. Our writers went from “fingers crossed” to “just works.”
 
-✅ Compression ratios are competitive. Within 5% of Parquet, sometimes better, depending on the data.
+**Compression ratios are competitive.** Within 5% of Parquet, sometimes better, depending on the data.
 
-✅ The Wasm thing actually works. I tested with a custom encoding for time-series data. Embedded it as Wasm, readers just worked. No upgrades needed.
+**The Wasm thing actually works.** I tested with a custom encoding for time-series data. Embedded it as Wasm, readers just worked. No upgrades needed.
 
-❌ Ecosystem support is early. You can’t drop F3 into Spark or Snowflake yet. This is a showstopper for many teams.
+**Ecosystem support is early.** You cannot drop F3 into Spark or Snowflake yet. This is a showstopper for many teams.
 
-❌ Write performance is slightly slower. About 10–15% compared to Parquet in my tests. The flexibility costs something.
+**Write performance is slightly slower.** About 10-15% compared to Parquet in my tests. The flexibility costs something.
 
-❌ Documentation is academic. The SIGMOD paper is great if you have a PhD. Less great if you just want to understand the layout.
+**Documentation is academic.** The SIGMOD paper is great if you have a PhD. Less great if you just want to understand the layout.
 
-❌ Tooling is minimal. Want a nice inspector UI like you have for Parquet? Not yet. File corruption debugging? Hope you like hex dumps.
+**Tooling is minimal.** Want a nice inspector UI like you have for Parquet? Not yet. File corruption debugging? Hope you like hex dumps.
 
 ## The Verdict
 
