@@ -17,6 +17,7 @@ type Props = {
   modDatetime?: Date | null;
   scrollSmooth?: boolean;
   noindex?: boolean;
+  loadAds?: boolean;
 };
 
 const {
@@ -30,6 +31,7 @@ const {
   modDatetime,
   scrollSmooth = false,
   noindex = false,
+  loadAds = false,
 } = Astro.props;
 
 const socialImageURL = new URL(ogImage, Astro.url);
@@ -63,7 +65,7 @@ const structuredData = {
 
     <!-- Preconnect to third-party origins for faster loading -->
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    {loadAds && <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
@@ -152,16 +154,17 @@ const structuredData = {
     <!-- Google AdSense account verification -->
     <meta name="google-adsense-account" content="ca-pub-9040516721758437">
 
-    <!-- AdSense - loaded in head (async, non-blocking) gated on cookie consent -->
-    <script is:inline>
-      if (localStorage.getItem('cookie-consent') !== 'rejected') {
-        var s = document.createElement('script');
-        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
-        s.async = true;
-        s.crossOrigin = 'anonymous';
-        document.currentScript.parentNode.insertBefore(s, document.currentScript);
-      }
-    </script>
+    {loadAds && (
+      <script is:inline>
+        if (localStorage.getItem('cookie-consent') !== 'rejected') {
+          var s = document.createElement('script');
+          s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
+          s.async = true;
+          s.crossOrigin = 'anonymous';
+          document.currentScript.parentNode.insertBefore(s, document.currentScript);
+        }
+      </script>
+    )}
 
     <!-- Minimal inline script to prevent FOUC - sets theme immediately -->
     <script is:inline>
