@@ -1,5 +1,12 @@
 
 User-agent: *
 Allow: /
+Disallow: /bookmarks
+Disallow: /activity
+Disallow: /highlights
+Disallow: /history
+Disallow: /notifications
+Disallow: /profile
+Disallow: /api/
 
 Sitemap: https://reliable-data-engineering.netlify.app/sitemap-index.xml

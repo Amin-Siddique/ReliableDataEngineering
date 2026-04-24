@@ -8,7 +8,6 @@ import TrendingPosts from "@/components/TrendingPosts.astro";
 import NewsletterSignup from "@/components/NewsletterSignup.astro";
 import WelcomeBanner from "@/components/WelcomeBanner.astro";
 import ContinueReading from "@/components/ContinueReading.astro";
-import AdUnit from "@/components/AdUnit.astro";
 import getSortedPosts from "@/utils/getSortedPosts";
 
 const posts = await getCollection("blog");
@@ -36,7 +35,6 @@ const feedPosts = sortedPosts.filter(p => p !== featuredPost);
           ))}
         </div>
 
-        <AdUnit slot="footer" class="my-8" />
       </div>
 
       <!-- Sidebar -->
@@ -50,7 +48,6 @@ const feedPosts = sortedPosts.filter(p => p !== featuredPost);
 
           <div class="sidebar-divider" />
 
-          <AdUnit slot="sidebar" />
         </div>
       </aside>
     </div>

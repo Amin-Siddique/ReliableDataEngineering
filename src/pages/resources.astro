@@ -8,75 +8,96 @@ import Footer from "@/components/Footer.astro";
   <Header />
   <main id="main-content" class="mx-auto w-full max-w-3xl px-4 pb-12">
     <h1 class="text-3xl font-bold text-foreground mt-8 mb-4">Resources That Actually Made Me Better</h1>
+    <p class="text-foreground/80 mb-4">
+      Not a generic list. These are the books I have dog-eared, the tools I use daily, and the databases I trust in production. Every recommendation here comes from hands-on experience -- I have used each one on real projects, hit their limits, and still come back to them.
+    </p>
     <p class="text-foreground/80 mb-8">
-      Not a generic list. These are the books I've dog-eared, the tools I use daily, and the courses that actually stuck. If you're serious about data engineering, start here.
+      If you are getting started in data engineering or looking to level up, this is where I would point you. I have organized them by category with honest notes on why each one matters and where it falls short.
     </p>
 
     <!-- Books -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Books Worth Your Time</h2>
+      <h2 class="text-2xl font-semibold text-foreground mb-2 border-b border-border pb-2">Books Worth Your Time</h2>
+      <p class="text-foreground/70 text-sm mb-4">These four books cover the core knowledge every data engineer needs. I have read each one cover to cover, and I still revisit them before system design interviews and architecture reviews.</p>
       <div class="grid gap-4">
         <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Designing Data-Intensive Applications</h3>
-          <p class="text-foreground/70 text-sm mt-1">The one book every data engineer should read. Martin Kleppmann explains distributed systems, replication, partitioning, and consistency models in a way that finally makes sense. I re-read chapters before every system design interview.</p>
-          <a href="https://amzn.to/4lPlcr4" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book →</a>
+          <p class="text-foreground/70 text-sm mt-1">The one book every data engineer should read. Martin Kleppmann explains distributed systems, replication, partitioning, and consistency models in a way that finally makes sense. I re-read chapters before every system design interview. The chapter on stream processing alone changed how I think about real-time pipelines.</p>
+          <p class="text-foreground/50 text-xs mt-2">Best for: Anyone working with distributed systems, databases, or data-intensive applications at scale.</p>
+          <a href="https://amzn.to/4lPlcr4" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book</a>
         </div>
         <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Fundamentals of Data Engineering</h3>
-          <p class="text-foreground/70 text-sm mt-1">If DDIA is the deep dive, this is the complete map. Covers the entire data engineering lifecycle from ingestion to serving. Perfect if you're transitioning into data engineering or want to fill gaps in your knowledge.</p>
-          <a href="https://amzn.to/4sruUCi" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book →</a>
+          <p class="text-foreground/70 text-sm mt-1">If DDIA is the deep dive, this is the complete map. Covers the entire data engineering lifecycle from ingestion to serving. Perfect if you are transitioning into data engineering or want to fill gaps in your knowledge. The sections on data architecture and orchestration are particularly strong.</p>
+          <p class="text-foreground/50 text-xs mt-2">Best for: New data engineers, career transitioners, and anyone who wants a structured understanding of the full data lifecycle.</p>
+          <a href="https://amzn.to/4sruUCi" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book</a>
         </div>
         <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">The Data Warehouse Toolkit</h3>
-          <p class="text-foreground/70 text-sm mt-1">Kimball's dimensional modeling is still relevant 25 years later. Star schemas, slowly changing dimensions, conformed dimensions - this book is why your data warehouse actually makes sense to analysts.</p>
-          <a href="https://amzn.to/4rNlq3m" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book →</a>
+          <p class="text-foreground/70 text-sm mt-1">Kimball's dimensional modeling is still relevant 25 years later. Star schemas, slowly changing dimensions, conformed dimensions -- this book is why your data warehouse actually makes sense to analysts. Even with modern tools like dbt, the modeling principles here are foundational.</p>
+          <p class="text-foreground/50 text-xs mt-2">Best for: Anyone building analytical data models, designing warehouse schemas, or working with BI teams.</p>
+          <a href="https://amzn.to/4rNlq3m" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book</a>
         </div>
         <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Spark: The Definitive Guide</h3>
-          <p class="text-foreground/70 text-sm mt-1">Co-authored by the creator of Spark. Goes from basics to advanced optimizations. The chapters on partitioning and shuffle operations alone saved me hours of debugging slow jobs.</p>
-          <a href="https://amzn.to/41mM3RP" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book →</a>
+          <p class="text-foreground/70 text-sm mt-1">Co-authored by the creator of Spark. Goes from basics to advanced optimizations. The chapters on partitioning and shuffle operations alone saved me hours of debugging slow jobs. If you work with Spark in production, this book pays for itself the first time you fix a skew issue.</p>
+          <p class="text-foreground/50 text-xs mt-2">Best for: Data engineers working with Spark, Databricks, or large-scale batch processing.</p>
+          <a href="https://amzn.to/41mM3RP" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Get the book</a>
         </div>
       </div>
     </section>
 
     <!-- Databases -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Databases I Trust</h2>
+      <h2 class="text-2xl font-semibold text-foreground mb-2 border-b border-border pb-2">Databases I Trust</h2>
+      <p class="text-foreground/70 text-sm mb-4">I have tried dozens of database services over the years. These two stand out for developer experience, reliability, and value. Both have generous free tiers that work for side projects and prototyping.</p>
       <div class="grid gap-4">
         <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Neon</h3>
-          <p class="text-foreground/70 text-sm mt-1">Serverless Postgres that scales to zero. This blog runs on Neon. Branch your database like git, pay only for what you use. The free tier is generous enough for most side projects.</p>
-          <a href="https://neon.tech" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free →</a>
+          <p class="text-foreground/70 text-sm mt-1">Serverless Postgres that scales to zero. This blog runs on Neon. Branch your database like git, pay only for what you use. The free tier is generous enough for most side projects. The branching feature is genuinely useful for testing schema migrations safely before applying them to production.</p>
+          <a href="https://neon.tech" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free</a>
         </div>
         <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">PlanetScale</h3>
-          <p class="text-foreground/70 text-sm mt-1">MySQL with the best DX I've seen. Deploy requests work like pull requests for your schema. Non-blocking schema changes mean no more 3am maintenance windows.</p>
-          <a href="https://planetscale.com" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free →</a>
+          <p class="text-foreground/70 text-sm mt-1">MySQL with the best DX I have seen. Deploy requests work like pull requests for your schema. Non-blocking schema changes mean no more 3am maintenance windows. The dashboard gives you query insights that actually help you optimize slow queries without digging through slow query logs.</p>
+          <a href="https://planetscale.com" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free</a>
         </div>
       </div>
     </section>
 
     <!-- Tools -->
     <section class="mb-10">
-      <h2 class="text-2xl font-semibold text-foreground mb-4 border-b border-border pb-2">Tools I Use Daily</h2>
+      <h2 class="text-2xl font-semibold text-foreground mb-2 border-b border-border pb-2">Tools I Use Daily</h2>
+      <p class="text-foreground/70 text-sm mb-4">My daily workflow relies on AI-assisted development tools. These two have fundamentally changed how fast I ship code and write content. I have tried alternatives and keep coming back to these.</p>
       <div class="grid gap-4">
         <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Cursor</h3>
-          <p class="text-foreground/70 text-sm mt-1">VS Code fork with AI that actually understands your codebase. Tab-complete that works, chat that can edit multiple files. I write code 2x faster now. Not exaggerating.</p>
-          <a href="https://cursor.sh" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Download free →</a>
+          <p class="text-foreground/70 text-sm mt-1">VS Code fork with AI that actually understands your codebase. Tab-complete that works, chat that can edit multiple files. I write code noticeably faster now. The multi-file editing through chat is the killer feature -- describe what you want across three files and it just does it.</p>
+          <a href="https://cursor.sh" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Download free</a>
         </div>
         <div class="p-4 border border-border rounded-lg hover:border-accent transition-colors">
           <h3 class="font-semibold text-foreground">Claude</h3>
-          <p class="text-foreground/70 text-sm mt-1">My go-to for complex reasoning, code review, and writing. Handles long documents better than GPT. Most of my blog drafts start as Claude conversations.</p>
-          <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free →</a>
+          <p class="text-foreground/70 text-sm mt-1">My go-to for complex reasoning, code review, and writing. Handles long documents better than competitors. Most of my blog drafts start as Claude conversations where I work through the technical concepts before structuring them into articles. Claude Code in the terminal is excellent for codebase-wide refactoring.</p>
+          <a href="https://claude.ai" target="_blank" rel="noopener noreferrer" class="inline-block mt-3 text-sm text-accent hover:underline font-medium">Try free</a>
         </div>
       </div>
+    </section>
+
+    <!-- How I chose these -->
+    <section class="mb-10">
+      <h2 class="text-2xl font-semibold text-foreground mb-2 border-b border-border pb-2">How I Choose What to Recommend</h2>
+      <p class="text-foreground/70 text-sm mb-4">
+        Every resource on this page meets three criteria. First, I have used it personally on real projects -- not just tried it for a review. Second, it has to provide value that I could not easily get elsewhere. Third, I would recommend it to a colleague without hesitation. If something stops meeting these criteria, I remove it from the list.
+      </p>
+      <p class="text-foreground/70 text-sm">
+        I deliberately keep this list short. A curated recommendation is more useful than an exhaustive catalog. If you think something should be on here, <a href="/contact" class="text-accent hover:underline">let me know</a> -- I am always looking for tools and books that make data engineering better.
+      </p>
     </section>
 
     <!-- Disclaimer -->
     <section class="mt-12 p-4 bg-muted/30 rounded-lg border border-border">
       <p class="text-foreground/60 text-sm">
-        <strong>Disclosure:</strong> Some links are affiliate links. You pay the same price; I get a small commission that helps keep this blog running. I only recommend things I actually use.
+        <strong>Disclosure:</strong> Some links on this page are affiliate links (primarily to Amazon). You pay the same price; I earn a small commission that helps keep this blog running. Affiliate links do not influence which products I recommend -- I only include things I have personally used and would recommend regardless of any commission. For more details, see the <a href="/privacy-policy" class="text-accent hover:underline">Privacy Policy</a>.
       </p>
     </section>
   </main>

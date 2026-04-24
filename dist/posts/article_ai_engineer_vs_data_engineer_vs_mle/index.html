@@ -1,0 +1,830 @@
+<!DOCTYPE html><html dir="ltr" lang="en" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><!-- Preconnect to third-party origins for faster loading --><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin><link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/"><meta name="generator" content="Astro v5.18.1"><!-- Load Font --><style>@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:300;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:400;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:600;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:300;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:400;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:600;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}:root{--font-google-sans-code:"Google Sans Code-de078a87b11e4a86","Google Sans Code-de078a87b11e4a86 fallback: Courier New",monospace;}</style><!-- General Meta Tags --><title>AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems? | Reliable Data Engineering</title><meta name="title" content="AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems? | Reliable Data Engineering"><meta name="description" content="Org charts are lying to you. The job title says 'AI Engineer' but the work varies wildly. Here's the honest picture of who actually builds and ships agentic systems in 2026."><meta name="author" content="Amin Siddique"><link rel="sitemap" href="/sitemap-index.xml"><!-- Impact Affiliate Verification --><meta name="impact-site-verification" content="24fadc25-ebf4-46fd-832a-99597a7caf51"><!-- Open Graph / Facebook --><meta property="og:title" content="AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems? | Reliable Data Engineering"><meta property="og:description" content="Org charts are lying to you. The job title says 'AI Engineer' but the work varies wildly. Here's the honest picture of who actually builds and ships agentic systems in 2026."><meta property="og:url" content="https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/"><meta property="og:image" content="https://reliable-data-engineering.netlify.app/images/blog/ai-engineer-vs-data-engineer-vs-mle.webp"><!-- Article Published/Modified time --><meta property="article:published_time" content="2026-04-09T00:00:00.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/"><meta property="twitter:title" content="AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems? | Reliable Data Engineering"><meta property="twitter:description" content="Org charts are lying to you. The job title says 'AI Engineer' but the work varies wildly. Here's the honest picture of who actually builds and ships agentic systems in 2026."><meta property="twitter:image" content="https://reliable-data-engineering.netlify.app/images/blog/ai-engineer-vs-data-engineer-vs-mle.webp"><!-- Google JSON-LD Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems? | Reliable Data Engineering","image":"https://reliable-data-engineering.netlify.app/images/blog/ai-engineer-vs-data-engineer-vs-mle.webp","datePublished":"2026-04-09T00:00:00.000Z","author":[{"@type":"Person","name":"Amin Siddique","url":"https://medium.com/@amin-siddique"}]}</script><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml" title="Reliable Data Engineering" href="https://reliable-data-engineering.netlify.app/rss.xml"><meta name="theme-color" content=""><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><!-- Google AdSense account verification --><meta name="google-adsense-account" content="ca-pub-9040516721758437"><!-- AdSense - loaded in head (async, non-blocking) gated on cookie consent --><script>
+      if (localStorage.getItem('cookie-consent') !== 'rejected') {
+        var s = document.createElement('script');
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        document.currentScript.parentNode.insertBefore(s, document.currentScript);
+      }
+    </script><!-- Minimal inline script to prevent FOUC - sets theme immediately --><script>
+      (function () {
+        const initialColorScheme = "dark"; // "light" | "dark"
+        const currentTheme = localStorage.getItem("theme");
+
+        function getPreferTheme() {
+          if (currentTheme) return currentTheme;
+          if (initialColorScheme) return initialColorScheme;
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+
+        const themeValue = getPreferTheme();
+
+        // Set theme immediately to prevent flash
+        document.firstElementChild?.setAttribute("data-theme", themeValue);
+
+        // Export minimal API for external script
+        window.theme = {
+          themeValue: themeValue,
+          getTheme: () => window.theme.themeValue,
+          setTheme: val => {
+            window.theme.themeValue = val;
+          },
+        };
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.DOJoUBPJ.css">
+<style>:where([data-astro-image]){object-fit:var(--fit);object-position:var(--pos);height:auto}:where([data-astro-image=full-width]){width:100%}:where([data-astro-image=constrained]){max-width:100%}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media(prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+</style>
+<link rel="stylesheet" href="/_astro/index.8v0x3yFh.css"><style>[data-astro-transition-scope="astro-fam6wyqg-1"] { view-transition-name: ai-engineer-vs-data-engineer-vs-mle_3a-who-actually-ships-agentic-systems; }@layer astro { ::view-transition-old(ai-engineer-vs-data-engineer-vs-mle_3a-who-actually-ships-agentic-systems) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(ai-engineer-vs-data-engineer-vs-mle_3a-who-actually-ships-agentic-systems) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(ai-engineer-vs-data-engineer-vs-mle_3a-who-actually-ships-agentic-systems) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(ai-engineer-vs-data-engineer-vs-mle_3a-who-actually-ships-agentic-systems) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-2"] { view-transition-name: career; }@layer astro { ::view-transition-old(career) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(career) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(career) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(career) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-3"] { view-transition-name: data-engineering; }@layer astro { ::view-transition-old(data-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(data-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(data-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(data-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-4"] { view-transition-name: ai-agents; }@layer astro { ::view-transition-old(ai-agents) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(ai-agents) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(ai-agents) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(ai-agents) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-5"] { view-transition-name: machine-learning; }@layer astro { ::view-transition-old(machine-learning) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(machine-learning) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(machine-learning) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(machine-learning) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-6"] { view-transition-name: roles; }@layer astro { ::view-transition-old(roles) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(roles) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(roles) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(roles) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-6"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-6"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body>  <a id="skip-to-content" href="#main-content" class="absolute start-16 -top-full z-50 bg-background px-3 py-2 text-accent backdrop-blur-lg transition-all focus:top-4">
+Skip to content
+</a> <header class="w-full border-b border-border"> <div id="top-nav-wrap" class="mx-auto max-w-5xl px-4 py-4 sm:py-6 relative w-full bg-background flex items-center justify-between"> <a href="/" class="py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:text-2xl sm:leading-none"> Reliable Data Engineering </a> <div class="flex items-center gap-2 sm:gap-3"> <nav id="nav-menu" class="flex items-center"> <button id="menu-btn" class="focus-outline p-2 sm:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" id="close-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep" id="menu-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6h16" /><path d="M7 12h13" /><path d="M10 18h10" /></svg> </button> <ul id="menu-items" class="absolute top-full left-0 right-0 z-40 mt-0 grid w-full grid-cols-2 place-content-center gap-2 border-b border-border bg-background p-4 [&#38;>li>a]:block [&#38;>li>a]:px-4 [&#38;>li>a]:py-3 [&#38;>li>a]:text-center [&#38;>li>a]:font-medium [&#38;>li>a]:hover:text-accent sm:[&#38;>li>a]:px-2 sm:[&#38;>li>a]:py-1 hidden sm:static sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:border-0 sm:p-0"> <li class="col-span-2"> <a href="/about">
+About
+</a> </li> <li class="col-span-2"> <a href="/resources">
+Resources
+</a> </li>  <li class="col-span-1 flex items-center justify-center"> <a href="https://ko-fi.com/reliabledataengineering" title="Buy me a coffee" aria-label="buy me a coffee" target="_blank" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex p-3 sm:p-1 hover:[&#38;>svg]:stroke-[#ff5e5b]">  <svg class="icon icon-tabler icon-tabler-coffee" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M3 14c.83 .642 2.077 1.017 3.5 1c1.423 .017 2.67 -.358 3.5 -1c.83 -.642 2.077 -1.017 3.5 -1c1.423 -.017 2.67 .358 3.5 1" />
+  <path d="M8 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" />
+  <path d="M12 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" />
+  <path d="M3 10h14v5a6 6 0 0 1 -6 6h-2a6 6 0 0 1 -6 -6v-5z" />
+  <path d="M16.746 16.726a3 3 0 1 0 .252 -5.555" />
+</svg> <span class="sr-only">Buy me a coffee</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/search" title="Search" aria-label="search" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex p-3 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg> <span class="sr-only">Search</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <button id="theme-btn" class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent" title="Toggles light & dark" aria-label="auto" aria-live="polite"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" /><path d="M6.343 17.657l-1.414 1.414" /><path d="M6.343 6.343l-1.414 -1.414" /><path d="M17.657 6.343l1.414 -1.414" /><path d="M17.657 17.657l1.414 1.414" /><path d="M4 12h-2" /><path d="M12 4v-2" /><path d="M20 12h2" /><path d="M12 20v2" /></svg> </button> </li> </ul> </nav> <div class="notif-container" data-notif-bell> <button class="notif-btn" aria-label="Notifications" aria-expanded="false"> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"> <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path> <path d="M13.73 21a2 2 0 0 1-3.46 0"></path> </svg> <span class="notif-badge hidden">0</span> </button> <div class="notif-dropdown hidden"> <div class="notif-header"> <span class="notif-title">Notifications</span> <button class="notif-mark-all" aria-label="Mark all as read"> <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"> <polyline points="20 6 9 17 4 12"></polyline> </svg> </button> </div> <div class="notif-list"> <p class="notif-empty">No notifications</p> </div> <a href="/notifications" class="notif-view-all">View all</a> </div> </div>  <script type="module">function _(){document.querySelectorAll("[data-notif-bell]:not([data-initialized])").forEach(n=>{n.dataset.initialized="true";const r=n.querySelector(".notif-btn"),s=n.querySelector(".notif-badge"),d=n.querySelector(".notif-dropdown"),c=n.querySelector(".notif-list"),g=n.querySelector(".notif-mark-all");function v(){n.classList.add("visible")}function p(){n.classList.remove("visible")}function L(e){const t=Date.now(),i=new Date(e).getTime(),o=Math.floor((t-i)/1e3);return o<60?"just now":o<3600?`${Math.floor(o/60)}m ago`:o<86400?`${Math.floor(o/3600)}h ago`:o<604800?`${Math.floor(o/86400)}d ago`:new Date(e).toLocaleDateString("en-US",{month:"short",day:"numeric"})}function l(e){const t=document.createElement("div");return t.textContent=e,t.innerHTML}function m(e){if(e.length===0){c.innerHTML='<p class="notif-empty">No notifications</p>';return}c.innerHTML=e.slice(0,10).map(t=>{const i=t.type==="like"?"like":t.type==="reply"?"reply":"comment",o=t.type==="like"?"&#10084;":t.type==="reply"?"&#8617;":"&#128172;",w=t.comment_id?`#comment-${t.comment_id}`:"",$=t.post_slug?`/posts/${t.post_slug}/${w}`:"#",f=t.source_user_name?l(t.source_user_name):"";let u=l(t.message);return f&&(u=u.replace(f,`<strong>${f}</strong>`)),`
+            <a href="${l($)}" class="notif-item ${t.read?"":"unread"}" data-notif-id="${t.id}">
+              <div class="notif-icon ${i}">${o}</div>
+              <div class="notif-body">
+                <div class="notif-message">${u}</div>
+                <div class="notif-time">${L(t.created_at)}</div>
+              </div>
+              ${t.read?"":'<div class="notif-unread-dot"></div>'}
+            </a>
+          `}).join(""),c.querySelectorAll(".notif-item").forEach(t=>{t.addEventListener("click",()=>{const i=t.dataset.notifId;i&&fetch("/api/notifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({notificationId:parseInt(i)})})})})}let a=[];async function h(){try{const t=await(await fetch("/api/notifications?limit=10")).json();a=t.notifications||[];const i=t.unreadCount||0;i>0?(s.textContent=i>9?"9+":i.toString(),s.classList.remove("hidden")):s.classList.add("hidden"),m(a)}catch{}}function y(e){e?(v(),h()):p()}window.addEventListener("auth:ready",(e=>y(e.detail))),window.addEventListener("auth:logout",()=>p()),window.__authUser!==void 0&&y(window.__authUser),r.addEventListener("click",e=>{e.stopPropagation();const t=!d.classList.contains("hidden");d.classList.toggle("hidden",t),r.setAttribute("aria-expanded",(!t).toString()),t||h()}),g.addEventListener("click",async e=>{e.stopPropagation(),await fetch("/api/notifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({markAllRead:!0})}),s.classList.add("hidden"),a=a.map(t=>({...t,read:!0})),m(a)}),document.addEventListener("click",()=>{d.classList.add("hidden"),r.setAttribute("aria-expanded","false")}),d.addEventListener("click",e=>e.stopPropagation())})}document.addEventListener("astro:page-load",_);</script> <div class="auth-container" data-auth data-astro-cid-wgzqlfev> <!-- Logged out state (hidden until auth check completes) --> <div class="auth-logged-out hidden" data-astro-cid-wgzqlfev> <button class="auth-sign-in-btn" aria-label="Sign in" aria-expanded="false" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" data-astro-cid-wgzqlfev></path> <circle cx="12" cy="7" r="4" data-astro-cid-wgzqlfev></circle> </svg> <span class="auth-text" data-astro-cid-wgzqlfev>Sign in</span> </button> <div class="auth-dropdown hidden" data-astro-cid-wgzqlfev> <a href="/api/auth/google" class="auth-option" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" data-astro-cid-wgzqlfev> <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" data-astro-cid-wgzqlfev></path> <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" data-astro-cid-wgzqlfev></path> <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" data-astro-cid-wgzqlfev></path> <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" data-astro-cid-wgzqlfev></path> </svg> <span data-astro-cid-wgzqlfev>Continue with Google</span> </a> <a href="/api/auth/github" class="auth-option" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" data-astro-cid-wgzqlfev> <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" data-astro-cid-wgzqlfev></path> </svg> <span data-astro-cid-wgzqlfev>Continue with GitHub</span> </a> <div class="auth-divider-with-text" data-astro-cid-wgzqlfev> <hr class="auth-divider" data-astro-cid-wgzqlfev> <span data-astro-cid-wgzqlfev>or</span> <hr class="auth-divider" data-astro-cid-wgzqlfev> </div> <button class="auth-option auth-email-trigger" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <rect x="2" y="4" width="20" height="16" rx="2" data-astro-cid-wgzqlfev></rect> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" data-astro-cid-wgzqlfev></path> </svg> <span data-astro-cid-wgzqlfev>Continue with Email</span> </button> </div> </div> <!-- Email auth modal --> <div class="auth-modal-overlay hidden" data-email-modal data-astro-cid-wgzqlfev> <div class="auth-modal" data-modal-content data-astro-cid-wgzqlfev> <div class="auth-modal-header" data-astro-cid-wgzqlfev> <h3 class="auth-modal-title" data-modal-title data-astro-cid-wgzqlfev>Sign in with Email</h3> <button class="auth-modal-close" aria-label="Close" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <line x1="18" y1="6" x2="6" y2="18" data-astro-cid-wgzqlfev></line> <line x1="6" y1="6" x2="18" y2="18" data-astro-cid-wgzqlfev></line> </svg> </button> </div> <form class="auth-email-form" data-astro-cid-wgzqlfev> <div class="auth-email-field auth-signup-only hidden" data-astro-cid-wgzqlfev> <label data-astro-cid-wgzqlfev>Name</label> <input type="text" name="displayName" placeholder="Your name" maxlength="100" data-astro-cid-wgzqlfev> </div> <div class="auth-email-field" data-astro-cid-wgzqlfev> <label data-astro-cid-wgzqlfev>Email</label> <input type="email" name="email" placeholder="you@example.com" required data-astro-cid-wgzqlfev> </div> <div class="auth-email-field" data-astro-cid-wgzqlfev> <label data-astro-cid-wgzqlfev>Password</label> <input type="password" name="password" placeholder="Min 8 characters" minlength="8" required data-astro-cid-wgzqlfev> </div> <p class="auth-email-error hidden" data-astro-cid-wgzqlfev></p> <button type="submit" class="auth-email-submit" data-astro-cid-wgzqlfev>Sign in</button> </form> <p class="auth-modal-switch" data-astro-cid-wgzqlfev> <span class="auth-switch-login" data-astro-cid-wgzqlfev>Don't have an account? <button class="auth-switch-btn" data-switch="signup" data-astro-cid-wgzqlfev>Sign up</button></span> <span class="auth-switch-signup hidden" data-astro-cid-wgzqlfev>Already have an account? <button class="auth-switch-btn" data-switch="login" data-astro-cid-wgzqlfev>Sign in</button></span> </p> </div> </div> <!-- Logged in state (hidden by default) --> <div class="auth-logged-in hidden" data-astro-cid-wgzqlfev> <button class="auth-avatar-btn" aria-label="Account menu" aria-expanded="false" data-astro-cid-wgzqlfev> <img class="auth-avatar" src="" alt="" width="32" height="32" data-astro-cid-wgzqlfev> </button> <div class="auth-user-dropdown hidden" data-astro-cid-wgzqlfev> <div class="auth-user-info" data-astro-cid-wgzqlfev> <span class="auth-user-name" data-astro-cid-wgzqlfev></span> <span class="auth-user-email" data-astro-cid-wgzqlfev></span> </div> <hr class="auth-divider" data-astro-cid-wgzqlfev> <a href="/profile" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" data-astro-cid-wgzqlfev></path> <circle cx="12" cy="7" r="4" data-astro-cid-wgzqlfev></circle> </svg>
+My Profile
+</a> <a href="/activity" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" data-astro-cid-wgzqlfev></polyline> </svg>
+My Activity
+</a> <a href="/bookmarks" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-wgzqlfev></path> </svg>
+Bookmarks
+<span class="auth-menu-count" data-count="bookmarks" data-astro-cid-wgzqlfev></span> </a> <a href="/highlights" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" data-astro-cid-wgzqlfev></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" data-astro-cid-wgzqlfev></path> </svg>
+Highlights
+<span class="auth-menu-count" data-count="highlights" data-astro-cid-wgzqlfev></span> </a> <a href="/history" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <circle cx="12" cy="12" r="10" data-astro-cid-wgzqlfev></circle> <polyline points="12 6 12 12 16 14" data-astro-cid-wgzqlfev></polyline> </svg>
+Reading History
+<span class="auth-menu-count" data-count="history" data-astro-cid-wgzqlfev></span> </a> <hr class="auth-divider" data-astro-cid-wgzqlfev> <button class="auth-menu-item auth-logout" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" data-astro-cid-wgzqlfev></path> <polyline points="16 17 21 12 16 7" data-astro-cid-wgzqlfev></polyline> <line x1="21" y1="12" x2="9" y2="12" data-astro-cid-wgzqlfev></line> </svg>
+Sign out
+</button> </div> </div> </div>  <script type="module" src="/_astro/AuthButton.astro_astro_type_script_index_0_lang.CJfPF_-4.js"></script> </div> </div> </header> <script type="module">function s(){const e=document.querySelector("#menu-btn"),t=document.querySelector("#menu-items"),n=document.querySelector("#menu-icon"),o=document.querySelector("#close-icon");!e||!t||!n||!o||e.addEventListener("click",()=>{const c=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",c?"false":"true"),e.setAttribute("aria-label",c?"Open Menu":"Close Menu"),t.classList.toggle("hidden"),n.classList.toggle("hidden"),o.classList.toggle("hidden")})}s();document.addEventListener("astro:after-swap",s);</script> <div class="app-layout flex items-center justify-start"><a id="back-button" href="/" class="group inline-flex items-center gap-1 hover:text-accent focus-outline -ms-2 mt-8 mb-2 hover:text-foreground/75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg><span>Go back</span> </a></div><script type="module">function o(){const t=document.querySelector("#back-button"),e=sessionStorage.getItem("backUrl");e&&t&&(t.href=e)}document.addEventListener("astro:page-load",o);o();</script> <main id="main-content" class="app-layout pb-12" data-pagefind-body> <h1 class="inline-block text-2xl font-bold text-accent sm:text-3xl" data-astro-transition-scope="astro-fam6wyqg-1"> AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems? </h1> <div class="my-2 flex flex-wrap items-center gap-2 text-sm"> <div class="flex items-center gap-x-2 opacity-80"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 min-w-5.5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg>  <time class="text-sm sm:text-base" datetime="2026-04-09T00:00:00.000Z">9 Apr, 2026</time> </div> <span aria-hidden="true" class="text-muted">|</span> <span class="text-sm opacity-70"> 11 min read
+</span> <span aria-hidden="true" class="text-muted">|</span> <span class="view-counter" data-slug="article_ai_engineer_vs_data_engineer_vs_mle" data-astro-cid-e75zxctz> <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-e75zxctz> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" data-astro-cid-e75zxctz></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" data-astro-cid-e75zxctz></path> </svg> <span class="view-count" data-astro-cid-e75zxctz>-</span> views
+</span>  <script type="module">function i(){document.querySelectorAll(".view-counter:not([data-initialized])").forEach(n=>{n.dataset.initialized="true";const t=n.dataset.slug;if(!t)return;const o=n.querySelector(".view-count");if(!o)return;const s=`viewed_${t}`;sessionStorage.getItem(s)?fetch(`/api/views?slug=${encodeURIComponent(t)}`).then(e=>e.json()).then(e=>{o.textContent=e.count.toString()}).catch(console.error):fetch(`/api/views?slug=${encodeURIComponent(t)}`,{method:"POST"}).then(e=>e.json()).then(e=>{o.textContent=e.count.toString(),sessionStorage.setItem(s,"true")}).catch(console.error)})}document.addEventListener("astro:page-load",i);</script> <span aria-hidden="true" class="max-sm:hidden text-muted hidden">|</span>  </div> <img src="/images/blog/ai-engineer-vs-data-engineer-vs-mle.webp" alt="AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems?" class="my-6 w-full rounded-lg object-cover" style="max-height: 400px;"> <article id="article" class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"> <h1 id="ai-engineer-vs-data-engineer-vs-mle-who-actually-ships-agentic-systems">AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems?</h1>
+<p><em>Org charts are lying to you. The job title says “AI Engineer” but the work varies wildly. Data engineers are becoming the unsung architects of RAG pipelines. And ML engineers are watching their classic responsibilities redistribute. Here’s the honest picture.</em></p>
+<hr>
+<p><em>Career | Roles | Agentic AI | April 2026</em>
+<em>~16 min read</em></p>
+<hr>
+<h2 id="the-title-that-means-nothing">The title that means nothing</h2>
+<p>A confession: “AI Engineer” doesn’t mean the same thing at any two companies. At one company it means fine-tuning open-source LLMs. At another it means writing YAML for MLflow. At a third it means building agentic orchestration pipelines from scratch. Job boards are useless here — the title “AI Engineer” appears on listings that span the entire stack from research to product.</p>
+<p>The same murkiness affects data engineers and ML engineers. The arrival of RAG pipelines, agentic systems, and managed agent infrastructure has redistributed responsibilities across all three roles in ways that haven’t settled yet. Some data engineers now own more of the AI product stack than the people with “AI” in their title. Some ML engineers are watching their core work get abstracted away by managed services. Some AI engineers are doing what used to require an entire data platform team.</p>
+<p>This article tries to give you the honest org chart, not the aspirational one.</p>
+<hr>
+<h2 id="the-three-roles-honestly">The three roles, honestly</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Role</th><th>Core Identity</th><th>Classic Responsibilities</th></tr></thead><tbody><tr><td><strong>Data Engineer</strong></td><td>The infrastructure owner</td><td>ETL/ELT pipelines, data warehouses + lakes, data quality + reliability, streaming infrastructure, access control + governance</td></tr><tr><td><strong>ML Engineer</strong></td><td>The model production owner</td><td>Training pipelines, model evaluation + evals, model serving infrastructure, feature stores, MLOps + drift monitoring</td></tr><tr><td><strong>AI Engineer</strong></td><td>The LLM integration owner</td><td>LLM API integration, prompt/agent engineering, RAG pipeline design, tool + harness design, guardrails + output validation</td></tr></tbody></table>
+<p>In a pre-agentic organization, these roles had relatively clean handoffs. Data engineers built the pipelines. ML engineers trained models on the output. AI engineers integrated those models into products. The interfaces between them were well-defined and stable.</p>
+<p>That clarity is gone. Agentic systems don’t respect those handoff points. An agent that reads a database needs data engineering skills to do it well. An agent that calls a fine-tuned model needs ML engineering to evaluate whether the model is behaving. An AI engineer building the agent harness needs to understand both.</p>
+<hr>
+<h2 id="the-realistic-org-chart-in-2026">The realistic org chart in 2026</h2>
+<p>What do these roles actually look like side-by-side in a team shipping an agentic system? Here’s the breakdown across three organizational contexts.</p>
+<h3 id="startup--small-team-3-8-engineers">Startup / small team (3-8 engineers)</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Data Engineer</th><th>ML Engineer</th><th>AI Engineer</th></tr></thead><tbody><tr><td>Builds document ingestion pipeline</td><td>Often doesn’t exist separately</td><td>Builds agent harness</td></tr><tr><td>Owns chunking strategy</td><td>Eval framework owned by AI eng</td><td>Prompt + tool design</td></tr><tr><td>Manages vector DB (Pinecone / Weaviate)</td><td>Fine-tuning if needed</td><td>Integrates with retrieval layer</td></tr><tr><td>Writes embedding pipelines</td><td>Performance benchmarking</td><td>Owns output validation</td></tr><tr><td>Sets up retrieval monitoring</td><td></td><td>Ships user-facing product</td></tr></tbody></table>
+<h3 id="mid-size-company-50-500-engineers">Mid-size company (50-500 engineers)</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Data Engineer</th><th>ML Engineer</th><th>AI Engineer</th></tr></thead><tbody><tr><td>Owns data platform (Snowflake / Databricks)</td><td>Eval harness + LLM benchmarks</td><td>Agent harness architecture</td></tr><tr><td>RAG ingestion pipelines</td><td>Fine-tuning pipelines (if any)</td><td>MCP / tool integration</td></tr><tr><td>Embedding pipeline infrastructure</td><td>Model serving (vLLM / TGI)</td><td>HITL design</td></tr><tr><td>Data governance for AI inputs</td><td>Latency + cost monitoring</td><td>Safety + guardrail systems</td></tr><tr><td>Semantic search infrastructure</td><td>Drift detection for agent behavior</td><td>Works with both DE + MLE teams</td></tr></tbody></table>
+<h3 id="enterprise-500-engineers">Enterprise (500+ engineers)</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Data Engineer</th><th>ML Engineer</th><th>AI Engineer</th></tr></thead><tbody><tr><td>Enterprise data platform</td><td>Internal fine-tuning platform</td><td>Platform-level agent infrastructure</td></tr><tr><td>AI data governance (lineage, access)</td><td>Eval frameworks at scale</td><td>Agent standards + tooling</td></tr><tr><td>Knowledge graph infrastructure</td><td>Inference optimization</td><td>Cross-product orchestration</td></tr><tr><td>Cross-team data contracts</td><td>Red-teaming + adversarial testing</td><td>Vendor evaluation (Managed Agents, etc.)</td></tr><tr><td>Compliance + audit trails</td><td>Custom model deployment</td><td>Safety policy implementation</td></tr></tbody></table>
+<hr>
+<h2 id="how-agentic-systems-change-everything">How agentic systems change everything</h2>
+<p>Before agentic systems, each role had a clean primary output. Data engineers shipped pipelines. ML engineers shipped models. AI engineers shipped integrations. Agentic systems break this because the agent’s output quality depends on all three — simultaneously and continuously.</p>
+<p>Here’s what actually changes for each role:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Role</th><th>Classic Responsibility</th><th>What Agentic Systems Add</th><th>Net Effect</th></tr></thead><tbody><tr><td><strong>Data Engineer</strong></td><td>Batch ETL, data warehouse, dashboards</td><td>Document ingestion, chunking strategy, vector DB, embedding pipelines, retrieval quality monitoring</td><td>Strategic — data quality now directly affects agent output quality</td></tr><tr><td><strong>ML Engineer</strong></td><td>Train/serve custom models, MLOps, feature stores</td><td>LLM eval frameworks, behavior drift detection, agent performance benchmarking, RLHF for fine-tuning</td><td>Shifting — less training, more evaluation and LLM-specific ops</td></tr><tr><td><strong>AI Engineer</strong></td><td>LLM API wrappers, chatbots, simple integrations</td><td>Agent harness design, tool orchestration, memory architecture, safety systems, multi-agent coordination</td><td>Scope — from API caller to system architect</td></tr></tbody></table>
+<p>The data engineer shift is the least-discussed and most impactful. When an agent retrieves information from a knowledge base, the quality of that retrieval is a data engineering problem — chunking strategy, embedding model choice, index architecture, reranking. The AI engineer builds the harness that calls the retrieval system. The data engineer determines whether the retrieval system gives the agent anything useful to work with.</p>
+<p>A brilliant agent harness on top of a poorly designed RAG pipeline produces confident, fluent, wrong answers. Most “hallucination” complaints in enterprise RAG deployments are actually data quality problems in disguise.</p>
+<blockquote>
+<p>“Most agentic AI failures are engineering and architecture failures, not model failures. The data layer is where most of them originate.” — Practitioners in agentic systems, 2026</p>
+</blockquote>
+<hr>
+<h2 id="who-actually-ships-the-agent--a-realistic-story">Who actually ships the agent — a realistic story</h2>
+<p>In the companies actually shipping production agentic systems right now, the answer is usually: all three roles, none of them feeling like they own it clearly. Which creates interesting friction.</p>
+<p>The AI engineer thinks the data engineer is too slow with the ingestion pipeline. The data engineer thinks the AI engineer is asking for the impossible — “make every document retrievable with 90% accuracy” without specifying what “accurate” means. The ML engineer is trying to run evals on a system that changes every time the data engineer updates the index and the AI engineer updates the prompt, making evaluation results non-comparable.</p>
+<p>The organizations that ship fastest have solved for one thing: <strong>clear contracts between the layers</strong>. The data engineering layer owns a defined API (retrieval quality metric, latency SLA, data freshness guarantee). The ML engineering layer owns a defined eval harness (what “good” looks like for this agent, tested automatically). The AI engineering layer builds against those contracts without owning the implementation details underneath.</p>
+<p>Managed agent services like Claude Managed Agents are attempting to collapse the boundaries further — handling much of the harness layer so AI engineers focus on task definition and guardrails. That shift is real. It doesn’t eliminate the roles; it raises the floor of what each person can assume is handled.</p>
+<hr>
+<h2 id="the-data-engineer-pivot-a-concrete-roadmap">The data engineer pivot: a concrete roadmap</h2>
+<p>Data engineers are better positioned than almost anyone to move into AI engineering roles. The hard skills transfer directly — pipeline thinking, data quality obsession, infrastructure ownership. The gap is at the application layer: prompts, agents, harness design, evals.</p>
+<p>Here’s a concrete 5-month progression. Not a course list — an actual skill acquisition path with specific deliverables at each stage.</p>
+<p><strong>Month 1: Build a RAG pipeline from scratch — no LangChain.</strong> Write the embedding pipeline yourself using the OpenAI or Anthropic embeddings API directly. Build chunking logic. Set up Pinecone or Qdrant. Implement basic similarity search. Query it with an LLM. Understand what breaks and why. Starting with a framework means you don’t understand the pieces that will fail on you in production. <em>Deliverable: working RAG system you built cell-by-cell.</em></p>
+<p><strong>Month 2: Build and measure an eval framework.</strong> Retrieval quality (precision@k, recall@k). Generation quality (RAGAS or a custom rubric). Hallucination rate (compare generated answers to source documents programmatically). Learn why LLM outputs are non-deterministic and why this makes evals hard. This is the skill most tutorials skip — and the one that separates engineers who can build agents from engineers who can ship agents. <em>Deliverable: automated eval pipeline with a dashboard.</em></p>
+<p><strong>Month 3: Build a simple agent harness with tool calling.</strong> Implement the ReAct loop manually (Thought -> Action -> Observation -> repeat). Add two tools: one that queries your RAG pipeline, one that calls an external API. Add basic error handling. Add a permission layer for the external API call. Understand how context accumulates in multi-turn agent loops. Your data pipeline background makes this easier — you already think in terms of stages and checkpoints. <em>Deliverable: working agent that uses your RAG system as a tool.</em></p>
+<p><strong>Month 4: Deploy it and instrument it.</strong> Containerize with Docker. Deploy to AWS/GCP/Azure. Add logging for every LLM call (inputs, outputs, latency, token counts). Add retrieval logging. Set up alerts for hallucination rate above threshold. This is where your data engineering background is a genuine advantage — most AI engineers are weaker at the observability layer than you are. Instrument everything. You’ll need it when something breaks silently at 3 a.m. <em>Deliverable: deployed agent with full observability.</em></p>
+<p><strong>Month 5: Learn MCP and the managed agent ecosystem.</strong> Set up a local MCP server. Expose one of your data tools via MCP. Connect it to Claude Code. Experiment with Claude Managed Agents beta if you have access. Study the Claude Code harness patterns (tool search, context compaction, CLAUDE.md). Understand what Managed Agents abstracts vs what you still own. This puts you at the current frontier — the people who understand both the plumbing and the abstractions over it are the ones getting hired right now. <em>Deliverable: MCP-connected agent, writeup of what Managed Agents handles vs what you own.</em></p>
+<hr>
+<h2 id="what-you-keep-what-you-learn-what-you-can-deprioritize">What you keep, what you learn, what you can deprioritize</h2>
+<p>For a data engineer making this pivot:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Keep from your DE background</th><th>New skills to acquire</th></tr></thead><tbody><tr><td>Pipeline architecture thinking</td><td>LLM API integration patterns</td></tr><tr><td>Data quality obsession</td><td>Prompt engineering + system prompts</td></tr><tr><td>Infrastructure ownership</td><td>Agent harness design (ReAct loop)</td></tr><tr><td>SQL + Python proficiency</td><td>Vector DB + embedding pipelines</td></tr><tr><td>Distributed systems intuition</td><td>LLM eval frameworks</td></tr><tr><td>Observability / monitoring</td><td>Tool calling + MCP</td></tr><tr><td><del>Optimizing Spark jobs</del></td><td>Guardrails + output validation</td></tr><tr><td><del>Hadoop ecosystem</del></td><td>Context management patterns</td></tr></tbody></table>
+<p>The salary differential for making this transition is real — LLM-focused engineers are being paid 25-40% more than generalist data practitioners at comparable experience levels in 2026, reflecting both production skills and genuine scarcity. But the primary reason to make the pivot is that the work is more interesting. Agentic systems are the current frontier of what software can do, and data engineers — with their pipeline intuition and infrastructure ownership mindset — are unusually well-suited to build them well.</p>
+<p>If you can answer “what percentage of my agent’s failures are retrieval failures vs generation failures vs tool failures?” — you’re thinking like an AI engineer, not just a data engineer. That question requires evals (ML engineering), retrieval instrumentation (data engineering), and harness observability (AI engineering). The role convergence is real. The people who own all three layers are the most effective builders of agentic systems right now.</p>
+<hr>
+<h2 id="the-bottom-line">The bottom line</h2>
+<p>There’s no clean answer to “who ships agentic systems?” because the question assumes cleaner role boundaries than actually exist. The honest answer: teams with data engineers who understand retrieval quality, ML engineers who can build eval frameworks, and AI engineers who can design a harness — all working against agreed contracts — ship agentic systems. Any one of those roles missing or unclear creates a specific class of failure.</p>
+<p>The good news for data engineers considering the pivot: you own the layer that has the most leverage on overall system quality, and you already have the skills that most AI engineers are weakest at. The gap to close is real but finite. Five months of focused, project-based work is a plausible timeline to start getting hired into AI engineering roles with a data engineering background.</p>
+<p>The bad news: “AI Engineer” still doesn’t mean the same thing at any two companies. Do the due diligence on what the role actually owns before you accept the title.</p>
+<hr>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://theneildave.in/blog/data-scientist-vs-ai-engineer-2026.html">Neil Dave — Role distinction analysis</a>, April 2026</li>
+<li><a href="https://www.nucamp.co/blog/ai-engineer-vs-ml-engineer-vs-data-scientist-in-2026-what-s-the-difference">NuCamp — AI vs ML engineer comparison</a>, 2026</li>
+<li><a href="https://www.udacity.com/topic/what-is-an-agentic-ai-engineer">Udacity — Agentic AI engineer defined</a>, 2026</li>
+<li><a href="https://digitaldefynd.com/IQ/data-engineer-vs-ai-engineer/">DigitalDefynd — Data engineer vs AI engineer</a>, 2026</li>
+<li><a href="https://vettio.com/blog/ai-engineer-vs-ml-engineer/">Vettio — Salary data</a>, February 2026</li>
+</ul>
+<hr>
+<p><em>If you’re a data engineer looking to understand the foundational patterns behind pipelines, data quality, and the lifecycle that makes agentic systems work, <a href="https://amzn.to/4sruUCi">Fundamentals of Data Engineering by Joe Reis and Matt Housley</a> covers the principles that transfer directly into AI engineering roles.</em></p>
+<hr>
+<p><em>Disclaimer: This article is based on publicly available role analyses, salary reports, and community observations as of April 2026. The author has no affiliation with any of the companies or platforms mentioned. Salary figures and timelines are representative ranges sourced from multiple public reports — individual org structures vary significantly. The roadmap is designed for data engineers with 2+ years of experience and solid Python proficiency. This article contains affiliate links — purchasing through them supports this blog at no extra cost to you.</em></p> </article> <hr class="my-8 border-dashed">  <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8"> <li> <a href="/tags/career/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> career </a> </li><li> <a href="/tags/data-engineering/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-3"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> data-engineering </a> </li><li> <a href="/tags/ai-agents/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-4"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> ai-agents </a> </li><li> <a href="/tags/machine-learning/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-5"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> machine-learning </a> </li><li> <a href="/tags/roles/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-6"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> roles </a> </li> </ul> <div id="btt-btn-container" class="fixed end-4 bottom-8 z-50 md:sticky md:end-auto md:float-end md:me-1 translate-y-14 opacity-0 transition duration-500"> <button data-button="back-to-top" class="group relative bg-background px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"> <span id="progress-indicator" class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"></span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block rotate-90 md:hidden"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <span class="sr-only text-sm group-hover:text-accent md:not-sr-only"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M16 9l-4 -4" /><path d="M8 9l4 -4" /></svg>
+Back To Top
+</span> </button> </div> <script data-astro-rerun>
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    const rootElement = document.documentElement;
+    const btnContainer = document.querySelector("#btt-btn-container");
+    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
+    const progressIndicator = document.querySelector("#progress-indicator");
+
+    if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
+      return;
+
+    // Attach click event handler for back-to-top button
+    backToTopBtn.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
+    // Handle button visibility according to scroll position
+    let lastVisible = null;
+    function handleScroll() {
+      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+      const scrollTop = rootElement.scrollTop;
+      const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
+
+      progressIndicator.style.setProperty(
+        "background-image",
+        `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
+      );
+
+      const isVisible = scrollTop / scrollTotal > 0.3;
+
+      if (isVisible !== lastVisible) {
+        btnContainer.classList.toggle("opacity-100", isVisible);
+        btnContainer.classList.toggle("translate-y-0", isVisible);
+        btnContainer.classList.toggle("opacity-0", !isVisible);
+        btnContainer.classList.toggle("translate-y-14", !isVisible);
+        lastVisible = isVisible;
+      }
+    }
+
+    let ticking = false;
+    document.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+  backToTop();
+</script> <div class="flex flex-wrap items-center gap-3 mb-4"> <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post on:</span><div class="text-center"><a href="https://wa.me/?text=https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/" title="Share this post via WhatsApp" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg><span class="sr-only">Share this post via WhatsApp</span> </a><a href="https://www.facebook.com/sharer.php?u=https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/" title="Share this post on Facebook" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg><span class="sr-only">Share this post on Facebook</span> </a><a href="https://x.com/intent/post?url=https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/" title="Share this post on X" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg><span class="sr-only">Share this post on X</span> </a><a href="https://t.me/share/url?url=https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/" title="Share this post via Telegram" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" /></svg><span class="sr-only">Share this post via Telegram</span> </a><a href="https://pinterest.com/pin/create/button/?url=https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/" title="Share this post on Pinterest" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 20l4 -9" /><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></svg><span class="sr-only">Share this post on Pinterest</span> </a><a href="mailto:?subject=See%20this%20post&#38;body=https://reliable-data-engineering.netlify.app/posts/article_ai_engineer_vs_data_engineer_vs_mle/" title="Share this post via email" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg><span class="sr-only">Share this post via email</span> </a></div></div> <button class="copy-link-btn" aria-label="Copy link to clipboard" data-astro-cid-c4yglaax> <svg class="copy-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-c4yglaax> <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" data-astro-cid-c4yglaax></path> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" data-astro-cid-c4yglaax></path> </svg> <svg class="check-icon hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-c4yglaax> <polyline points="20 6 9 17 4 12" data-astro-cid-c4yglaax></polyline> </svg> <span class="btn-text" data-astro-cid-c4yglaax>Copy link</span> </button>  <script type="module">function n(){document.querySelectorAll(".copy-link-btn:not([data-initialized])").forEach(e=>{e.dataset.initialized="true";const i=e.querySelector(".copy-icon"),c=e.querySelector(".check-icon"),t=e.querySelector(".btn-text");e.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(window.location.href),i?.classList.add("hidden"),c?.classList.remove("hidden"),t&&(t.textContent="Copied!"),e.classList.add("copied"),setTimeout(()=>{i?.classList.remove("hidden"),c?.classList.add("hidden"),t&&(t.textContent="Copy link"),e.classList.remove("copied")},2e3)}catch(o){console.error("Failed to copy:",o)}})})}document.addEventListener("astro:page-load",n);</script> </div> <div class="reactions-container" data-slug="article_ai_engineer_vs_data_engineer_vs_mle" data-astro-cid-6vafa5kw> <button class="reaction-btn" data-type="thumbsup" aria-label="Thumbs up" data-astro-cid-6vafa5kw> <span class="reaction-emoji" data-astro-cid-6vafa5kw>&#128077;</span> <span class="reaction-count" data-astro-cid-6vafa5kw>0</span> </button> <button class="reaction-btn" data-type="fire" aria-label="Fire" data-astro-cid-6vafa5kw> <span class="reaction-emoji" data-astro-cid-6vafa5kw>&#128293;</span> <span class="reaction-count" data-astro-cid-6vafa5kw>0</span> </button> <button class="reaction-btn" data-type="lightbulb" aria-label="Insightful" data-astro-cid-6vafa5kw> <span class="reaction-emoji" data-astro-cid-6vafa5kw>&#128161;</span> <span class="reaction-count" data-astro-cid-6vafa5kw>0</span> </button> <button class="reaction-btn" data-type="heart" aria-label="Love" data-astro-cid-6vafa5kw> <span class="reaction-emoji" data-astro-cid-6vafa5kw>&#10084;&#65039;</span> <span class="reaction-count" data-astro-cid-6vafa5kw>0</span> </button> </div>  <script type="module">function u(){const c=localStorage.getItem("fp");if(c)return c;const e=Math.random().toString(36).substring(2)+Date.now().toString(36);return localStorage.setItem("fp",e),e}function p(){document.querySelectorAll(".reactions-container:not([data-initialized])").forEach(e=>{e.dataset.initialized="true";const r=e.dataset.slug||"";if(!r)return;const s=e.querySelectorAll(".reaction-btn"),i=u();function l(t,a){s.forEach(n=>{const o=n.dataset.type||"",d=n.querySelector(".reaction-count");d&&(d.textContent=(t[o]||0).toString()),n.classList.toggle("active",a.includes(o))})}fetch(`/api/reactions?slug=${encodeURIComponent(r)}&fp=${encodeURIComponent(i)}`).then(t=>t.json()).then(t=>l(t.counts,t.userReactions)).catch(console.error),s.forEach(t=>{t.addEventListener("click",async()=>{const a=t.dataset.type;if(a){t.disabled=!0;try{const o=await(await fetch(`/api/reactions?slug=${encodeURIComponent(r)}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fingerprint:i,reactionType:a})})).json();l(o.counts,o.userReactions)}catch(n){console.error(n)}finally{t.disabled=!1}}})})})}document.addEventListener("astro:page-load",p);</script> <div class="flex flex-wrap items-center gap-3 my-4"> <div class="bookmark-container" data-bookmark-slug="article_ai_engineer_vs_data_engineer_vs_mle" data-astro-cid-fsurehzd> <button class="bookmark-btn" aria-label="Bookmark this article" data-astro-cid-fsurehzd> <svg class="bookmark-icon-outline" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-fsurehzd> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-fsurehzd></path> </svg> <svg class="bookmark-icon-filled hidden" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" data-astro-cid-fsurehzd> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-fsurehzd></path> </svg> <span class="bookmark-text" data-astro-cid-fsurehzd>Save</span> </button> </div>  <script type="module">function l(){document.querySelectorAll("[data-bookmark-slug]:not([data-bm-initialized])").forEach(e=>{e.dataset.bmInitialized="true";const n=e.dataset.bookmarkSlug||"";if(!n)return;const o=e.querySelector(".bookmark-btn"),i=e.querySelector(".bookmark-icon-outline"),s=e.querySelector(".bookmark-icon-filled"),c=e.querySelector(".bookmark-text");function a(t){o.classList.toggle("bookmarked",t),i.classList.toggle("hidden",t),s.classList.toggle("hidden",!t),c.textContent=t?"Saved":"Save"}function r(){window.__authUser&&fetch(`/api/bookmarks?slug=${encodeURIComponent(n)}`).then(t=>t.json()).then(t=>{t.bookmarked&&a(!0)}).catch(()=>{})}window.__authUser!==void 0&&r(),window.addEventListener("auth:ready",()=>r()),o.addEventListener("click",async()=>{if(!window.__authUser){const t=document.querySelector(".auth-sign-in-btn");t&&t.click();return}o.disabled=!0;try{const d=await(await fetch("/api/bookmarks",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:n})})).json();a(d.bookmarked)}catch(t){console.error(t)}finally{o.disabled=!1}})})}document.addEventListener("astro:page-load",l);</script> <a href="https://ko-fi.com/reliabledataengineering" target="_blank" rel="noopener noreferrer" class="kofi-btn" data-astro-cid-aomqc7ru> <svg class="kofi-icon" viewBox="0 0 24 24" width="20" height="20" data-astro-cid-aomqc7ru> <path fill="currentColor" d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z" data-astro-cid-aomqc7ru></path> </svg> <span data-astro-cid-aomqc7ru>Buy me a coffee</span> </a>  </div> <!-- Ad placement after article --> <!-- Ad slot: {slot} --><div class="ad-unit my-6 flex items-center justify-center my-8" data-ad-slot="in-article"> <!-- Google AdSense - Auto ads will display once approved --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9040516721758437" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins> <script data-astro-rerun>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script> </div> <div class="newsletter-signup my-8 rounded-lg border border-border bg-muted/30 p-6 text-center my-8" data-newsletter> <h3 class="mb-2 text-lg font-semibold">Stay in the loop</h3> <p class="mb-4 text-sm text-foreground/70">
+Get notified when new articles drop. No spam. Unsubscribe anytime.
+</p> <form class="newsletter-form mx-auto flex max-w-md flex-col gap-2 sm:flex-row"> <input type="email" name="email" placeholder="your@email.com" required class="min-w-0 flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none"> <button type="submit" class="shrink-0 rounded-md bg-accent px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50">
+Subscribe
+</button> </form> <p class="newsletter-message mt-3 text-sm hidden"></p> <p class="newsletter-error mt-3 text-sm text-red-400 hidden"></p> </div> <script type="module">function d(){document.querySelectorAll("[data-newsletter]:not([data-nl-initialized])").forEach(t=>{t.dataset.nlInitialized="true";const r=t.querySelector(".newsletter-form"),s=t.querySelector(".newsletter-message"),n=t.querySelector(".newsletter-error");r.addEventListener("submit",async l=>{l.preventDefault();const c=r.querySelector('[name="email"]'),a=r.querySelector('[type="submit"]'),o=c.value.trim();if(o){a.disabled=!0,s.classList.add("hidden"),n.classList.add("hidden");try{const e=await fetch("/api/newsletter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:o})}),i=await e.json();if(!e.ok)throw new Error(i.error||"Failed to subscribe");s.textContent=i.message,s.classList.remove("hidden"),s.style.color="var(--accent)",r.reset()}catch(e){n.textContent=e instanceof Error?e.message:"Something went wrong",n.classList.remove("hidden")}finally{a.disabled=!1}}})})}document.addEventListener("astro:page-load",d);</script> <div class="comments-section" data-slug="article_ai_engineer_vs_data_engineer_vs_mle" data-astro-cid-jvxsf75u> <h3 class="comments-title text-foreground" data-astro-cid-jvxsf75u>Comments</h3> <form class="comment-form" data-astro-cid-jvxsf75u> <div class="form-group comment-name-group" data-astro-cid-jvxsf75u> <input type="text" name="authorName" placeholder="Your name" maxlength="100" required data-astro-cid-jvxsf75u> </div> <div class="form-group" data-astro-cid-jvxsf75u> <textarea name="content" placeholder="Write a comment..." maxlength="2000" rows="4" required data-astro-cid-jvxsf75u></textarea> </div> <input type="hidden" name="parentId" value="" data-astro-cid-jvxsf75u> <div class="form-actions" data-astro-cid-jvxsf75u> <button type="submit" class="submit-btn" data-astro-cid-jvxsf75u>Post Comment</button> <button type="button" class="cancel-reply-btn hidden" data-astro-cid-jvxsf75u>Cancel Reply</button> </div> <p class="reply-indicator hidden" data-astro-cid-jvxsf75u></p> <p class="form-error" data-astro-cid-jvxsf75u></p> </form> <div class="comments-list" data-astro-cid-jvxsf75u> <p class="loading text-foreground/70" data-astro-cid-jvxsf75u>Loading comments...</p> </div> </div>  <script type="module" src="/_astro/Comments.astro_astro_type_script_index_0_lang.BkRH9OPW.js"></script> <div class="related-posts" data-astro-cid-dpgbfi7r><h3 class="related-title text-foreground" data-astro-cid-dpgbfi7r>Related Articles</h3><div class="related-grid" data-astro-cid-dpgbfi7r><a href="/posts/article_last_generation_data_engineers" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/last-generation-data-engineers.webp" alt="The Last Generation of Data Engineers?" class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>The Last Generation of Data Engineers?</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>How agentic platforms are quietly making the pipeline-builder&#39;s job description obsolete -- and what survives the transition.</p></div></a><a href="/posts/article_career_ops_ai_job_search" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/career-ops-ai-job-search.webp" alt="He Stopped Applying to Jobs and Built a System That Did It For Him" class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>He Stopped Applying to Jobs and Built a System That Did It For Him</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>Career-Ops: an open-source multi-agent system built on Claude Code that evaluated 740+ job offers, generated 354 tailored CVs, and landed its creator a Head of Applied AI role. Now on GitHub.</p></div></a><a href="/posts/article_databricks_agent_bricks_data_engineering" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/databricks-agent-bricks.webp" alt="Databricks Agent Bricks Is Quietly Changing How Data Engineers Work" class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>Databricks Agent Bricks Is Quietly Changing How Data Engineers Work</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>Describe the task. Connect your data. Let the platform handle the rest. That is the promise of Agent Bricks — and for a specific, important set of data engineering problems, it is actually delivering on it.</p></div></a></div></div> <hr class="my-6 border-dashed"> <!-- Previous/Next Post Buttons --> <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2"> <a href="/posts/article_claude_opus_nerfed" class="flex w-full gap-1 hover:opacity-75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <div> <span>Previous Post</span> <div class="text-sm text-accent/85">Did Claude Code Opus 4.6 Get Nerfed?</div> </div> </a> <a href="/posts/article_claude_mythos_project_glasswing" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"> <div> <span>Next Post</span> <div class="text-sm text-accent/85">The AI That Found More Bugs in Weeks Than Most Researchers Find in a Career</div> </div> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l6 6l-6 6" /></svg> </a> </div> </main> <div data-highlighter data-highlight-slug="article_ai_engineer_vs_data_engineer_vs_mle"> <!-- Floating toolbar on text selection --> <div class="hl-toolbar hidden" id="hl-toolbar"> <button class="hl-color-btn" data-color="yellow" style="background:#fde68a" title="Yellow"></button> <button class="hl-color-btn" data-color="green" style="background:#86efac" title="Green"></button> <button class="hl-color-btn" data-color="blue" style="background:#93c5fd" title="Blue"></button> <button class="hl-color-btn" data-color="pink" style="background:#f9a8d4" title="Pink"></button> <button class="hl-color-btn" data-color="purple" style="background:#c4b5fd" title="Purple"></button> <span class="hl-toolbar-divider"></span> <button class="hl-note-btn" id="hl-note-btn" title="Add note"> <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"> <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path> </svg> </button> </div> <!-- Popover for existing highlights --> <div class="hl-popover hidden" id="hl-popover"> <div class="hl-popover-note" id="hl-popover-note"></div> <div class="hl-popover-actions"> <button class="hl-popover-btn" id="hl-edit-note"> <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"> <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path> </svg>
+Note
+</button> <div class="hl-popover-colors"> <button class="hl-color-dot" data-popover-color="yellow" style="background:#fde68a"></button> <button class="hl-color-dot" data-popover-color="green" style="background:#86efac"></button> <button class="hl-color-dot" data-popover-color="blue" style="background:#93c5fd"></button> <button class="hl-color-dot" data-popover-color="pink" style="background:#f9a8d4"></button> <button class="hl-color-dot" data-popover-color="purple" style="background:#c4b5fd"></button> </div> <button class="hl-popover-btn hl-delete-btn" id="hl-delete"> <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"> <polyline points="3 6 5 6 21 6"></polyline> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path> </svg>
+Remove
+</button> </div> </div> <!-- Community notes popover --> <div class="cn-popover cn-hidden" id="cn-popover"> <div class="cn-popover-header"> <img class="cn-popover-avatar" id="cn-popover-avatar" src="" alt=""> <span class="cn-popover-name" id="cn-popover-name"></span> <span class="cn-popover-date" id="cn-popover-date"></span> </div> <div class="cn-popover-quote" id="cn-popover-quote"></div> <div class="cn-popover-note" id="cn-popover-note"></div> </div> <!-- Note input modal --> <div class="hl-note-modal hidden" id="hl-note-modal"> <div class="hl-note-modal-content"> <div class="hl-note-modal-header"> <span class="hl-note-modal-title">Add a note</span> <button class="hl-note-modal-close" id="hl-note-close">&times;</button> </div> <div class="hl-note-quote" id="hl-note-quote"></div> <textarea class="hl-note-input" id="hl-note-input" placeholder="Write your thoughts..." rows="3" maxlength="1000"></textarea> <div class="hl-note-footer"> <span class="hl-note-count"><span id="hl-note-count">0</span>/1000</span> <button class="hl-note-save" id="hl-note-save">Save</button> </div> </div> </div> </div>  <script type="module" src="/_astro/ArticleHighlighter.astro_astro_type_script_index_0_lang.ROuhwkEz.js"></script> <div class="reading-progress-tracker" data-progress-slug="article_ai_engineer_vs_data_engineer_vs_mle"></div> <script type="module">function h(){document.querySelectorAll("[data-progress-slug]:not([data-rp-initialized])").forEach(n=>{n.dataset.rpInitialized="true";const o=n.dataset.progressSlug;if(!o)return;let i=0,r=null;function c(e){if(!window.__authUser)return;const t=Math.round(e*10)/10;t<=i||(i=t,fetch("/api/reading-history",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:o,progress:t})}).catch(()=>{}))}function s(){const e=document.getElementById("article");if(!e)return;const t=e.getBoundingClientRect(),d=t.top+window.scrollY,l=t.height,u=window.scrollY+window.innerHeight,g=Math.min(1,Math.max(0,(u-d)/l));r&&clearTimeout(r),r=setTimeout(()=>c(g),2e3)}function a(){window.__authUser&&(window.addEventListener("scroll",s,{passive:!0}),s())}window.addEventListener("auth:ready",a),window.__authUser&&a()})}document.addEventListener("astro:page-load",h);</script> <aside class="toc-container" data-toc data-astro-cid-xvrfupwn> <div class="toc-wrapper" data-astro-cid-xvrfupwn> <h4 class="toc-title" data-astro-cid-xvrfupwn>On this page</h4> <nav class="toc-nav" data-astro-cid-xvrfupwn> <ul class="toc-list" data-astro-cid-xvrfupwn></ul> </nav> </div> </aside>  <script type="module">function d(){document.querySelectorAll("[data-toc]:not([data-initialized])").forEach(n=>{n.dataset.initialized="true";const r=n.querySelector(".toc-list");if(!r)return;const i=document.getElementById("article");if(!i)return;const c=i.querySelectorAll("h2, h3, h4");if(c.length===0){n.style.display="none";return}c.forEach(t=>{if(!t.id)return;const o=document.createElement("li"),e=document.createElement("a");e.href=`#${t.id}`,e.textContent=t.textContent?.replace(/#$/,"").trim()||"",e.classList.add(`toc-${t.tagName.toLowerCase()}`),o.appendChild(e),r.appendChild(o)});const s=r.querySelectorAll("a"),l=new IntersectionObserver(t=>{t.forEach(o=>{if(o.isIntersecting){const e=o.target.id;s.forEach(a=>{a.classList.toggle("active",a.getAttribute("href")===`#${e}`)})}})},{rootMargin:"-80px 0px -80% 0px"});c.forEach(t=>l.observe(t))})}document.addEventListener("astro:page-load",d);</script> <footer class="app-layout mt-auto"> <div class="py-6 sm:py-4 border-t border-border flex flex-col items-center justify-between sm:flex-row-reverse"> <div class="flex flex-wrap items-center gap-1">  </div> <div class="my-2 flex flex-col items-center gap-1 sm:gap-0"> <div class="flex items-center gap-3 text-sm text-foreground/60"> <a href="/about" class="hover:text-accent transition-colors">About</a> <span>|</span> <a href="/contact" class="hover:text-accent transition-colors">Contact</a> <span>|</span> <a href="/privacy-policy" class="hover:text-accent transition-colors">Privacy Policy</a> <span>|</span> <a href="/cookie-policy" class="hover:text-accent transition-colors">Cookie Policy</a> </div> <div class="flex items-center whitespace-nowrap"> <span>Copyright &#169; 2026</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>All rights reserved.</span> </div> </div> </div> </footer>  <div id="cookie-consent" class="fixed bottom-0 left-0 right-0 z-50 hidden border-t border-border bg-background/95 backdrop-blur-sm"> <div class="mx-auto max-w-5xl px-4 py-4 sm:flex sm:items-center sm:justify-between sm:gap-4"> <p class="text-sm text-foreground/80 mb-3 sm:mb-0">
+This site uses cookies for analytics and advertising (Google Analytics, Google AdSense).
+      By continuing to use this site, you consent to our use of cookies.
+<a href="/cookie-policy" class="text-accent hover:underline">Learn more</a>.
+</p> <div class="flex gap-3 shrink-0"> <button id="cookie-reject" class="rounded border border-border px-4 py-1.5 text-sm text-foreground/70 transition-colors hover:border-accent hover:text-foreground">
+Reject
+</button> <button id="cookie-accept" class="rounded bg-accent px-4 py-1.5 text-sm font-medium text-background transition-opacity hover:opacity-90">
+Accept
+</button> </div> </div> </div> <script>
+  (function () {
+    var consent = localStorage.getItem("cookie-consent");
+
+    if (!consent) {
+      var banner = document.getElementById("cookie-consent");
+      if (banner) banner.classList.remove("hidden");
+    }
+
+    function loadAnalytics() {
+      // Load AdSense if not already present
+      if (!document.querySelector('script[src*="adsbygoogle"]')) {
+        var s = document.createElement('script');
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        document.head.appendChild(s);
+      }
+      // Load GA if not already present
+      if (!document.querySelector('script[src*="googletagmanager"]')) {
+        var g = document.createElement('script');
+        g.src = 'https://www.googletagmanager.com/gtag/js?id=G-JHSDCEZ9EK';
+        g.async = true;
+        document.head.appendChild(g);
+        g.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-JHSDCEZ9EK');
+        };
+      }
+    }
+
+    document.addEventListener("click", function (e) {
+      if (e.target && e.target.id === "cookie-accept") {
+        localStorage.setItem("cookie-consent", "accepted");
+        var banner = document.getElementById("cookie-consent");
+        if (banner) banner.classList.add("hidden");
+        loadAnalytics();
+      }
+
+      if (e.target && e.target.id === "cookie-reject") {
+        localStorage.setItem("cookie-consent", "rejected");
+        var banner = document.getElementById("cookie-consent");
+        if (banner) banner.classList.add("hidden");
+      }
+    });
+  })();
+</script> <!-- Load full theme logic --> <script type="module">const d="theme",r="light",m="dark";function i(){const e=localStorage.getItem(d);return e||(window.matchMedia("(prefers-color-scheme: dark)").matches?m:r)}let t=window.theme?.themeValue??i();function c(){localStorage.setItem(d,t),o()}function o(){document.firstElementChild?.setAttribute("data-theme",t),document.querySelector("#theme-btn")?.setAttribute("aria-label",t);const e=document.body;if(e){const n=window.getComputedStyle(e).backgroundColor;document.querySelector("meta[name='theme-color']")?.setAttribute("content",n)}}window.theme?(window.theme.setPreference=c,window.theme.reflectPreference=o):window.theme={themeValue:t,setPreference:c,reflectPreference:o,getTheme:()=>t,setTheme:e=>{t=e}};o();function s(){o(),document.querySelector("#theme-btn")?.addEventListener("click",()=>{t=t===r?m:r,window.theme?.setTheme(t),c()})}s();document.addEventListener("astro:after-swap",s);document.addEventListener("astro:before-swap",e=>{const a=e,n=document.querySelector("meta[name='theme-color']")?.getAttribute("content");n&&a.newDocument.querySelector("meta[name='theme-color']")?.setAttribute("content",n)});window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",({matches:e})=>{t=e?m:r,window.theme?.setTheme(t),c()});</script> <!-- Deferred: Google Analytics (loaded after page paint, gated on consent) --> <script>
+      window.addEventListener('load', function () {
+        if (localStorage.getItem('cookie-consent') === 'rejected') return;
+
+        var gaScript = document.createElement('script');
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-JHSDCEZ9EK';
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
+        gaScript.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-JHSDCEZ9EK');
+        };
+      });
+
+      // Track SPA navigations (Astro view transitions)
+      document.addEventListener('astro:page-load', function () {
+        if (window.gtag) {
+          window.gtag('config', 'G-JHSDCEZ9EK', {
+            page_path: window.location.pathname
+          });
+        }
+      });
+    </script> </body> </html> <script data-astro-rerun>
+  /** Create a progress indicator
+   *  at the top */
+  function createProgressBar() {
+    // Create the main container div
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    // Create the progress bar div
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    // Append the progress bar to the progress container
+    progressContainer.appendChild(progressBar);
+
+    // Append the progress container to the document body or any other desired parent element
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  /** Update the progress bar
+   *  when user scrolls */
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      if (document) {
+        const myBar = document.getElementById("myBar");
+        if (myBar) {
+          myBar.style.width = scrolled + "%";
+        }
+      }
+    });
+  }
+  updateScrollProgress();
+
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      // Check if --file-name-offset custom property exists
+      const computedStyle = getComputedStyle(codeBlock);
+      const hasFileNameOffset =
+        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+
+      // Determine the top positioning class
+      const topClass = hasFileNameOffset
+        ? "top-(--file-name-offset)"
+        : "-top-3";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      // wrap codebock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      const code = block.querySelector("code");
+      const text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      // visual feedback that task is completed
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  /* Go to page start after page swap */
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
+</script>

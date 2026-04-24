@@ -1,0 +1,750 @@
+<!DOCTYPE html><html dir="ltr" lang="en" class="scroll-smooth"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><!-- Preconnect to third-party origins for faster loading --><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin><link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="canonical" href="https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/"><meta name="generator" content="Astro v5.18.1"><!-- Load Font --><style>@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:300;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:400;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:600;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/ebe081c5cf2bc9bf.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:italic;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:300;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:400;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:500;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:600;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86";src:url("/_astro/fonts/dfc33a259d798962.woff2") format("woff2");font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;font-weight:700;font-style:normal;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:italic;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:300;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:400;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:500;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:600;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}@font-face{font-family:"Google Sans Code-de078a87b11e4a86 fallback: Courier New";src:local("Courier New");font-display:swap;font-weight:700;font-style:normal;size-adjust:99.9837%;ascent-override:96.6157%;descent-override:28.6047%;}:root{--font-google-sans-code:"Google Sans Code-de078a87b11e4a86","Google Sans Code-de078a87b11e4a86 fallback: Courier New",monospace;}</style><!-- General Meta Tags --><title>The Harness Is Everything | Reliable Data Engineering</title><meta name="title" content="The Harness Is Everything | Reliable Data Engineering"><meta name="description" content="What Cursor, Claude Code, and Perplexity actually built -- and why the model was never the real product."><meta name="author" content="Amin Siddique"><link rel="sitemap" href="/sitemap-index.xml"><!-- Impact Affiliate Verification --><meta name="impact-site-verification" content="24fadc25-ebf4-46fd-832a-99597a7caf51"><!-- Open Graph / Facebook --><meta property="og:title" content="The Harness Is Everything | Reliable Data Engineering"><meta property="og:description" content="What Cursor, Claude Code, and Perplexity actually built -- and why the model was never the real product."><meta property="og:url" content="https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/"><meta property="og:image" content="https://reliable-data-engineering.netlify.app/images/blog/harness-is-everything.webp"><!-- Article Published/Modified time --><meta property="article:published_time" content="2026-04-13T00:00:00.000Z"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/"><meta property="twitter:title" content="The Harness Is Everything | Reliable Data Engineering"><meta property="twitter:description" content="What Cursor, Claude Code, and Perplexity actually built -- and why the model was never the real product."><meta property="twitter:image" content="https://reliable-data-engineering.netlify.app/images/blog/harness-is-everything.webp"><!-- Google JSON-LD Structured data --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Harness Is Everything | Reliable Data Engineering","image":"https://reliable-data-engineering.netlify.app/images/blog/harness-is-everything.webp","datePublished":"2026-04-13T00:00:00.000Z","author":[{"@type":"Person","name":"Amin Siddique","url":"https://medium.com/@amin-siddique"}]}</script><!-- Enable RSS feed auto-discovery  --><!-- https://docs.astro.build/en/recipes/rss/#enabling-rss-feed-auto-discovery --><link rel="alternate" type="application/rss+xml" title="Reliable Data Engineering" href="https://reliable-data-engineering.netlify.app/rss.xml"><meta name="theme-color" content=""><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="animate"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><!-- Google AdSense account verification --><meta name="google-adsense-account" content="ca-pub-9040516721758437"><!-- AdSense - loaded in head (async, non-blocking) gated on cookie consent --><script>
+      if (localStorage.getItem('cookie-consent') !== 'rejected') {
+        var s = document.createElement('script');
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        document.currentScript.parentNode.insertBefore(s, document.currentScript);
+      }
+    </script><!-- Minimal inline script to prevent FOUC - sets theme immediately --><script>
+      (function () {
+        const initialColorScheme = "dark"; // "light" | "dark"
+        const currentTheme = localStorage.getItem("theme");
+
+        function getPreferTheme() {
+          if (currentTheme) return currentTheme;
+          if (initialColorScheme) return initialColorScheme;
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        }
+
+        const themeValue = getPreferTheme();
+
+        // Set theme immediately to prevent flash
+        document.firstElementChild?.setAttribute("data-theme", themeValue);
+
+        // Export minimal API for external script
+        window.theme = {
+          themeValue: themeValue,
+          getTheme: () => window.theme.themeValue,
+          setTheme: val => {
+            window.theme.themeValue = val;
+          },
+        };
+      })();
+    </script><link rel="stylesheet" href="/_astro/about.DOJoUBPJ.css">
+<style>:where([data-astro-image]){object-fit:var(--fit);object-position:var(--pos);height:auto}:where([data-astro-image=full-width]){width:100%}:where([data-astro-image=constrained]){max-width:100%}
+@keyframes astroFadeInOut{0%{opacity:1}to{opacity:0}}@keyframes astroFadeIn{0%{opacity:0;mix-blend-mode:plus-lighter}to{opacity:1;mix-blend-mode:plus-lighter}}@keyframes astroFadeOut{0%{opacity:1;mix-blend-mode:plus-lighter}to{opacity:0;mix-blend-mode:plus-lighter}}@keyframes astroSlideFromRight{0%{transform:translate(100%)}}@keyframes astroSlideFromLeft{0%{transform:translate(-100%)}}@keyframes astroSlideToRight{to{transform:translate(100%)}}@keyframes astroSlideToLeft{to{transform:translate(-100%)}}@media(prefers-reduced-motion){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}[data-astro-transition-scope]{animation:none!important}}
+</style>
+<link rel="stylesheet" href="/_astro/index.8v0x3yFh.css"><style>[data-astro-transition-scope="astro-fam6wyqg-1"] { view-transition-name: the-harness-is-everything; }@layer astro { ::view-transition-old(the-harness-is-everything) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(the-harness-is-everything) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(the-harness-is-everything) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(the-harness-is-everything) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-fam6wyqg-1"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-fam6wyqg-1"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-2"] { view-transition-name: ai-agents; }@layer astro { ::view-transition-old(ai-agents) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(ai-agents) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(ai-agents) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(ai-agents) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-2"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-2"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-3"] { view-transition-name: ai-engineering; }@layer astro { ::view-transition-old(ai-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(ai-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(ai-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(ai-engineering) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-3"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-3"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-4"] { view-transition-name: developer-tools; }@layer astro { ::view-transition-old(developer-tools) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(developer-tools) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(developer-tools) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(developer-tools) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-4"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-4"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style><style>[data-astro-transition-scope="astro-36ssibgs-5"] { view-transition-name: architecture; }@layer astro { ::view-transition-old(architecture) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }::view-transition-new(architecture) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back]::view-transition-old(architecture) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back]::view-transition-new(architecture) { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; } }[data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }[data-astro-transition=back][data-astro-transition-fallback="old"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="old"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeOut; }[data-astro-transition=back][data-astro-transition-fallback="new"] [data-astro-transition-scope="astro-36ssibgs-5"],
+			[data-astro-transition=back][data-astro-transition-fallback="new"][data-astro-transition-scope="astro-36ssibgs-5"] { 
+	animation-duration: 180ms;
+	animation-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+	animation-fill-mode: both;
+	animation-name: astroFadeIn; }</style></head> <body>  <a id="skip-to-content" href="#main-content" class="absolute start-16 -top-full z-50 bg-background px-3 py-2 text-accent backdrop-blur-lg transition-all focus:top-4">
+Skip to content
+</a> <header class="w-full border-b border-border"> <div id="top-nav-wrap" class="mx-auto max-w-5xl px-4 py-4 sm:py-6 relative w-full bg-background flex items-center justify-between"> <a href="/" class="py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:text-2xl sm:leading-none"> Reliable Data Engineering </a> <div class="flex items-center gap-2 sm:gap-3"> <nav id="nav-menu" class="flex items-center"> <button id="menu-btn" class="focus-outline p-2 sm:hidden" aria-label="Open Menu" aria-expanded="false" aria-controls="menu-items"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden" id="close-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-menu-deep" id="menu-icon"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6h16" /><path d="M7 12h13" /><path d="M10 18h10" /></svg> </button> <ul id="menu-items" class="absolute top-full left-0 right-0 z-40 mt-0 grid w-full grid-cols-2 place-content-center gap-2 border-b border-border bg-background p-4 [&#38;>li>a]:block [&#38;>li>a]:px-4 [&#38;>li>a]:py-3 [&#38;>li>a]:text-center [&#38;>li>a]:font-medium [&#38;>li>a]:hover:text-accent sm:[&#38;>li>a]:px-2 sm:[&#38;>li>a]:py-1 hidden sm:static sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:border-0 sm:p-0"> <li class="col-span-2"> <a href="/about">
+About
+</a> </li> <li class="col-span-2"> <a href="/resources">
+Resources
+</a> </li>  <li class="col-span-1 flex items-center justify-center"> <a href="https://ko-fi.com/reliabledataengineering" title="Buy me a coffee" aria-label="buy me a coffee" target="_blank" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex p-3 sm:p-1 hover:[&#38;>svg]:stroke-[#ff5e5b]">  <svg class="icon icon-tabler icon-tabler-coffee" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M3 14c.83 .642 2.077 1.017 3.5 1c1.423 .017 2.67 -.358 3.5 -1c.83 -.642 2.077 -1.017 3.5 -1c1.423 -.017 2.67 .358 3.5 1" />
+  <path d="M8 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" />
+  <path d="M12 3a2.4 2.4 0 0 0 -1 2a2.4 2.4 0 0 0 1 2" />
+  <path d="M3 10h14v5a6 6 0 0 1 -6 6h-2a6 6 0 0 1 -6 -6v-5z" />
+  <path d="M16.746 16.726a3 3 0 1 0 .252 -5.555" />
+</svg> <span class="sr-only">Buy me a coffee</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <a href="/search" title="Search" aria-label="search" class="group inline-flex items-center gap-1 hover:text-accent focus-outline flex p-3 sm:p-1">  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" /><path d="M21 21l-6 -6" /></svg> <span class="sr-only">Search</span>  </a> </li> <li class="col-span-1 flex items-center justify-center"> <button id="theme-btn" class="focus-outline relative size-12 p-4 sm:size-8 hover:[&>svg]:stroke-accent" title="Toggles light & dark" aria-label="auto" aria-live="polite"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" /></svg> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute top-[50%] left-[50%] -translate-[50%] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z" /><path d="M6.343 17.657l-1.414 1.414" /><path d="M6.343 6.343l-1.414 -1.414" /><path d="M17.657 6.343l1.414 -1.414" /><path d="M17.657 17.657l1.414 1.414" /><path d="M4 12h-2" /><path d="M12 4v-2" /><path d="M20 12h2" /><path d="M12 20v2" /></svg> </button> </li> </ul> </nav> <div class="notif-container" data-notif-bell> <button class="notif-btn" aria-label="Notifications" aria-expanded="false"> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"> <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path> <path d="M13.73 21a2 2 0 0 1-3.46 0"></path> </svg> <span class="notif-badge hidden">0</span> </button> <div class="notif-dropdown hidden"> <div class="notif-header"> <span class="notif-title">Notifications</span> <button class="notif-mark-all" aria-label="Mark all as read"> <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"> <polyline points="20 6 9 17 4 12"></polyline> </svg> </button> </div> <div class="notif-list"> <p class="notif-empty">No notifications</p> </div> <a href="/notifications" class="notif-view-all">View all</a> </div> </div>  <script type="module">function _(){document.querySelectorAll("[data-notif-bell]:not([data-initialized])").forEach(n=>{n.dataset.initialized="true";const r=n.querySelector(".notif-btn"),s=n.querySelector(".notif-badge"),d=n.querySelector(".notif-dropdown"),c=n.querySelector(".notif-list"),g=n.querySelector(".notif-mark-all");function v(){n.classList.add("visible")}function p(){n.classList.remove("visible")}function L(e){const t=Date.now(),i=new Date(e).getTime(),o=Math.floor((t-i)/1e3);return o<60?"just now":o<3600?`${Math.floor(o/60)}m ago`:o<86400?`${Math.floor(o/3600)}h ago`:o<604800?`${Math.floor(o/86400)}d ago`:new Date(e).toLocaleDateString("en-US",{month:"short",day:"numeric"})}function l(e){const t=document.createElement("div");return t.textContent=e,t.innerHTML}function m(e){if(e.length===0){c.innerHTML='<p class="notif-empty">No notifications</p>';return}c.innerHTML=e.slice(0,10).map(t=>{const i=t.type==="like"?"like":t.type==="reply"?"reply":"comment",o=t.type==="like"?"&#10084;":t.type==="reply"?"&#8617;":"&#128172;",w=t.comment_id?`#comment-${t.comment_id}`:"",$=t.post_slug?`/posts/${t.post_slug}/${w}`:"#",f=t.source_user_name?l(t.source_user_name):"";let u=l(t.message);return f&&(u=u.replace(f,`<strong>${f}</strong>`)),`
+            <a href="${l($)}" class="notif-item ${t.read?"":"unread"}" data-notif-id="${t.id}">
+              <div class="notif-icon ${i}">${o}</div>
+              <div class="notif-body">
+                <div class="notif-message">${u}</div>
+                <div class="notif-time">${L(t.created_at)}</div>
+              </div>
+              ${t.read?"":'<div class="notif-unread-dot"></div>'}
+            </a>
+          `}).join(""),c.querySelectorAll(".notif-item").forEach(t=>{t.addEventListener("click",()=>{const i=t.dataset.notifId;i&&fetch("/api/notifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({notificationId:parseInt(i)})})})})}let a=[];async function h(){try{const t=await(await fetch("/api/notifications?limit=10")).json();a=t.notifications||[];const i=t.unreadCount||0;i>0?(s.textContent=i>9?"9+":i.toString(),s.classList.remove("hidden")):s.classList.add("hidden"),m(a)}catch{}}function y(e){e?(v(),h()):p()}window.addEventListener("auth:ready",(e=>y(e.detail))),window.addEventListener("auth:logout",()=>p()),window.__authUser!==void 0&&y(window.__authUser),r.addEventListener("click",e=>{e.stopPropagation();const t=!d.classList.contains("hidden");d.classList.toggle("hidden",t),r.setAttribute("aria-expanded",(!t).toString()),t||h()}),g.addEventListener("click",async e=>{e.stopPropagation(),await fetch("/api/notifications",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({markAllRead:!0})}),s.classList.add("hidden"),a=a.map(t=>({...t,read:!0})),m(a)}),document.addEventListener("click",()=>{d.classList.add("hidden"),r.setAttribute("aria-expanded","false")}),d.addEventListener("click",e=>e.stopPropagation())})}document.addEventListener("astro:page-load",_);</script> <div class="auth-container" data-auth data-astro-cid-wgzqlfev> <!-- Logged out state (hidden until auth check completes) --> <div class="auth-logged-out hidden" data-astro-cid-wgzqlfev> <button class="auth-sign-in-btn" aria-label="Sign in" aria-expanded="false" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" data-astro-cid-wgzqlfev></path> <circle cx="12" cy="7" r="4" data-astro-cid-wgzqlfev></circle> </svg> <span class="auth-text" data-astro-cid-wgzqlfev>Sign in</span> </button> <div class="auth-dropdown hidden" data-astro-cid-wgzqlfev> <a href="/api/auth/google" class="auth-option" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" data-astro-cid-wgzqlfev> <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" data-astro-cid-wgzqlfev></path> <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" data-astro-cid-wgzqlfev></path> <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" data-astro-cid-wgzqlfev></path> <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" data-astro-cid-wgzqlfev></path> </svg> <span data-astro-cid-wgzqlfev>Continue with Google</span> </a> <a href="/api/auth/github" class="auth-option" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" data-astro-cid-wgzqlfev> <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" data-astro-cid-wgzqlfev></path> </svg> <span data-astro-cid-wgzqlfev>Continue with GitHub</span> </a> <div class="auth-divider-with-text" data-astro-cid-wgzqlfev> <hr class="auth-divider" data-astro-cid-wgzqlfev> <span data-astro-cid-wgzqlfev>or</span> <hr class="auth-divider" data-astro-cid-wgzqlfev> </div> <button class="auth-option auth-email-trigger" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <rect x="2" y="4" width="20" height="16" rx="2" data-astro-cid-wgzqlfev></rect> <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" data-astro-cid-wgzqlfev></path> </svg> <span data-astro-cid-wgzqlfev>Continue with Email</span> </button> </div> </div> <!-- Email auth modal --> <div class="auth-modal-overlay hidden" data-email-modal data-astro-cid-wgzqlfev> <div class="auth-modal" data-modal-content data-astro-cid-wgzqlfev> <div class="auth-modal-header" data-astro-cid-wgzqlfev> <h3 class="auth-modal-title" data-modal-title data-astro-cid-wgzqlfev>Sign in with Email</h3> <button class="auth-modal-close" aria-label="Close" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <line x1="18" y1="6" x2="6" y2="18" data-astro-cid-wgzqlfev></line> <line x1="6" y1="6" x2="18" y2="18" data-astro-cid-wgzqlfev></line> </svg> </button> </div> <form class="auth-email-form" data-astro-cid-wgzqlfev> <div class="auth-email-field auth-signup-only hidden" data-astro-cid-wgzqlfev> <label data-astro-cid-wgzqlfev>Name</label> <input type="text" name="displayName" placeholder="Your name" maxlength="100" data-astro-cid-wgzqlfev> </div> <div class="auth-email-field" data-astro-cid-wgzqlfev> <label data-astro-cid-wgzqlfev>Email</label> <input type="email" name="email" placeholder="you@example.com" required data-astro-cid-wgzqlfev> </div> <div class="auth-email-field" data-astro-cid-wgzqlfev> <label data-astro-cid-wgzqlfev>Password</label> <input type="password" name="password" placeholder="Min 8 characters" minlength="8" required data-astro-cid-wgzqlfev> </div> <p class="auth-email-error hidden" data-astro-cid-wgzqlfev></p> <button type="submit" class="auth-email-submit" data-astro-cid-wgzqlfev>Sign in</button> </form> <p class="auth-modal-switch" data-astro-cid-wgzqlfev> <span class="auth-switch-login" data-astro-cid-wgzqlfev>Don't have an account? <button class="auth-switch-btn" data-switch="signup" data-astro-cid-wgzqlfev>Sign up</button></span> <span class="auth-switch-signup hidden" data-astro-cid-wgzqlfev>Already have an account? <button class="auth-switch-btn" data-switch="login" data-astro-cid-wgzqlfev>Sign in</button></span> </p> </div> </div> <!-- Logged in state (hidden by default) --> <div class="auth-logged-in hidden" data-astro-cid-wgzqlfev> <button class="auth-avatar-btn" aria-label="Account menu" aria-expanded="false" data-astro-cid-wgzqlfev> <img class="auth-avatar" src="" alt="" width="32" height="32" data-astro-cid-wgzqlfev> </button> <div class="auth-user-dropdown hidden" data-astro-cid-wgzqlfev> <div class="auth-user-info" data-astro-cid-wgzqlfev> <span class="auth-user-name" data-astro-cid-wgzqlfev></span> <span class="auth-user-email" data-astro-cid-wgzqlfev></span> </div> <hr class="auth-divider" data-astro-cid-wgzqlfev> <a href="/profile" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" data-astro-cid-wgzqlfev></path> <circle cx="12" cy="7" r="4" data-astro-cid-wgzqlfev></circle> </svg>
+My Profile
+</a> <a href="/activity" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" data-astro-cid-wgzqlfev></polyline> </svg>
+My Activity
+</a> <a href="/bookmarks" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-wgzqlfev></path> </svg>
+Bookmarks
+<span class="auth-menu-count" data-count="bookmarks" data-astro-cid-wgzqlfev></span> </a> <a href="/highlights" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" data-astro-cid-wgzqlfev></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" data-astro-cid-wgzqlfev></path> </svg>
+Highlights
+<span class="auth-menu-count" data-count="highlights" data-astro-cid-wgzqlfev></span> </a> <a href="/history" class="auth-menu-item" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <circle cx="12" cy="12" r="10" data-astro-cid-wgzqlfev></circle> <polyline points="12 6 12 12 16 14" data-astro-cid-wgzqlfev></polyline> </svg>
+Reading History
+<span class="auth-menu-count" data-count="history" data-astro-cid-wgzqlfev></span> </a> <hr class="auth-divider" data-astro-cid-wgzqlfev> <button class="auth-menu-item auth-logout" data-astro-cid-wgzqlfev> <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-wgzqlfev> <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" data-astro-cid-wgzqlfev></path> <polyline points="16 17 21 12 16 7" data-astro-cid-wgzqlfev></polyline> <line x1="21" y1="12" x2="9" y2="12" data-astro-cid-wgzqlfev></line> </svg>
+Sign out
+</button> </div> </div> </div>  <script type="module" src="/_astro/AuthButton.astro_astro_type_script_index_0_lang.CJfPF_-4.js"></script> </div> </div> </header> <script type="module">function s(){const e=document.querySelector("#menu-btn"),t=document.querySelector("#menu-items"),n=document.querySelector("#menu-icon"),o=document.querySelector("#close-icon");!e||!t||!n||!o||e.addEventListener("click",()=>{const c=e.getAttribute("aria-expanded")==="true";e.setAttribute("aria-expanded",c?"false":"true"),e.setAttribute("aria-label",c?"Open Menu":"Close Menu"),t.classList.toggle("hidden"),n.classList.toggle("hidden"),o.classList.toggle("hidden")})}s();document.addEventListener("astro:after-swap",s);</script> <div class="app-layout flex items-center justify-start"><a id="back-button" href="/" class="group inline-flex items-center gap-1 hover:text-accent focus-outline -ms-2 mt-8 mb-2 hover:text-foreground/75"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg><span>Go back</span> </a></div><script type="module">function o(){const t=document.querySelector("#back-button"),e=sessionStorage.getItem("backUrl");e&&t&&(t.href=e)}document.addEventListener("astro:page-load",o);o();</script> <main id="main-content" class="app-layout pb-12" data-pagefind-body> <h1 class="inline-block text-2xl font-bold text-accent sm:text-3xl" data-astro-transition-scope="astro-fam6wyqg-1"> The Harness Is Everything </h1> <div class="my-2 flex flex-wrap items-center gap-2 text-sm"> <div class="flex items-center gap-x-2 opacity-80"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 min-w-5.5"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" /><path d="M16 3v4" /><path d="M8 3v4" /><path d="M4 11h16" /><path d="M7 14h.013" /><path d="M10.01 14h.005" /><path d="M13.01 14h.005" /><path d="M16.015 14h.005" /><path d="M13.015 17h.005" /><path d="M7.01 17h.005" /><path d="M10.01 17h.005" /></svg>  <time class="text-sm sm:text-base" datetime="2026-04-13T00:00:00.000Z">13 Apr, 2026</time> </div> <span aria-hidden="true" class="text-muted">|</span> <span class="text-sm opacity-70"> 15 min read
+</span> <span aria-hidden="true" class="text-muted">|</span> <span class="view-counter" data-slug="article_harness_is_everything" data-astro-cid-e75zxctz> <svg class="inline-block w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" data-astro-cid-e75zxctz> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" data-astro-cid-e75zxctz></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" data-astro-cid-e75zxctz></path> </svg> <span class="view-count" data-astro-cid-e75zxctz>-</span> views
+</span>  <script type="module">function i(){document.querySelectorAll(".view-counter:not([data-initialized])").forEach(n=>{n.dataset.initialized="true";const t=n.dataset.slug;if(!t)return;const o=n.querySelector(".view-count");if(!o)return;const s=`viewed_${t}`;sessionStorage.getItem(s)?fetch(`/api/views?slug=${encodeURIComponent(t)}`).then(e=>e.json()).then(e=>{o.textContent=e.count.toString()}).catch(console.error):fetch(`/api/views?slug=${encodeURIComponent(t)}`,{method:"POST"}).then(e=>e.json()).then(e=>{o.textContent=e.count.toString(),sessionStorage.setItem(s,"true")}).catch(console.error)})}document.addEventListener("astro:page-load",i);</script> <span aria-hidden="true" class="max-sm:hidden text-muted hidden">|</span>  </div> <img src="/images/blog/harness-is-everything.webp" alt="The Harness Is Everything" class="my-6 w-full rounded-lg object-cover" style="max-height: 400px;"> <article id="article" class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)"> <h1 id="the-harness-is-everything">The Harness Is Everything</h1>
+<p><em>What Cursor, Claude Code, and Perplexity actually built — and why the model was never the real product.</em></p>
+<hr>
+<p><em>AI Engineering | Architecture | Developer Tools | April 2026</em></p>
+<p><em>~14 min read</em></p>
+<hr>
+<blockquote>
+<p><strong>Disclaimer:</strong> This article is an independently written analysis of harness engineering in AI systems. All statistics and benchmarks cited are sourced from publicly available research (SWE-agent / NeurIPS 2024, Latent Space, Medium, and Coalesce 2026). Code examples are illustrative and not production-ready. No vendor endorsement is implied or intended.</p>
+</blockquote>
+<h2 id="the-conversation-nobodys-having-correctly">The conversation nobody’s having correctly</h2>
+<p>There is a conversation happening right now across every engineering Slack, every AI-adjacent team standup, and every conference hallway that goes something like this: somebody shows off a tool that feels almost magic, a coding agent that ships whole features in minutes, and then somebody else says, “yeah, but with a different model it was useless.” Both people are right. And neither one quite understands why.</p>
+<p>The answer isn’t hiding in a model card or a benchmark. It isn’t a temperature trick or a system-prompt secret. The answer — one that a growing number of serious AI engineers are converging on with surprising unanimity — is the harness. The environment the model lives inside. Not the brain, but the body.</p>
+<p>It’s the same argument that keeps surfacing when you look carefully at what Anthropic built to make Claude Code work, what OpenAI built to ship one million lines of code with Codex, and what Princeton’s NLP group discovered when they ran the same model through two different interfaces on the same benchmark. Same weights. Radically different results.</p>
+<blockquote>
+<p>“You are not using AI wrong because you haven’t found the right model. You are using AI wrong because you haven’t built the right environment.”</p>
+</blockquote>
+<p>That framing cuts straight to the problem. The AI industry has spent two years arguing about which model is smarter, which lab is winning, which benchmark matters. Meanwhile, the teams actually shipping products at scale have quietly moved the interesting work somewhere else entirely.</p>
+<h2 id="what-a-harness-actually-is">What a harness actually is</h2>
+<p>The word gets used carelessly enough that it’s worth being precise. A harness is not a system prompt. It’s not a wrapper around an API call. It’s not a framework or a library or a “smart chatbot with memory.”</p>
+<p>A harness is the complete designed environment inside which a language model operates — the tools it can invoke, the format of information it receives, how its conversation history is compressed and managed, the guardrails that catch its mistakes before they cascade, the feedback loops that let it observe the consequences of its actions, and the scaffolding that allows it to hand off work to its future self without losing coherence across long tasks.</p>
+<p>The metaphor is deliberately borrowed from engineering: in electrical testing, a harness connects components while isolating them from each other. In climbing, the harness transfers load from the body’s weakest points to its strongest. In both cases, the harness doesn’t do the work — it governs how the work gets done. Martin Fowler’s team made the same point about coding agents: <em>reins, saddle, bit</em> — the complete equipment for channeling a powerful but unpredictable animal in a useful direction.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Metric</th><th>Value</th><th>Context</th></tr></thead><tbody><tr><td>GPT-4 Turbo on SWE-bench with standard bash shell</td><td>3.97%</td><td>Baseline interface</td></tr><tr><td>Same GPT-4 Turbo with Princeton’s purpose-built ACI harness</td><td>12.47%</td><td>Custom Agent-Computer Interface</td></tr><tr><td>Performance improvement</td><td>3x</td><td>Same model, different environment</td></tr></tbody></table>
+<p>Those three numbers come from the SWE-agent paper out of Princeton NLP, published at NeurIPS 2024. The task was real software engineering work: given a GitHub issue description, produce a code patch that resolves it. The model didn’t change. The researchers gave it a purpose-built Agent-Computer Interface instead of a generic shell, with tailored file navigation commands, linting feedback baked into every edit step, and search tools designed to prevent context flooding. The interface — the harness — tripled performance without touching the model at all.</p>
+<h2 id="the-core-loop-nobody-talks-about">The core loop nobody talks about</h2>
+<p>Here’s the thing that becomes obvious once you look at Claude Code, Cursor’s agent mode, and Manus side by side: they are all, at their architectural core, the same two dozen lines of logic.</p>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;--file-name-offset: -0.75rem;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic"># Every production coding agent -- Cursor, Claude Code, Manus -- runs this loop.</span></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic"># The harness is everything that happens INSIDE each step.</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">async</span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA"> def</span><span style="--shiki-light:#6F42C1;--shiki-light-font-style:inherit;--shiki-dark:#82AAFF;--shiki-dark-font-style:italic"> agent_loop</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD">(</span><span style="--shiki-light:#FF9800;--shiki-dark:#7FDBCA">task</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">:</span><span style="--shiki-light:#1976D2;--shiki-dark:#C5E478"> str</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">,</span><span style="--shiki-light:#FF9800;--shiki-dark:#7FDBCA"> harness</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">:</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> Harness</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD">)</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB"> -></span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> Result:</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    context </span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic"> await</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> harness</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">build_context</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">task</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">)</span><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">   # scoped, not dumped</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">    history </span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD"> []</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">    while</span><span style="--shiki-light:#1976D2;--shiki-dark:#FF5874"> True</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">:</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">        response </span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic"> await</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> model</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">call</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span></span>
+<span class="line"><span style="--shiki-light:#212121;--shiki-dark:#D7DBE0">            messages</span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">history </span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">+</span><span style="--shiki-light:#212121;--shiki-dark:#D9F5DD"> [</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">context</span><span style="--shiki-light:#212121;--shiki-dark:#D9F5DD">],</span></span>
+<span class="line"><span style="--shiki-light:#212121;--shiki-dark:#D7DBE0">            tools</span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">harness.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">available_tools</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">()</span><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">       # filtered, not full universe</span></span>
+<span class="line"><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">        )</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">        if</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> response</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">is_done</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">():</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">            return</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> harness</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">validate_and_deliver</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">response</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">        for</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> call </span><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">in</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> response</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">tool_calls</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">:</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">            result </span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic"> await</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> harness</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">execute</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">call</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">)</span><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">   # sandboxed execution</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">            harness</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">lint_if_code</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">result</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">)</span><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">            # deterministic gates</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">            history</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">append</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">(call, result)</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">)</span><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">          # compressed, not raw</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">        if</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> harness</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">retry_limit_exceeded</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">history</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">):</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">            return</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> harness</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">escalate_to_human</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">history</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">)</span><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">  # Stripe caps at 2</span></span></code></pre>
+<p>That’s it. The entire architecture of Claude Code, Cursor’s agent, and Manus fits inside that loop: while the model returns tool calls, execute the tool, capture the result, append to context, call the model again. The model is the for-loop body. The harness is everything else — and “everything else” is where the real engineering lives.</p>
+<h2 id="what-anthropic-built-and-what-they-admitted">What Anthropic built (and what they admitted)</h2>
+<p>Claude Code’s architects — Boris Cherny and Cat Wu — have been publicly candid in a way that cuts against the model-hype narrative. In repeated interviews, they’ve described Claude Code as deliberately the thinnest possible wrapper over the model, rewritten from scratch roughly every three to four weeks. The “secret sauce,” in their words, is entirely in the model. Their job is to build the minimal environment that lets the model express what it already knows how to do.</p>
+<p>That sounds like the anti-harness argument. It isn’t. A minimal harness is still a harness — it just means Anthropic has decided that the model is capable enough that heavy scaffolding gets in the way. But even the minimal version encodes critical design decisions: what startup context the agent receives at the beginning of every session, how conversation history gets compressed to prevent drift, which tools are available and in what format, and where human review is required versus optional.</p>
+<p>Claude Code went from zero to the most-used AI coding tool in eight months, overtaking both GitHub Copilot and Cursor in usage, with 46% developer satisfaction versus 19% and 9% respectively. That didn’t happen because Anthropic’s models are uniquely better. It happened because the model and the harness were built by the same team with the same understanding of each other’s constraints.</p>
+<blockquote>
+<p>“The model is almost irrelevant. The harness is everything. Every failure is a signal about what the environment needs — not what the model needs.”</p>
+</blockquote>
+<h2 id="the-mcp-problem-when-tools-become-a-firehose">The MCP problem: when tools become a firehose</h2>
+<p>One of the sharper observations in this space concerns the MCP (Model Context Protocol) ecosystem that Anthropic introduced and the industry quickly embraced — and then ran into a wall with at scale.</p>
+<p>The problem is cognitive overload. MCP works cleanly in demos. Load a GitHub MCP server with 90-plus tools and you’re pushing 50,000 tokens of JSON schemas into the model’s context window before it has read a single line of the user’s actual request. The model isn’t reasoning about the task at that point — it’s trying to memorize a manual. Accuracy drops as tool count rises, and it drops fast when those tools get chained.</p>
+<p>The fix Anthropic shipped wasn’t a patch to MCP. It was a different relationship between model and tools altogether — an approach the community has started calling “Skills,” which function like RAG applied to tooling rather than documents:</p>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;--file-name-offset: -0.75rem;" tabindex="0" data-language="python"><code><span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic"># Old approach: dump everything into context</span></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic"># tools_payload = json.dumps(ALL_90_MCP_TOOLS)   &#x3C;- 50k tokens</span></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic"># model.call(system=tools_payload + task)         &#x3C;- firehose</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic"># New approach: Skills = lazy-loaded tool retrieval</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">class</span><span style="--shiki-light:#6F42C1;--shiki-dark:#FFCB8B"> SkillsLayer</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">:</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">    def</span><span style="--shiki-light:#6F42C1;--shiki-dark:#C5E478"> __init__</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD">(</span><span style="--shiki-light:#FF9800;--shiki-dark:#7FDBCA">self</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">,</span><span style="--shiki-light:#FF9800;--shiki-dark:#7FDBCA"> tool_registry</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD">)</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">:</span></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">        # Agent sees only lightweight metadata initially</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#8EACE3">        self</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">metadata_index </span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB"> {</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">            name</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">:</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB"> {</span><span style="--shiki-light:#22863A;--shiki-dark:#D9F5DD">'</span><span style="--shiki-light:#22863A;--shiki-dark:#ECC48D">description</span><span style="--shiki-light:#22863A;--shiki-dark:#D9F5DD">'</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">:</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> tool</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">description</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">,</span><span style="--shiki-light:#22863A;--shiki-dark:#D9F5DD"> '</span><span style="--shiki-light:#22863A;--shiki-dark:#ECC48D">tags</span><span style="--shiki-light:#22863A;--shiki-dark:#D9F5DD">'</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">:</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> tool</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">tags</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">}</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">            for</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> name</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">,</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> tool </span><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">in</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> tool_registry</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">.</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">items</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">()</span></span>
+<span class="line"><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">        }</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">    async</span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA"> def</span><span style="--shiki-light:#6F42C1;--shiki-light-font-style:inherit;--shiki-dark:#82AAFF;--shiki-dark-font-style:italic"> resolve</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD">(</span><span style="--shiki-light:#FF9800;--shiki-dark:#7FDBCA">self</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">,</span><span style="--shiki-light:#FF9800;--shiki-dark:#7FDBCA"> task_intent</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">:</span><span style="--shiki-light:#1976D2;--shiki-dark:#C5E478"> str</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD">)</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB"> -></span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> list</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">[</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">Tool</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">]</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">:</span></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">        # Context is PULLED, not pushed</span></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">        # Agent reads full schema only for relevant tools</span></span>
+<span class="line"><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB">        relevant </span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic"> await</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6"> semantic_search</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span></span>
+<span class="line"><span style="--shiki-light:#212121;--shiki-dark:#D7DBE0">            query</span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">task_intent</span><span style="--shiki-light:#212121;--shiki-dark:#D9F5DD">,</span></span>
+<span class="line"><span style="--shiki-light:#212121;--shiki-dark:#D7DBE0">            index</span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#212121;--shiki-dark:#8EACE3">self</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">.metadata_index</span><span style="--shiki-light:#212121;--shiki-dark:#D9F5DD">,</span></span>
+<span class="line"><span style="--shiki-light:#212121;--shiki-dark:#D7DBE0">            top_k</span><span style="--shiki-light:#D32F2F;--shiki-dark:#C792EA">=</span><span style="--shiki-light:#1976D2;--shiki-dark:#F78C6C">5</span><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic">                 # 5 tools vs 90 -- massive difference</span></span>
+<span class="line"><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">        )</span></span>
+<span class="line"><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">        return</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD"> [</span><span style="--shiki-light:#6F42C1;--shiki-dark:#B2CCD6">full_schema</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">(</span><span style="--shiki-light:#212121;--shiki-dark:#82AAFF">t</span><span style="--shiki-light:#212121;--shiki-dark:#D6DEEB">)</span><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic"> for</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> t </span><span style="--shiki-light:#D32F2F;--shiki-light-font-style:inherit;--shiki-dark:#C792EA;--shiki-dark-font-style:italic">in</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D6DEEB"> relevant</span><span style="--shiki-light:#24292EFF;--shiki-dark:#D9F5DD">]</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic"># Skills don't replace MCP. They domesticate it.</span></span>
+<span class="line"><span style="--shiki-light:#C2C3C5;--shiki-light-font-style:inherit;--shiki-dark:#637777;--shiki-dark-font-style:italic"># A 50k-token dump becomes a targeted 3k-token retrieval.</span></span></code></pre>
+<p>The architecture lesson generalizes: the harness must manage what the model sees, not just what the model does. Feeding a capable model bad or overwhelming input is as damaging as giving it no tools at all. Attention is the scarce resource, and the harness is the attention budget manager.</p>
+<h2 id="how-the-big-teams-actually-do-it">How the big teams actually do it</h2>
+<p>Across a two-week window in February 2026, several of the most serious engineering organizations in the industry showed their cards simultaneously.</p>
+<p>Stripe revealed its Minions system, merging 1,300-plus AI-written pull requests per week. Perplexity launched Computer, a multi-model orchestration engine delegating across 19 specialized AI models. Anthropic shipped Cowork, a desktop agent that triggered a reported $285 billion selloff in enterprise software stocks.</p>
+<p>What’s striking is how convergent the underlying patterns are, despite these being very different products from very different organizations:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Layer</th><th>What It Does</th><th>The Harness Decision</th></tr></thead><tbody><tr><td>Task routing</td><td>Decide what gets automated vs. escalated</td><td>The whole game — get this right and unlock agent-pace development for the majority of tickets</td></tr><tr><td>Context scoping</td><td>What the agent can see</td><td>Stripe uses directory-scoped rule files; the agent cannot access what it cannot see in-context</td></tr><tr><td>Deterministic gates</td><td>Quality enforcement between steps</td><td>Run the linter automatically. Run the tests. Cap retries at 2. If it can’t fix in 2, human in</td></tr><tr><td>Lifecycle management</td><td>Preventing drift across long tasks</td><td>Context compression, standardized startup sequences, history summarization</td></tr><tr><td>Feedback loops</td><td>What the agent observes after acting</td><td>Puppeteer for end-to-end browser verification; without it, bugs invisible from code pass undetected</td></tr><tr><td>Human gates</td><td>Where review sits in the workflow</td><td>Plan approval before, output review after — nowhere in between</td></tr></tbody></table>
+<p>Perplexity’s own data shows no single model commanding more than 25% of enterprise usage by December 2025. The model is interchangeable. The harness is the product.</p>
+<h2 id="the-trust-problem-at-scale">The trust problem at scale</h2>
+<p>There’s a failure mode that takes a while to surface but is consistently the most painful one to debug: confidence compounding.</p>
+<p>When Agent A writes code with high confidence and Agent B writes tests with high confidence and the tests pass — who verified that the tests actually test the right thing? The pipeline looks green. The output reaches its audience. A subtly wrong fact, a slightly off business logic, a test that checks the wrong invariant — all of these travel through the system wearing the costume of validated output.</p>
+<p>The harness has to solve this too, and most early implementations simply don’t. Scepticism doesn’t propagate automatically through a multi-agent system. It has to be designed in at every handoff point.</p>
+<p><strong>Harness design for trust — practical checklist:</strong></p>
+<ul>
+<li><strong>Linting at every edit.</strong> Not as an optional step — as a hard gate. The SWE-agent ablation studies showed linting integration was consistently among the highest-leverage components</li>
+<li><strong>Retry caps.</strong> Stripe caps at two attempts. A third attempt on the same failure almost never produces a different result — it just burns tokens and creates a false sense of progress</li>
+<li><strong>Scope isolation.</strong> Each agent task runs in an isolated sandbox, pre-warmed, with no production access by default</li>
+<li><strong>End-to-end feedback.</strong> Give agents access to the full domain they’re affecting, not just the code. Browser automation that lets the agent see what a user would see catches entire classes of bugs that code review misses</li>
+<li><strong>Human review at the boundary.</strong> Approve the plan before the agent starts. Review the output after it finishes. No human dependency anywhere in between — that just makes agents slower than a developer</li>
+<li><strong>Audit trails on everything.</strong> What was generated, by which model, with what context, at what cost. This isn’t optional when agents are contributing to production systems</li>
+</ul>
+<h2 id="harness-engineering-at-scale--by-codebase-size">Harness engineering at scale — by codebase size</h2>
+<p>One of the most practically useful frameworks to emerge from the 2026 wave of harness thinking is a tiered model based on codebase size. The harness you need for a 50,000-line project is genuinely different from the one you need for a 10-million-line one — not in philosophy, but in complexity and investment.</p>
+<h3 id="under-100k-lines-use-the-agent">Under 100K lines: use the agent</h3>
+<p>If your codebase fits in a context window, you don’t need a custom harness. Use Claude Code, set up a CLAUDE.md that encodes your architecture decisions, naming conventions, and testing expectations clearly, and invest in test coverage so the agent can self-correct. The real work at this scale is writing good context, not building infrastructure.</p>
+<pre class="astro-code astro-code-themes min-light night-owl" style="--shiki-light:#24292eff;--shiki-dark:#d6deeb;--shiki-light-bg:#ffffff;--shiki-dark-bg:#011627; overflow-x: auto;--file-name-offset: -0.75rem;" tabindex="0" data-language="markdown"><code><span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># CLAUDE.md -- your harness at small scale</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># This file IS the harness at sub-100k line projects</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit">## Architecture</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - Services follow hexagonal architecture (domain/ports/adapters)</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - No direct DB calls from controllers -- always go through repositories</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - Async-first: all IO must be awaitable</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit">## Testing</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - Unit tests for all domain logic (no mocks for external)</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - Integration tests hit real DB (testcontainers)</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - New feature = test first. No exceptions.</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit">## Conventions</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - Error types live in errors/ -- never raise raw exceptions</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - Feature flags via flags.py -- no hardcoded conditionals</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># - All env vars documented in .env.example</span></span>
+<span class="line"></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit">## Before submitting any code</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># 1. Run: pytest tests/ -x --tb=short</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># 2. Run: ruff check . &#x26;&#x26; mypy src/</span></span>
+<span class="line"><span style="--shiki-light:#6F42C1;--shiki-light-font-weight:bold;--shiki-dark:#82B1FF;--shiki-dark-font-weight:inherit"># 3. Verify no TODO comments remain in changed files</span></span></code></pre>
+<h3 id="100k-1m-lines-the-thin-custom-harness">100K-1M lines: the thin custom harness</h3>
+<p>This is where most of the industry’s actual opportunity sits. The codebase now exceeds a single context window. Conventions are too complex for a flat file. Generic agents get things subtly wrong with domain logic they can’t fully see.</p>
+<p>The fix is a thin harness you write yourself — handling three things and only three things: task routing (which tickets are safe for autonomous execution), context scoping (selecting the relevant modules and rules rather than the whole codebase), and constraint enforcement (linting, testing, and retry caps that run without human involvement).</p>
+<p>MIT’s Missing Semester course now teaches that the core concepts of a tool-calling agent harness can be implemented in 200 lines of code. Those 200 lines encode team domain knowledge, risk tolerance, and quality standards. Nobody else can write them — which is exactly what makes them defensible.</p>
+<h3 id="1m-lines-platform-engineering">1M+ lines: platform engineering</h3>
+<p>The problem at this scale changes from “how does one team use agents” to “how do twenty teams use agents with different codebases, conventions, and risk profiles.” The investment here is fundamentally different: environment provisioning, multi-agent coordination, governance, and — before any of it — test infrastructure.</p>
+<p>Three million tests sound excessive until you realize they are the foundation Stripe needed before 1,300 autonomous pull requests per week became possible. The tests come before the agents. Always.</p>
+<h2 id="the-big-model-vs-big-harness-debate">The big model vs. big harness debate</h2>
+<p>There’s an honest tension worth naming here. Anthropic’s own team argues that Claude Code’s power comes from the model, not the scaffolding — and they’ve kept the harness deliberately minimal as evidence. OpenAI’s Noam Brown has argued publicly that reasoning models will eventually make scaffolding obsolete, the same way reasoning models replaced the complex agentic chains people built before they existed.</p>
+<p>Both positions have merit. Latent Space’s swyx acknowledged a long-standing respect for the Bitter Lesson but increasingly recognized that “Harness Engineering” has real value, particularly as the Agent Labs thesis played out with Cursor reaching a $50B valuation.</p>
+<p>The honest synthesis is probably this: model capability and harness design are complements, not substitutes. A better model makes a good harness better. But a weak harness caps what even a great model can do. And for teams shipping in production right now, harness improvements are faster, cheaper, and more controllable than waiting for the next model release.</p>
+<p>LangChain’s coding agent jumped from the top 30 to the top 5 on Terminal Bench by changing nothing about the model — only the harness. Same weights. Different environment. That’s not a fluke; it’s a pattern that recurs across every serious deployment analysis of 2025 and 2026.</p>
+<blockquote>
+<p>“Every AI company has access to the same model weights. Some agents feel magical and others feel broken. The model was never the moat. The harness and the context are.”</p>
+</blockquote>
+<h2 id="what-this-means-if-youre-building">What this means if you’re building</h2>
+<p>The shift in where valuable engineering work lives is already underway, and it has concrete implications for what skills to develop and where to invest.</p>
+<p><strong>Context engineering is the new prompt engineering.</strong> The question isn’t “how do I phrase this?” It’s “what does this agent need to know, in what format, at what point in the task?” Writing a CLAUDE.md or an equivalent context file for your codebase is now as important as writing documentation — and arguably more immediately impactful.</p>
+<p><strong>Deterministic gates are your safety net.</strong> The linter, the test suite, the type checker — these are not obstacles to agent development. They’re the guardrails that make aggressive agent autonomy safe. Every team running agents at speed has invested heavily in automated quality enforcement, not to slow agents down, but to let them go faster with confidence.</p>
+<p><strong>Feedback loop design is the highest-leverage work.</strong> The quality of an agent’s work is bounded by the quality of its feedback loops. If an agent cannot observe the consequences of its actions in the domain that matters, it will optimize for proxy metrics that may not correlate with actual correctness. Giving agents access to end-to-end verification — running the actual application, not just the tests — consistently unlocks the largest performance jumps.</p>
+<p><strong>The human’s job is changing shape, not disappearing.</strong> When something fails in a well-designed harness, the diagnostic question shifts from “how do I fix this bug?” to “what structural piece of the environment is missing that is causing this bug to appear?” That’s a different kind of thinking — more systems design, less code writing. The engineers adapting fastest are the ones who’ve already started thinking that way.</p>
+<p><strong>Build for the 15%, not the 85%.</strong> A harness that handles the confident 85% autonomously and escalates the ambiguous 15% to humans is a compounding advantage. The 85% runs at agent speed. The 15% gets human quality. The whole system improves as the escalation boundary gets clearer over time.</p>
+<hr>
+<p>There’s a version of this conversation that turns into another wave of hype — harness engineering as the new buzzword, another concept to add to the pile. That would be a waste. The core idea is actually simple and old: tools work better when the environment they’re used in is designed for them. Surgeons have operating rooms. Pilots have cockpits. Language models need their own purpose-built interfaces.</p>
+<p>The companies that figured this out early — and the engineers who are figuring it out now — aren’t winning because they found the magic model. They’re winning because they built the environment that lets the model do what it was already capable of doing.</p>
+<p>The model is almost irrelevant. The harness is everything.</p>
+<h2 id="recommended-reading">Recommended reading</h2>
+<p>If you’re designing agent harnesses and want to understand the distributed systems patterns underneath — context management, state isolation, feedback loops, and fault tolerance — <strong>Designing Data-Intensive Applications</strong> by Martin Kleppmann covers every architectural principle that matters.</p>
+<p><a href="https://amzn.to/4lPlcr4">Get it on Amazon</a></p>
+<hr>
+<p><em>Sources: SWE-agent benchmarks (3.97% to 12.47% with ACI): Yang et al., “SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering,” NeurIPS 2024. Claude Code satisfaction stats (46% vs 19% vs 9%), Stripe 1,300 PRs/week, Perplexity model distribution data: cited from Deb Acharjee, “THE CI/CD OF CODE ITSELF,” Medium, March 2026. Harness Engineering debate, Cursor $50B valuation: Latent Space “[AINews] Is Harness Engineering real?”, March 2026. MCP cognitive overload / Skills architecture: consistent with publicly documented Anthropic architecture. MIT Missing Semester / 200-line harness: cited from secondary source, not independently verified from primary. All code examples are original and illustrative.</em></p>
+<p><em>No financial, career, or technical advice implied. The author has no commercial relationship with any platform or vendor mentioned.</em></p> </article> <hr class="my-8 border-dashed">  <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8"> <li> <a href="/tags/ai-agents/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-2"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> ai-agents </a> </li><li> <a href="/tags/ai-engineering/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-3"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> ai-engineering </a> </li><li> <a href="/tags/developer-tools/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-4"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> developer-tools </a> </li><li> <a href="/tags/architecture/" class="flex items-center gap-0.5 border-b-2 border-dashed border-foreground hover:-mt-0.5 hover:border-accent hover:text-accent focus-visible:border-none focus-visible:text-accent text-sm" data-astro-transition-scope="astro-36ssibgs-5"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-80 size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M5 9l14 0" /><path d="M5 15l14 0" /><path d="M11 4l-4 16" /><path d="M17 4l-4 16" /></svg> architecture </a> </li> </ul> <div id="btt-btn-container" class="fixed end-4 bottom-8 z-50 md:sticky md:end-auto md:float-end md:me-1 translate-y-14 opacity-0 transition duration-500"> <button data-button="back-to-top" class="group relative bg-background px-2 py-1 size-14 rounded-full shadow-xl md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg"> <span id="progress-indicator" class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"></span> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block rotate-90 md:hidden"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 6l-6 6l6 6" /></svg> <span class="sr-only text-sm group-hover:text-accent md:not-sr-only"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-4"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M16 9l-4 -4" /><path d="M8 9l4 -4" /></svg>
+Back To Top
+</span> </button> </div> <script data-astro-rerun>
+  /** Scrolls the document to the top when
+   * the "Back to Top" button is clicked. */
+  function backToTop() {
+    const rootElement = document.documentElement;
+    const btnContainer = document.querySelector("#btt-btn-container");
+    const backToTopBtn = document.querySelector("[data-button='back-to-top']");
+    const progressIndicator = document.querySelector("#progress-indicator");
+
+    if (!rootElement || !btnContainer || !backToTopBtn || !progressIndicator)
+      return;
+
+    // Attach click event handler for back-to-top button
+    backToTopBtn.addEventListener("click", () => {
+      document.body.scrollTop = 0; // For Safari
+      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    });
+
+    // Handle button visibility according to scroll position
+    let lastVisible = null;
+    function handleScroll() {
+      const scrollTotal = rootElement.scrollHeight - rootElement.clientHeight;
+      const scrollTop = rootElement.scrollTop;
+      const scrollPercent = Math.floor((scrollTop / scrollTotal) * 100);
+
+      progressIndicator.style.setProperty(
+        "background-image",
+        `conic-gradient(var(--accent), var(--accent) ${scrollPercent}%, transparent ${scrollPercent}%)`
+      );
+
+      const isVisible = scrollTop / scrollTotal > 0.3;
+
+      if (isVisible !== lastVisible) {
+        btnContainer.classList.toggle("opacity-100", isVisible);
+        btnContainer.classList.toggle("translate-y-0", isVisible);
+        btnContainer.classList.toggle("opacity-0", !isVisible);
+        btnContainer.classList.toggle("translate-y-14", !isVisible);
+        lastVisible = isVisible;
+      }
+    }
+
+    let ticking = false;
+    document.addEventListener("scroll", () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+  backToTop();
+</script> <div class="flex flex-wrap items-center gap-3 mb-4"> <div class="flex flex-none flex-col items-center justify-center gap-1 md:items-start"><span class="italic">Share this post on:</span><div class="text-center"><a href="https://wa.me/?text=https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/" title="Share this post via WhatsApp" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 21l1.65 -3.8a9 9 0 1 1 3.4 2.9l-5.05 .9" /><path d="M9 10a.5 .5 0 0 0 1 0v-1a.5 .5 0 0 0 -1 0v1a5 5 0 0 0 5 5h1a.5 .5 0 0 0 0 -1h-1a.5 .5 0 0 0 0 1" /></svg><span class="sr-only">Share this post via WhatsApp</span> </a><a href="https://www.facebook.com/sharer.php?u=https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/" title="Share this post on Facebook" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3" /></svg><span class="sr-only">Share this post on Facebook</span> </a><a href="https://x.com/intent/post?url=https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/" title="Share this post on X" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 4l11.733 16h4.267l-11.733 -16z" /><path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" /></svg><span class="sr-only">Share this post on X</span> </a><a href="https://t.me/share/url?url=https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/" title="Share this post via Telegram" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4" /></svg><span class="sr-only">Share this post via Telegram</span> </a><a href="https://pinterest.com/pin/create/button/?url=https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/" title="Share this post on Pinterest" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M8 20l4 -9" /><path d="M10.7 14c.437 1.263 1.43 2 2.55 2c2.071 0 3.75 -1.554 3.75 -4a5 5 0 1 0 -9.7 1.7" /><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" /></svg><span class="sr-only">Share this post on Pinterest</span> </a><a href="mailto:?subject=See%20this%20post&#38;body=https://reliable-data-engineering.netlify.app/posts/article_harness_is_everything/" title="Share this post via email" class="group inline-flex items-center gap-1 hover:text-accent scale-90 p-2 hover:rotate-6 sm:p-1"> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block size-6 scale-125 fill-transparent stroke-current stroke-2 opacity-90 group-hover:fill-transparent sm:scale-110"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" /><path d="M3 7l9 6l9 -6" /></svg><span class="sr-only">Share this post via email</span> </a></div></div> <button class="copy-link-btn" aria-label="Copy link to clipboard" data-astro-cid-c4yglaax> <svg class="copy-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-c4yglaax> <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" data-astro-cid-c4yglaax></path> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" data-astro-cid-c4yglaax></path> </svg> <svg class="check-icon hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-c4yglaax> <polyline points="20 6 9 17 4 12" data-astro-cid-c4yglaax></polyline> </svg> <span class="btn-text" data-astro-cid-c4yglaax>Copy link</span> </button>  <script type="module">function n(){document.querySelectorAll(".copy-link-btn:not([data-initialized])").forEach(e=>{e.dataset.initialized="true";const i=e.querySelector(".copy-icon"),c=e.querySelector(".check-icon"),t=e.querySelector(".btn-text");e.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(window.location.href),i?.classList.add("hidden"),c?.classList.remove("hidden"),t&&(t.textContent="Copied!"),e.classList.add("copied"),setTimeout(()=>{i?.classList.remove("hidden"),c?.classList.add("hidden"),t&&(t.textContent="Copy link"),e.classList.remove("copied")},2e3)}catch(o){console.error("Failed to copy:",o)}})})}document.addEventListener("astro:page-load",n);</script> </div> <div class="reactions-container" data-slug="article_harness_is_everything" data-astro-cid-6vafa5kw> <button class="reaction-btn" data-type="thumbsup" aria-label="Thumbs up" data-astro-cid-6vafa5kw> <span class="reaction-emoji" data-astro-cid-6vafa5kw>&#128077;</span> <span class="reaction-count" data-astro-cid-6vafa5kw>0</span> </button> <button class="reaction-btn" data-type="fire" aria-label="Fire" data-astro-cid-6vafa5kw> <span class="reaction-emoji" data-astro-cid-6vafa5kw>&#128293;</span> <span class="reaction-count" data-astro-cid-6vafa5kw>0</span> </button> <button class="reaction-btn" data-type="lightbulb" aria-label="Insightful" data-astro-cid-6vafa5kw> <span class="reaction-emoji" data-astro-cid-6vafa5kw>&#128161;</span> <span class="reaction-count" data-astro-cid-6vafa5kw>0</span> </button> <button class="reaction-btn" data-type="heart" aria-label="Love" data-astro-cid-6vafa5kw> <span class="reaction-emoji" data-astro-cid-6vafa5kw>&#10084;&#65039;</span> <span class="reaction-count" data-astro-cid-6vafa5kw>0</span> </button> </div>  <script type="module">function u(){const c=localStorage.getItem("fp");if(c)return c;const e=Math.random().toString(36).substring(2)+Date.now().toString(36);return localStorage.setItem("fp",e),e}function p(){document.querySelectorAll(".reactions-container:not([data-initialized])").forEach(e=>{e.dataset.initialized="true";const r=e.dataset.slug||"";if(!r)return;const s=e.querySelectorAll(".reaction-btn"),i=u();function l(t,a){s.forEach(n=>{const o=n.dataset.type||"",d=n.querySelector(".reaction-count");d&&(d.textContent=(t[o]||0).toString()),n.classList.toggle("active",a.includes(o))})}fetch(`/api/reactions?slug=${encodeURIComponent(r)}&fp=${encodeURIComponent(i)}`).then(t=>t.json()).then(t=>l(t.counts,t.userReactions)).catch(console.error),s.forEach(t=>{t.addEventListener("click",async()=>{const a=t.dataset.type;if(a){t.disabled=!0;try{const o=await(await fetch(`/api/reactions?slug=${encodeURIComponent(r)}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({fingerprint:i,reactionType:a})})).json();l(o.counts,o.userReactions)}catch(n){console.error(n)}finally{t.disabled=!1}}})})})}document.addEventListener("astro:page-load",p);</script> <div class="flex flex-wrap items-center gap-3 my-4"> <div class="bookmark-container" data-bookmark-slug="article_harness_is_everything" data-astro-cid-fsurehzd> <button class="bookmark-btn" aria-label="Bookmark this article" data-astro-cid-fsurehzd> <svg class="bookmark-icon-outline" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" data-astro-cid-fsurehzd> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-fsurehzd></path> </svg> <svg class="bookmark-icon-filled hidden" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" stroke="currentColor" stroke-width="2" data-astro-cid-fsurehzd> <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" data-astro-cid-fsurehzd></path> </svg> <span class="bookmark-text" data-astro-cid-fsurehzd>Save</span> </button> </div>  <script type="module">function l(){document.querySelectorAll("[data-bookmark-slug]:not([data-bm-initialized])").forEach(e=>{e.dataset.bmInitialized="true";const n=e.dataset.bookmarkSlug||"";if(!n)return;const o=e.querySelector(".bookmark-btn"),i=e.querySelector(".bookmark-icon-outline"),s=e.querySelector(".bookmark-icon-filled"),c=e.querySelector(".bookmark-text");function a(t){o.classList.toggle("bookmarked",t),i.classList.toggle("hidden",t),s.classList.toggle("hidden",!t),c.textContent=t?"Saved":"Save"}function r(){window.__authUser&&fetch(`/api/bookmarks?slug=${encodeURIComponent(n)}`).then(t=>t.json()).then(t=>{t.bookmarked&&a(!0)}).catch(()=>{})}window.__authUser!==void 0&&r(),window.addEventListener("auth:ready",()=>r()),o.addEventListener("click",async()=>{if(!window.__authUser){const t=document.querySelector(".auth-sign-in-btn");t&&t.click();return}o.disabled=!0;try{const d=await(await fetch("/api/bookmarks",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:n})})).json();a(d.bookmarked)}catch(t){console.error(t)}finally{o.disabled=!1}})})}document.addEventListener("astro:page-load",l);</script> <a href="https://ko-fi.com/reliabledataengineering" target="_blank" rel="noopener noreferrer" class="kofi-btn" data-astro-cid-aomqc7ru> <svg class="kofi-icon" viewBox="0 0 24 24" width="20" height="20" data-astro-cid-aomqc7ru> <path fill="currentColor" d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H.723c-.604 0-.679.798-.679.798s-.082 7.324-.022 11.822c.164 2.424 2.586 2.672 2.586 2.672s8.267-.023 11.966-.049c2.438-.426 2.683-2.566 2.658-3.734 4.352.24 7.422-2.831 6.649-6.916zm-11.062 3.511c-1.246 1.453-4.011 3.976-4.011 3.976s-.121.119-.31.023c-.076-.057-.108-.09-.108-.09-.443-.441-3.368-3.049-4.034-3.954-.709-.965-1.041-2.7-.091-3.71.951-1.01 3.005-1.086 4.363.407 0 0 1.565-1.782 3.468-.963 1.904.82 1.832 3.011.723 4.311zm6.173.478c-.928.116-1.682.028-1.682.028V7.284h1.77s1.971.551 1.971 2.638c0 1.913-.985 2.667-2.059 3.015z" data-astro-cid-aomqc7ru></path> </svg> <span data-astro-cid-aomqc7ru>Buy me a coffee</span> </a>  </div> <!-- Ad placement after article --> <!-- Ad slot: {slot} --><div class="ad-unit my-6 flex items-center justify-center my-8" data-ad-slot="in-article"> <!-- Google AdSense - Auto ads will display once approved --> <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9040516721758437" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins> <script data-astro-rerun>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script> </div> <div class="newsletter-signup my-8 rounded-lg border border-border bg-muted/30 p-6 text-center my-8" data-newsletter> <h3 class="mb-2 text-lg font-semibold">Stay in the loop</h3> <p class="mb-4 text-sm text-foreground/70">
+Get notified when new articles drop. No spam. Unsubscribe anytime.
+</p> <form class="newsletter-form mx-auto flex max-w-md flex-col gap-2 sm:flex-row"> <input type="email" name="email" placeholder="your@email.com" required class="min-w-0 flex-1 rounded-md border border-border bg-background px-4 py-2 text-sm text-foreground focus:border-accent focus:outline-none"> <button type="submit" class="shrink-0 rounded-md bg-accent px-5 py-2 text-sm font-medium text-background transition-opacity hover:opacity-90 disabled:opacity-50">
+Subscribe
+</button> </form> <p class="newsletter-message mt-3 text-sm hidden"></p> <p class="newsletter-error mt-3 text-sm text-red-400 hidden"></p> </div> <script type="module">function d(){document.querySelectorAll("[data-newsletter]:not([data-nl-initialized])").forEach(t=>{t.dataset.nlInitialized="true";const r=t.querySelector(".newsletter-form"),s=t.querySelector(".newsletter-message"),n=t.querySelector(".newsletter-error");r.addEventListener("submit",async l=>{l.preventDefault();const c=r.querySelector('[name="email"]'),a=r.querySelector('[type="submit"]'),o=c.value.trim();if(o){a.disabled=!0,s.classList.add("hidden"),n.classList.add("hidden");try{const e=await fetch("/api/newsletter",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:o})}),i=await e.json();if(!e.ok)throw new Error(i.error||"Failed to subscribe");s.textContent=i.message,s.classList.remove("hidden"),s.style.color="var(--accent)",r.reset()}catch(e){n.textContent=e instanceof Error?e.message:"Something went wrong",n.classList.remove("hidden")}finally{a.disabled=!1}}})})}document.addEventListener("astro:page-load",d);</script> <div class="comments-section" data-slug="article_harness_is_everything" data-astro-cid-jvxsf75u> <h3 class="comments-title text-foreground" data-astro-cid-jvxsf75u>Comments</h3> <form class="comment-form" data-astro-cid-jvxsf75u> <div class="form-group comment-name-group" data-astro-cid-jvxsf75u> <input type="text" name="authorName" placeholder="Your name" maxlength="100" required data-astro-cid-jvxsf75u> </div> <div class="form-group" data-astro-cid-jvxsf75u> <textarea name="content" placeholder="Write a comment..." maxlength="2000" rows="4" required data-astro-cid-jvxsf75u></textarea> </div> <input type="hidden" name="parentId" value="" data-astro-cid-jvxsf75u> <div class="form-actions" data-astro-cid-jvxsf75u> <button type="submit" class="submit-btn" data-astro-cid-jvxsf75u>Post Comment</button> <button type="button" class="cancel-reply-btn hidden" data-astro-cid-jvxsf75u>Cancel Reply</button> </div> <p class="reply-indicator hidden" data-astro-cid-jvxsf75u></p> <p class="form-error" data-astro-cid-jvxsf75u></p> </form> <div class="comments-list" data-astro-cid-jvxsf75u> <p class="loading text-foreground/70" data-astro-cid-jvxsf75u>Loading comments...</p> </div> </div>  <script type="module" src="/_astro/Comments.astro_astro_type_script_index_0_lang.BkRH9OPW.js"></script> <div class="related-posts" data-astro-cid-dpgbfi7r><h3 class="related-title text-foreground" data-astro-cid-dpgbfi7r>Related Articles</h3><div class="related-grid" data-astro-cid-dpgbfi7r><a href="/posts/article_claude_code_ultraplan" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/claude-code-ultraplan.webp" alt="Claude Code's /ultraplan Is the Feature That Was Hiding in 512,000 Lines of Leaked Code" class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>Claude Code&#39;s /ultraplan Is the Feature That Was Hiding in 512,000 Lines of Leaked Code</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>Anthropic just shipped the first major feature that security researchers spotted weeks ago in its accidentally exposed source code. And it turns out the leaked description wasn&#39;t hype.</p></div></a><a href="/posts/article_claude_opus_nerfed" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/claude-opus-nerfed.webp" alt="Did Claude Code Opus 4.6 Get Nerfed?" class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>Did Claude Code Opus 4.6 Get Nerfed?</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>A senior AMD AI director&#39;s logs point to sharp regression in Claude&#39;s coding performance -- Anthropic says it&#39;s a product change, not a dumber model.</p></div></a><a href="/posts/article_agent_harness_real_product" class="related-card" data-astro-cid-dpgbfi7r><img src="/images/blog/agent-harness-real-product.webp" alt="The Agent Harness Is the Real Product, Not the Model" class="related-image" data-astro-cid-dpgbfi7r><div class="related-content" data-astro-cid-dpgbfi7r><h4 class="related-post-title text-foreground" data-astro-cid-dpgbfi7r>The Agent Harness Is the Real Product, Not the Model</h4><p class="related-description text-foreground/70" data-astro-cid-dpgbfi7r>A packaging error exposed 512,000 lines of Anthropic&#39;s source code. What it revealed wasn&#39;t the model -- it was the orchestration layer that changed how the industry thinks about where AI value lives.</p></div></a></div></div> <hr class="my-6 border-dashed"> <!-- Previous/Next Post Buttons --> <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">  <a href="/posts/article_last_generation_data_engineers" class="flex w-full justify-end gap-1 text-end hover:opacity-75 sm:col-start-2"> <div> <span>Next Post</span> <div class="text-sm text-accent/85">The Last Generation of Data Engineers?</div> </div> <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block flex-none rtl:rotate-180"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 6l6 6l-6 6" /></svg> </a> </div> </main> <div data-highlighter data-highlight-slug="article_harness_is_everything"> <!-- Floating toolbar on text selection --> <div class="hl-toolbar hidden" id="hl-toolbar"> <button class="hl-color-btn" data-color="yellow" style="background:#fde68a" title="Yellow"></button> <button class="hl-color-btn" data-color="green" style="background:#86efac" title="Green"></button> <button class="hl-color-btn" data-color="blue" style="background:#93c5fd" title="Blue"></button> <button class="hl-color-btn" data-color="pink" style="background:#f9a8d4" title="Pink"></button> <button class="hl-color-btn" data-color="purple" style="background:#c4b5fd" title="Purple"></button> <span class="hl-toolbar-divider"></span> <button class="hl-note-btn" id="hl-note-btn" title="Add note"> <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"> <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path> </svg> </button> </div> <!-- Popover for existing highlights --> <div class="hl-popover hidden" id="hl-popover"> <div class="hl-popover-note" id="hl-popover-note"></div> <div class="hl-popover-actions"> <button class="hl-popover-btn" id="hl-edit-note"> <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"> <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path> <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path> </svg>
+Note
+</button> <div class="hl-popover-colors"> <button class="hl-color-dot" data-popover-color="yellow" style="background:#fde68a"></button> <button class="hl-color-dot" data-popover-color="green" style="background:#86efac"></button> <button class="hl-color-dot" data-popover-color="blue" style="background:#93c5fd"></button> <button class="hl-color-dot" data-popover-color="pink" style="background:#f9a8d4"></button> <button class="hl-color-dot" data-popover-color="purple" style="background:#c4b5fd"></button> </div> <button class="hl-popover-btn hl-delete-btn" id="hl-delete"> <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"> <polyline points="3 6 5 6 21 6"></polyline> <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path> </svg>
+Remove
+</button> </div> </div> <!-- Community notes popover --> <div class="cn-popover cn-hidden" id="cn-popover"> <div class="cn-popover-header"> <img class="cn-popover-avatar" id="cn-popover-avatar" src="" alt=""> <span class="cn-popover-name" id="cn-popover-name"></span> <span class="cn-popover-date" id="cn-popover-date"></span> </div> <div class="cn-popover-quote" id="cn-popover-quote"></div> <div class="cn-popover-note" id="cn-popover-note"></div> </div> <!-- Note input modal --> <div class="hl-note-modal hidden" id="hl-note-modal"> <div class="hl-note-modal-content"> <div class="hl-note-modal-header"> <span class="hl-note-modal-title">Add a note</span> <button class="hl-note-modal-close" id="hl-note-close">&times;</button> </div> <div class="hl-note-quote" id="hl-note-quote"></div> <textarea class="hl-note-input" id="hl-note-input" placeholder="Write your thoughts..." rows="3" maxlength="1000"></textarea> <div class="hl-note-footer"> <span class="hl-note-count"><span id="hl-note-count">0</span>/1000</span> <button class="hl-note-save" id="hl-note-save">Save</button> </div> </div> </div> </div>  <script type="module" src="/_astro/ArticleHighlighter.astro_astro_type_script_index_0_lang.ROuhwkEz.js"></script> <div class="reading-progress-tracker" data-progress-slug="article_harness_is_everything"></div> <script type="module">function h(){document.querySelectorAll("[data-progress-slug]:not([data-rp-initialized])").forEach(n=>{n.dataset.rpInitialized="true";const o=n.dataset.progressSlug;if(!o)return;let i=0,r=null;function c(e){if(!window.__authUser)return;const t=Math.round(e*10)/10;t<=i||(i=t,fetch("/api/reading-history",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({slug:o,progress:t})}).catch(()=>{}))}function s(){const e=document.getElementById("article");if(!e)return;const t=e.getBoundingClientRect(),d=t.top+window.scrollY,l=t.height,u=window.scrollY+window.innerHeight,g=Math.min(1,Math.max(0,(u-d)/l));r&&clearTimeout(r),r=setTimeout(()=>c(g),2e3)}function a(){window.__authUser&&(window.addEventListener("scroll",s,{passive:!0}),s())}window.addEventListener("auth:ready",a),window.__authUser&&a()})}document.addEventListener("astro:page-load",h);</script> <aside class="toc-container" data-toc data-astro-cid-xvrfupwn> <div class="toc-wrapper" data-astro-cid-xvrfupwn> <h4 class="toc-title" data-astro-cid-xvrfupwn>On this page</h4> <nav class="toc-nav" data-astro-cid-xvrfupwn> <ul class="toc-list" data-astro-cid-xvrfupwn></ul> </nav> </div> </aside>  <script type="module">function d(){document.querySelectorAll("[data-toc]:not([data-initialized])").forEach(n=>{n.dataset.initialized="true";const r=n.querySelector(".toc-list");if(!r)return;const i=document.getElementById("article");if(!i)return;const c=i.querySelectorAll("h2, h3, h4");if(c.length===0){n.style.display="none";return}c.forEach(t=>{if(!t.id)return;const o=document.createElement("li"),e=document.createElement("a");e.href=`#${t.id}`,e.textContent=t.textContent?.replace(/#$/,"").trim()||"",e.classList.add(`toc-${t.tagName.toLowerCase()}`),o.appendChild(e),r.appendChild(o)});const s=r.querySelectorAll("a"),l=new IntersectionObserver(t=>{t.forEach(o=>{if(o.isIntersecting){const e=o.target.id;s.forEach(a=>{a.classList.toggle("active",a.getAttribute("href")===`#${e}`)})}})},{rootMargin:"-80px 0px -80% 0px"});c.forEach(t=>l.observe(t))})}document.addEventListener("astro:page-load",d);</script> <footer class="app-layout mt-auto"> <div class="py-6 sm:py-4 border-t border-border flex flex-col items-center justify-between sm:flex-row-reverse"> <div class="flex flex-wrap items-center gap-1">  </div> <div class="my-2 flex flex-col items-center gap-1 sm:gap-0"> <div class="flex items-center gap-3 text-sm text-foreground/60"> <a href="/about" class="hover:text-accent transition-colors">About</a> <span>|</span> <a href="/contact" class="hover:text-accent transition-colors">Contact</a> <span>|</span> <a href="/privacy-policy" class="hover:text-accent transition-colors">Privacy Policy</a> <span>|</span> <a href="/cookie-policy" class="hover:text-accent transition-colors">Cookie Policy</a> </div> <div class="flex items-center whitespace-nowrap"> <span>Copyright &#169; 2026</span> <span class="hidden sm:inline">&nbsp;|&nbsp;</span> <span>All rights reserved.</span> </div> </div> </div> </footer>  <div id="cookie-consent" class="fixed bottom-0 left-0 right-0 z-50 hidden border-t border-border bg-background/95 backdrop-blur-sm"> <div class="mx-auto max-w-5xl px-4 py-4 sm:flex sm:items-center sm:justify-between sm:gap-4"> <p class="text-sm text-foreground/80 mb-3 sm:mb-0">
+This site uses cookies for analytics and advertising (Google Analytics, Google AdSense).
+      By continuing to use this site, you consent to our use of cookies.
+<a href="/cookie-policy" class="text-accent hover:underline">Learn more</a>.
+</p> <div class="flex gap-3 shrink-0"> <button id="cookie-reject" class="rounded border border-border px-4 py-1.5 text-sm text-foreground/70 transition-colors hover:border-accent hover:text-foreground">
+Reject
+</button> <button id="cookie-accept" class="rounded bg-accent px-4 py-1.5 text-sm font-medium text-background transition-opacity hover:opacity-90">
+Accept
+</button> </div> </div> </div> <script>
+  (function () {
+    var consent = localStorage.getItem("cookie-consent");
+
+    if (!consent) {
+      var banner = document.getElementById("cookie-consent");
+      if (banner) banner.classList.remove("hidden");
+    }
+
+    function loadAnalytics() {
+      // Load AdSense if not already present
+      if (!document.querySelector('script[src*="adsbygoogle"]')) {
+        var s = document.createElement('script');
+        s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
+        s.async = true;
+        s.crossOrigin = 'anonymous';
+        document.head.appendChild(s);
+      }
+      // Load GA if not already present
+      if (!document.querySelector('script[src*="googletagmanager"]')) {
+        var g = document.createElement('script');
+        g.src = 'https://www.googletagmanager.com/gtag/js?id=G-JHSDCEZ9EK';
+        g.async = true;
+        document.head.appendChild(g);
+        g.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-JHSDCEZ9EK');
+        };
+      }
+    }
+
+    document.addEventListener("click", function (e) {
+      if (e.target && e.target.id === "cookie-accept") {
+        localStorage.setItem("cookie-consent", "accepted");
+        var banner = document.getElementById("cookie-consent");
+        if (banner) banner.classList.add("hidden");
+        loadAnalytics();
+      }
+
+      if (e.target && e.target.id === "cookie-reject") {
+        localStorage.setItem("cookie-consent", "rejected");
+        var banner = document.getElementById("cookie-consent");
+        if (banner) banner.classList.add("hidden");
+      }
+    });
+  })();
+</script> <!-- Load full theme logic --> <script type="module">const d="theme",r="light",m="dark";function i(){const e=localStorage.getItem(d);return e||(window.matchMedia("(prefers-color-scheme: dark)").matches?m:r)}let t=window.theme?.themeValue??i();function c(){localStorage.setItem(d,t),o()}function o(){document.firstElementChild?.setAttribute("data-theme",t),document.querySelector("#theme-btn")?.setAttribute("aria-label",t);const e=document.body;if(e){const n=window.getComputedStyle(e).backgroundColor;document.querySelector("meta[name='theme-color']")?.setAttribute("content",n)}}window.theme?(window.theme.setPreference=c,window.theme.reflectPreference=o):window.theme={themeValue:t,setPreference:c,reflectPreference:o,getTheme:()=>t,setTheme:e=>{t=e}};o();function s(){o(),document.querySelector("#theme-btn")?.addEventListener("click",()=>{t=t===r?m:r,window.theme?.setTheme(t),c()})}s();document.addEventListener("astro:after-swap",s);document.addEventListener("astro:before-swap",e=>{const a=e,n=document.querySelector("meta[name='theme-color']")?.getAttribute("content");n&&a.newDocument.querySelector("meta[name='theme-color']")?.setAttribute("content",n)});window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",({matches:e})=>{t=e?m:r,window.theme?.setTheme(t),c()});</script> <!-- Deferred: Google Analytics (loaded after page paint, gated on consent) --> <script>
+      window.addEventListener('load', function () {
+        if (localStorage.getItem('cookie-consent') === 'rejected') return;
+
+        var gaScript = document.createElement('script');
+        gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-JHSDCEZ9EK';
+        gaScript.async = true;
+        document.head.appendChild(gaScript);
+        gaScript.onload = function () {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-JHSDCEZ9EK');
+        };
+      });
+
+      // Track SPA navigations (Astro view transitions)
+      document.addEventListener('astro:page-load', function () {
+        if (window.gtag) {
+          window.gtag('config', 'G-JHSDCEZ9EK', {
+            page_path: window.location.pathname
+          });
+        }
+      });
+    </script> </body> </html> <script data-astro-rerun>
+  /** Create a progress indicator
+   *  at the top */
+  function createProgressBar() {
+    // Create the main container div
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    // Create the progress bar div
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    // Append the progress bar to the progress container
+    progressContainer.appendChild(progressBar);
+
+    // Append the progress container to the document body or any other desired parent element
+    document.body.appendChild(progressContainer);
+  }
+  createProgressBar();
+
+  /** Update the progress bar
+   *  when user scrolls */
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
+      if (document) {
+        const myBar = document.getElementById("myBar");
+        if (myBar) {
+          myBar.style.width = scrolled + "%";
+        }
+      }
+    });
+  }
+  updateScrollProgress();
+
+  /** Attaches links to headings in the document,
+   *  allowing sharing of sections easily */
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
+
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
+    }
+  }
+  addHeadingLinks();
+
+  /** Attaches copy buttons to code blocks in the document,
+   * allowing users to copy code easily. */
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      // Check if --file-name-offset custom property exists
+      const computedStyle = getComputedStyle(codeBlock);
+      const hasFileNameOffset =
+        computedStyle.getPropertyValue("--file-name-offset").trim() !== "";
+
+      // Determine the top positioning class
+      const topClass = hasFileNameOffset
+        ? "top-(--file-name-offset)"
+        : "-top-3";
+
+      const copyButton = document.createElement("button");
+      copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      // wrap codebock with relative parent element
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        await copyCode(codeBlock, copyButton);
+      });
+    }
+
+    async function copyCode(block, button) {
+      const code = block.querySelector("code");
+      const text = code?.innerText;
+
+      await navigator.clipboard.writeText(text ?? "");
+
+      // visual feedback that task is completed
+      button.innerText = "Copied";
+
+      setTimeout(() => {
+        button.innerText = copyButtonLabel;
+      }, 700);
+    }
+  }
+  attachCopyButtons();
+
+  /* Go to page start after page swap */
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
+</script>
