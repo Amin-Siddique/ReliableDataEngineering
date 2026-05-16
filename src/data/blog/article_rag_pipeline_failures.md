@@ -444,6 +444,15 @@ The teams that build reliable RAG systems in production aren't the ones who chos
 
 ---
 
+## Related articles
+
+- [Build a RAG System Without Embeddings or Vector Databases](/posts/article_vectorless_rag_pageindex) -- an alternative approach that avoids many of these failure modes
+- [Your Data Stack Wasn't Built for This: Architecting for AI Agents](/posts/article_ai_agents_data_stack) -- the broader architectural challenges when AI agents consume your data
+- [Databricks Agent Bricks Is Quietly Changing How Data Engineers Work](/posts/article_databricks_agent_bricks_data_engineering) -- how production AI-ETL handles unstructured data
+- [The Database Endgame](/posts/article_the_database_endgame_why_everything_youre_building) -- the storage layer decisions that compound downstream
+
+---
+
 If you want the foundational patterns for building reliable data pipelines — the kind of engineering rigour that makes RAG systems actually work in production — this is the book:
 
 [Fundamentals of Data Engineering by Joe Reis & Matt Housley](https://amzn.to/4sruUCi) — the comprehensive guide to the data lifecycle, pipeline design, lineage, and observability patterns that every data engineer building production RAG should understand.

@@ -260,4 +260,13 @@ The principle is straightforward: **parse what you can, compress the structure, 
 
 ---
 
+## Related articles
+
+- [The AI Doesn't Need to Read Your Codebase. It Needs a Map.](/posts/article_context_engineering_ai_agents) -- the same principle applied to code context engineering
+- [Your Data Stack Wasn't Built for This](/posts/article_ai_agents_data_stack) -- how AI agents change the requirements for data systems
+- [Databricks Agent Bricks Is Quietly Changing How Data Engineers Work](/posts/article_databricks_agent_bricks_data_engineering) -- AI-native ETL on Databricks
+- [The Last Generation of Data Engineers?](/posts/article_last_generation_data_engineers) -- what automation means for the profession
+
+---
+
 *Disclaimer: This article describes a technical approach used in an internal migration project. The specific token reduction percentages, retry rates, and performance metrics cited are based on observations from a particular corpus of enterprise SQL and may not generalize to all workloads or SQL dialects. TOON is a custom internal format, not a published standard. sqlglot is an open-source project maintained independently. The techniques described here involve LLM-assisted code generation, which should always be validated by qualified engineers before deployment to production systems. This article represents the views of its authors and does not constitute an endorsement of any specific product or service.*

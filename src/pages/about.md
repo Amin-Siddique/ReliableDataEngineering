@@ -3,9 +3,19 @@ layout: ../layouts/AboutLayout.astro
 title: "About"
 ---
 
-I am Amin Siddique, a data engineer focused on building reliable pipelines, migrating legacy systems, and making sense of the rapidly evolving AI-meets-data landscape.
+## About the Author
 
-I have spent years working with production data systems across industries -- dealing with SQL migrations between dialects (Oracle, Exasol, Databricks), building dbt models at scale, optimizing Spark jobs that process billions of rows, and designing architectures that survive real-world load.
+I am **Amin Siddique**, a Senior Data Engineer at Mercedes-Benz with over 6 years of experience building production data systems. I specialize in large-scale SQL migrations, pipeline architecture on Databricks, and integrating AI tooling into real engineering workflows.
+
+My day-to-day work involves migrating enterprise-scale data warehouses (Oracle, Exasol) to modern lakehouse architectures on Databricks, building dbt models that serve thousands of downstream consumers, and optimizing Spark jobs processing billions of rows under tight SLAs.
+
+## Credentials and Experience
+
+- **Current role:** Senior Data Engineer at Mercedes-Benz, working on enterprise data platform modernization
+- **Specialization:** SQL dialect migration (Oracle, Exasol, Databricks), dbt at scale, Spark optimization, lakehouse architecture
+- **Certifications:** Databricks Certified Data Engineer, Azure Data Engineer Associate
+- **Tools in daily use:** Databricks, Apache Spark, dbt, Python, Azure Data Factory, Delta Lake
+- **Scale:** Pipelines processing 10B+ rows daily, managing 500+ dbt models in production
 
 ## Why This Blog Exists
 
@@ -17,29 +27,25 @@ The data engineering landscape is shifting fast. AI agents are starting to write
 
 ## What You Will Find Here
 
-- **Data pipeline patterns** that survive real-world production load -- not toy examples, but architectures tested against billions of rows and tight SLAs
-- **SQL migration strategies** across dialects (Oracle, Exasol, Databricks, and more), including the edge cases that vendor docs never mention
-- **dbt best practices** from running hundreds of models in production, covering testing strategies, incremental models, and dependency management
-- **AI in data engineering** -- how LLMs, agents, and new tools are changing the way we build and maintain pipelines, with honest assessments of what works and what is still hype
-- **Honest tool reviews** with real benchmarks, limitations, and trade-offs that go beyond the marketing page
-- **Research paper breakdowns** that translate academic AI and systems research into practical takeaways for working engineers
+- **Data pipeline patterns** that survive production load -- architectures tested against billions of rows and tight SLAs. See: [Our $2M Data Lakehouse Is Just Postgres With Extra Steps](/posts/article_our_2m_data_lakehouse_is_just_postgres_with_extra_)
+- **SQL migration strategies** across dialects, including the edge cases that vendor docs never mention. See: [How We Cut LLM Token Usage by 90% in SQL Migration](/posts/article_toon_sql_migration)
+- **AI in data engineering** -- how LLMs, agents, and new tools are changing the way we build pipelines. See: [Your Data Stack Wasn't Built for This](/posts/article_ai_agents_data_stack)
+- **Honest tool reviews** with real benchmarks, limitations, and trade-offs that go beyond the marketing page. See: [Databricks Agent Bricks Is Quietly Changing How Data Engineers Work](/posts/article_databricks_agent_bricks_data_engineering)
+- **Research paper breakdowns** that translate academic AI and systems research into practical takeaways. See: [10 Research Papers Every AI Engineer Must Read](/posts/article_10_research_papers_ai_engineer_interview)
 
-## My Background
+## My Engineering Philosophy
 
-I have worked across the full data stack -- from writing ETL jobs in Python and Spark to designing warehouse schemas and managing production Databricks environments. My day-to-day involves building and maintaining data platforms that serve downstream analytics, machine learning models, and business-critical reporting.
+I believe data pipelines deserve the same engineering rigor as application code. Version control, testing, code review, and CI/CD are not optional -- they are the baseline. Before data engineering, I spent time in software development, which shaped this perspective.
 
-Before data engineering, I spent time in software development, which gives me a strong opinion about code quality in data work. I believe data pipelines deserve the same engineering rigor as application code: version control, testing, code review, and CI/CD are not optional.
-
-## My Approach
-
-I do not write sponsored content. When I recommend a tool, it is because I have used it in production. When I criticize something, I explain why with specifics. Every article includes limitations and honest assessments, not just the highlight reel.
+I do not write sponsored content. When I recommend a tool, it is because I have used it in production. When I criticize something, I explain why with specifics. Every article includes limitations and honest assessments.
 
 I test everything I write about. If an article includes a benchmark, I ran it. If it includes a code snippet, I executed it. If it covers a tool, I installed it and used it on real data before forming an opinion.
 
-Some articles on this site contain affiliate links to books I genuinely recommend. These are clearly disclosed and do not influence what I write. The small commission helps keep the site running without ads cluttering the reading experience.
+Some articles on this site contain affiliate links to books I genuinely recommend. These are clearly disclosed and do not influence what I write.
 
 ## Connect
 
+- **LinkedIn:** [linkedin.com/in/amin-siddique](https://www.linkedin.com/in/amin-siddique)
 - **Medium:** [medium.com/@amin-siddique](https://medium.com/@amin-siddique)
 - **Email:** [amin.siddique@outlook.com](mailto:amin.siddique@outlook.com)
 

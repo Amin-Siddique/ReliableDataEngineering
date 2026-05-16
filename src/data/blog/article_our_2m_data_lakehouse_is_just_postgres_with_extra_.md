@@ -441,4 +441,13 @@ P.P.S. — The executive who pushed for lakehouse? He’s at another company now
 
 ---
 
+## Related articles
+
+- [Iceberg Built a Maze. DuckLake Just Handed You a Map.](/posts/article_ducklake_open_table_format) -- a simpler alternative to the open table format complexity
+- [The Database Endgame](/posts/article_the_database_endgame_why_everything_youre_building) -- where all database architectures are converging
+- [Your Data Stack Wasn’t Built for This](/posts/article_ai_agents_data_stack) -- when AI agents make you rethink your architecture
+- [The Last Generation of Data Engineers?](/posts/article_last_generation_data_engineers) -- what happens to the lakehouse era
+
+---
+
 *If you want to understand why simple beats complex, [Fundamentals of Data Engineering](https://amzn.to/4sruUCi) covers the entire data lifecycle without the vendor hype. And [The Data Warehouse Toolkit](https://amzn.to/4rNlq3m) proves that Kimball’s dimensional modeling from 1996 still works better than most “modern” approaches.*

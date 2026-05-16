@@ -612,6 +612,15 @@ The technology is genuinely capable. The implementation discipline is what deter
 
 ---
 
+## Related articles
+
+- [Your Data Stack Wasn't Built for This: Architecting for AI Agents](/posts/article_ai_agents_data_stack) -- the broader architectural shift AI agents demand
+- [The Last Generation of Data Engineers?](/posts/article_last_generation_data_engineers) -- how agentic automation is reshaping the profession
+- [RAG Is Lying to You: The Data Pipeline Failures Hiding Behind Your LLM](/posts/article_rag_pipeline_failures) -- when AI systems expose pipeline quality gaps
+- [How We Cut LLM Token Usage by 90% in SQL Migration](/posts/article_toon_sql_migration) -- practical token optimization for AI-powered data workflows
+
+---
+
 *If you're building data pipelines that handle unstructured data at scale, [Fundamentals of Data Engineering](https://amzn.to/4sruUCi) covers the architectural patterns that make AI-augmented ETL possible — from batch vs. streaming tradeoffs to data quality frameworks.*
 
 ---

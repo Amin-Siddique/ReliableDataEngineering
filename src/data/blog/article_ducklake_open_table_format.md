@@ -267,6 +267,15 @@ FROM lake.snapshots();
 
 ---
 
+## Related articles
+
+- [Our $2M Data Lakehouse Is Just Postgres With Extra Steps](/posts/article_our_2m_data_lakehouse_is_just_postgres_with_extra_) -- why simpler lakehouse approaches are gaining traction
+- [The Database Endgame](/posts/article_the_database_endgame_why_everything_youre_building) -- where all of these storage formats are converging
+- [F3: The Future-Proof File Format That Finally Gets It Right](/posts/article_f3_the_future-proof_file_format_that_finally_gets_) -- another new format challenging the status quo
+- [Your Data Stack Wasn't Built for This](/posts/article_ai_agents_data_stack) -- how AI agents change the requirements for table formats
+
+---
+
 If you want to understand the deeper architectural patterns behind lakehouse designs, data storage trade-offs, and why certain approaches win at scale, this is the foundational text:
 
 [Designing Data-Intensive Applications by Martin Kleppmann](https://amzn.to/4lPlcr4) — the definitive guide to the storage, retrieval, and processing patterns that underpin modern data infrastructure.

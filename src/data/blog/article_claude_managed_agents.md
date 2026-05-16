@@ -177,6 +177,15 @@ The beta label means behaviors will be refined. Anthropic has committed to itera
 
 ---
 
+## Related articles
+
+- [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the CLI tool that shares Managed Agents' harness architecture
+- [The Harness Is Everything](/posts/article_harness_is_everything) -- why the orchestration layer matters more than the model
+- [The Agent Harness Is the Real Product, Not the Model](/posts/article_agent_harness_real_product) -- what the Claude Code leak revealed about Anthropic's approach
+- [Claude Subconscious Gives Claude Code a Persistent Memory](/posts/article_claude_subconscious_persistent_memory) -- the memory system that feeds into managed agent sessions
+
+---
+
 *If you're building production agent systems and want to understand the infrastructure patterns that make them reliable at scale, [Designing Data-Intensive Applications by Martin Kleppmann](https://amzn.to/4lPlcr4) covers the foundational principles of distributed systems, state management, and fault tolerance that directly apply to managed agent architectures.*
 
 ---

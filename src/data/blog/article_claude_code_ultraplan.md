@@ -151,6 +151,13 @@ claude
 /ultraplan migrate the auth service from sessions to JWTs
 ```
 
+## Related articles
+
+- [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the full breakdown of the tool that houses ultraplan
+- [Claude Code Source Leak: 512K Lines Exposed](/posts/article_claude_code_source_leak) -- the incident that exposed ultraplan's existence
+- [The Harness Is Everything](/posts/article_harness_is_everything) -- the philosophy of why planning matters in agent systems
+- [I Stopped Hitting Claude's Limits — Here Are the 10 Things I Changed](/posts/article_claude_usage_limits_tips) -- practical tips for getting more from Claude
+
 ## Recommended reading
 
 If you're building production systems with Claude and want to go deeper on the architecture decisions behind agentic coding tools, **Designing Data-Intensive Applications** by Martin Kleppmann remains the best foundation for understanding why async workflows, state management, and distributed execution patterns matter -- whether you're building data pipelines or reviewing AI-generated plans.

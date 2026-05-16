@@ -163,6 +163,15 @@ The practical lesson for every developer team is the same one Anthropic learned:
 
 ---
 
+## Related articles
+
+- [The Agent Harness Is the Real Product, Not the Model](/posts/article_agent_harness_real_product) -- the architectural analysis of what the leak revealed
+- [Claude Code's /ultraplan](/posts/article_claude_code_ultraplan) -- the hidden feature discovered in the leaked source
+- [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- how the tool works from a user perspective
+- [Vibe Coding Is Great. Vibe Reviewing Is Terrifying.](/posts/article_vibe_coding_vibe_reviewing) -- the security implications of AI-generated code
+
+---
+
 If you're building systems where security incidents and supply chain risks matter, [Designing Data-Intensive Applications](https://amzn.to/4lPlcr4) provides essential foundations for understanding how production systems fail and how to design for resilience.
 
 ---

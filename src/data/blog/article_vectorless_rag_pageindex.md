@@ -464,6 +464,15 @@ python main.py
 
 ---
 
+## Related articles
+
+- [RAG Is Lying to You: The Data Pipeline Failures Hiding Behind Your LLM](/posts/article_rag_pipeline_failures) -- the pipeline failures that embedding-based RAG introduces
+- [Karpathy Stopped Using LLMs to Write Code — He's Using Them to Think](/posts/article_karpathy_llm_knowledge_base) -- another approach to LLM-powered knowledge retrieval
+- [Your Data Stack Wasn't Built for This](/posts/article_ai_agents_data_stack) -- how AI agents consume data differently
+- [The Database Endgame](/posts/article_the_database_endgame_why_everything_youre_building) -- the storage layer implications of retrieval systems
+
+---
+
 *If you want to understand how different retrieval architectures compare at scale, [Designing Data-Intensive Applications](https://amzn.to/4lPlcr4) covers indexing strategies, from B-trees to LSM-trees to the tradeoffs that make systems like this possible.*
 
 ---

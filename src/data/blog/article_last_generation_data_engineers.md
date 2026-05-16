@@ -272,6 +272,13 @@ The transition is already underway. The organizations that have invested in agen
 
 The question isn't whether to adapt. It's whether to get ahead of the wave or get sorted by it.
 
+## Related articles
+
+- [Your Data Stack Wasn't Built for This: Architecting for AI Agents](/posts/article_ai_agents_data_stack) -- the technical blueprint for AI-native data architecture
+- [Databricks Agent Bricks Is Quietly Changing How Data Engineers Work](/posts/article_databricks_agent_bricks_data_engineering) -- a concrete example of agentic data tooling in production
+- [AI Engineer vs Data Engineer vs MLE: Who Actually Ships Agentic Systems?](/posts/article_ai_engineer_vs_data_engineer_vs_mle) -- how the role boundaries are shifting
+- [The Harness Is Everything](/posts/article_harness_is_everything) -- why the environment design matters more than the AI model
+
 ## Recommended reading
 
 If you're thinking seriously about how data systems, distributed architectures, and automation patterns intersect, **Fundamentals of Data Engineering** by Joe Reis and Matt Housley is the most comprehensive foundation for understanding the full data lifecycle that agents are now automating.

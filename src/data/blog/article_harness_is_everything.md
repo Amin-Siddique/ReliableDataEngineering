@@ -250,6 +250,13 @@ The companies that figured this out early -- and the engineers who are figuring 
 
 The model is almost irrelevant. The harness is everything.
 
+## Related articles
+
+- [The Agent Harness Is the Real Product, Not the Model](/posts/article_agent_harness_real_product) -- how the Claude Code leak proved this thesis
+- [The Engineer Who Made Claude Build a DAW in 4 Hours](/posts/article_anthropic_harness_design) -- a practical case study in harness design
+- [The AI Doesn't Need to Read Your Codebase. It Needs a Map.](/posts/article_context_engineering_ai_agents) -- context engineering as a harness pattern
+- [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the tool where these principles are most visible
+
 ## Recommended reading
 
 If you're designing agent harnesses and want to understand the distributed systems patterns underneath -- context management, state isolation, feedback loops, and fault tolerance -- **Designing Data-Intensive Applications** by Martin Kleppmann covers every architectural principle that matters.

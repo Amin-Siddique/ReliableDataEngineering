@@ -349,4 +349,13 @@ claude
 
 ---
 
+## Related articles
+
+- [Claude Code's /ultraplan Is the Feature That Was Hiding in 512,000 Lines of Leaked Code](/posts/article_claude_code_ultraplan) -- the planning mode that makes complex tasks manageable
+- [The Harness Is Everything](/posts/article_harness_is_everything) -- why the environment around the model matters more than the model itself
+- [Claude Subconscious Gives Claude Code a Persistent Memory That Actually Works](/posts/article_claude_subconscious_persistent_memory) -- how memory changes the agent workflow
+- [Anthropic Just Made Building Production AI Agents Dramatically Easier](/posts/article_claude_managed_agents) -- the managed agent platform built on the same architecture
+
+---
+
 *Disclaimer: This article is based on Claude Code's public documentation and the author's usage as of March 2026. The author has no affiliation with Anthropic beyond using their products. Token costs vary by usage pattern and model selection. Feature availability may differ between versions. "Agentic" capabilities depend on proper configuration and may require iteration to achieve desired results. Like all AI tools, output should be reviewed before committing to production codebases.*

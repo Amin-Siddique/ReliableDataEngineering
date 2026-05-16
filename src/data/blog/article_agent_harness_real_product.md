@@ -196,6 +196,15 @@ The Claude Code leak was an ops failure. The intellectual property damage was re
 
 ---
 
+## Related articles
+
+- [The Harness Is Everything](/posts/article_harness_is_everything) -- the foundational argument for why environment design trumps model selection
+- [Claude Code Source Leak: 512K Lines Exposed](/posts/article_claude_code_source_leak) -- the incident that made this architecture public
+- [Claude Code's /ultraplan](/posts/article_claude_code_ultraplan) -- the planning feature hidden in the leaked source
+- [AutoAgent: The AI That Engineers Its Own Harness](/posts/article_autoagent_self_engineering) -- what happens when agents design their own harnesses
+
+---
+
 *If you want to go deeper on the architectural patterns behind building reliable AI systems -- orchestration, state management, fault tolerance, and the engineering that makes production infrastructure work -- [Designing Data-Intensive Applications by Martin Kleppmann](https://amzn.to/4lPlcr4) covers the foundational principles that transfer directly to agentic AI infrastructure.*
 
 ---

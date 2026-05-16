@@ -334,6 +334,13 @@ The 2026 data stack isn't asking data engineers to become AI researchers. It's a
 
 ---
 
+## Related articles
+
+- [Databricks Agent Bricks Is Quietly Changing How Data Engineers Work](/posts/article_databricks_agent_bricks_data_engineering) -- the practical tooling for AI-native ETL
+- [The Last Generation of Data Engineers?](/posts/article_last_generation_data_engineers) -- what this shift means for the profession
+- [RAG Is Lying to You: The Data Pipeline Failures Hiding Behind Your LLM](/posts/article_rag_pipeline_failures) -- when AI consumers expose pipeline weaknesses
+- [Our $2M Data Lakehouse Is Just Postgres With Extra Steps](/posts/article_our_2m_data_lakehouse_is_just_postgres_with_extra_) -- the architectural decisions that got us here
+
 ## Further reading
 
 - [Databricks — Lakeflow & Agent Bricks](https://www.databricks.com/blog/ai-first-approach-data-engineering-lakeflow-and-agent-bricks)

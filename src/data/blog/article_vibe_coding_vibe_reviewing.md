@@ -200,6 +200,15 @@ The AI code percentage where rework rates start accelerating meaningfully is aro
 
 ---
 
+## Related articles
+
+- [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the tool that makes responsible AI coding practical
+- [Claude Code Source Leak: 512K Lines Exposed](/posts/article_claude_code_source_leak) -- a real supply chain security incident
+- [The Harness Is Everything](/posts/article_harness_is_everything) -- why guardrails and feedback loops prevent vibe reviewing
+- [AI Engineer vs Data Engineer vs MLE](/posts/article_ai_engineer_vs_data_engineer_vs_mle) -- how roles shift when AI writes the code
+
+---
+
 *If you want to understand the engineering principles behind building reliable systems -- the kind of deep architectural knowledge that makes the difference between vibe reviewing and real reviewing -- [Designing Data-Intensive Applications by Martin Kleppmann](https://amzn.to/4lPlcr4) is the foundational text on building systems you can actually trust.*
 
 ---

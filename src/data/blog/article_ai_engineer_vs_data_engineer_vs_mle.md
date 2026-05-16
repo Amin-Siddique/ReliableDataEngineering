@@ -173,6 +173,15 @@ The bad news: "AI Engineer" still doesn't mean the same thing at any two compani
 
 ---
 
+## Related articles
+
+- [The Last Generation of Data Engineers?](/posts/article_last_generation_data_engineers) -- how AI automation is reshaping the data engineering profession
+- [Your Data Stack Wasn't Built for This](/posts/article_ai_agents_data_stack) -- the technical architecture that bridges these roles
+- [He Stopped Applying to Jobs and Built a System That Did It For Him](/posts/article_career_ops_ai_job_search) -- an agentic approach to career management
+- [The Harness Is Everything](/posts/article_harness_is_everything) -- the skillset that all three roles need
+
+---
+
 *If you're a data engineer looking to understand the foundational patterns behind pipelines, data quality, and the lifecycle that makes agentic systems work, [Fundamentals of Data Engineering by Joe Reis and Matt Housley](https://amzn.to/4sruUCi) covers the principles that transfer directly into AI engineering roles.*
 
 ---
