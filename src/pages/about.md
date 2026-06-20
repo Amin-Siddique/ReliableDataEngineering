@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/AboutLayout.astro
 title: "About"
+description: "Amin Siddique is a Senior Data Engineer at Mercedes-Benz with 6+ years building production data systems. This blog covers data engineering, AI tools, and practical pipeline architecture."
 ---
 
 ## About the Author

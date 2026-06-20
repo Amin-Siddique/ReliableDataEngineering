@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/AboutLayout.astro
 title: "Privacy Policy"
+description: "Privacy policy for Reliable Data Engineering. Learn how we handle cookies, analytics, Google AdSense advertising, and your personal data."
 ---
 
 **Last updated:** April 8, 2026

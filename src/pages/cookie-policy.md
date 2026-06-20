@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/AboutLayout.astro
 title: "Cookie Policy"
+description: "Cookie policy for Reliable Data Engineering. Details on essential, analytics, advertising (Google AdSense), and authentication cookies used on this site."
 ---
 
 **Last updated:** April 8, 2026

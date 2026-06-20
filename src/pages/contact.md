@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/AboutLayout.astro
 title: "Contact"
+description: "Get in touch with Amin Siddique for questions about data engineering, AI tools, collaboration opportunities, or feedback on published articles."
 ---
 
 Have a question, feedback, or want to collaborate? Here is how to reach me.

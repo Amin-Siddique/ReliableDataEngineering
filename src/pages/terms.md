@@ -1,6 +1,7 @@
 ---
 layout: ../layouts/AboutLayout.astro
 title: "Terms of Service"
+description: "Terms of service for Reliable Data Engineering. Usage guidelines, intellectual property, content accuracy, and limitations of liability."
 ---
 
 **Last updated:** April 24, 2026
