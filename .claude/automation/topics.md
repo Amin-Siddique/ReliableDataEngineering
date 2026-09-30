@@ -1,6 +1,6 @@
 # Article topics
 
-Backlog of article ideas: generic data engineering with an AI angle, not overlapping published posts. Work top to bottom and check items off when published. Add, remove or reorder freely.
+Backlog for the automated article task (see `auto-article.md`), which takes the first unchecked item. Generic data engineering with an AI angle, not overlapping published posts. Add, remove or reorder freely.
 
 - [ ] Snowflake and Databricks converged on AI agents in 2026: what actually changes for data engineers
 - [ ] Postgres moves into the data platform: Databricks Lakebase vs Snowflake Postgres
