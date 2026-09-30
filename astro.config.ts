@@ -29,6 +29,8 @@ export default defineConfig({
         ];
         const path = new URL(page).pathname.replace(/\/$/, "");
         if (noIndexPages.includes(path)) return false;
+        // Individual tag pages are listing pages, not content; only posts and core pages go in the sitemap
+        if (path.startsWith("/tags/")) return false;
         if (!SITE.showArchives && page.endsWith("/archives")) return false;
         return true;
       },

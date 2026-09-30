@@ -34,7 +34,8 @@ const tagPosts = sortedPosts.filter(post =>
 );
 ---
 
-<Layout title={`${tag} | ${SITE.title}`}>
+<!-- Tag pages with only a post or two are thin listing pages; keep them out of the index -->
+<Layout title={`${tag} | ${SITE.title}`} noindex={tagPosts.length < 3}>
   <Header />
   <main id="main-content" class="app-layout py-12">
     <div class="mb-8">

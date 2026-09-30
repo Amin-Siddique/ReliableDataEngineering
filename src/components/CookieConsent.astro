@@ -38,8 +38,8 @@
     }
 
     function loadAnalytics() {
-      // Load AdSense only if the page has ad units
-      if (document.querySelector('.ad-unit') && !document.querySelector('script[src*="adsbygoogle"]')) {
+      // Load AdSense only on pages that opt in to ads (they preconnect to googlesyndication)
+      if (document.querySelector('link[href*="googlesyndication"]') && !document.querySelector('script[src*="adsbygoogle"]')) {
         var s = document.createElement('script');
         s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9040516721758437';
         s.async = true;

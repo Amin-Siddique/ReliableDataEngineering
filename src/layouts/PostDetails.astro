@@ -9,7 +9,6 @@ import EditPost from "@/components/EditPost.astro";
 import ShareLinks from "@/components/ShareLinks.astro";
 import BackButton from "@/components/BackButton.astro";
 import BackToTopButton from "@/components/BackToTopButton.astro";
-import AdUnit from "@/components/AdUnit.astro";
 import Comments from "@/components/Comments.astro";
 import ViewCounter from "@/components/ViewCounter.astro";
 import TableOfContents from "@/components/TableOfContents.astro";
@@ -164,9 +163,6 @@ const nextPost =
       <BookmarkButton slug={post.id} />
       <KofiButton />
     </div>
-
-    <!-- Ad placement after article -->
-    <AdUnit slot="in-article" class="my-8" />
 
     <NewsletterSignup class="my-8" />
 
