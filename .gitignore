@@ -1,3 +1,9 @@
 # Local Netlify folder
 .netlify
 databricks_mcp.log
+# Dependencies and build output (regenerated on every build)
+node_modules/
+dist/
+.astro/
+public/pagefind/
+.DS_Store
