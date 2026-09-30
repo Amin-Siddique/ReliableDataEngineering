@@ -11,17 +11,7 @@ tags:
 ogImage: "/images/blog/gemma-4-local-setup-guide.webp"
 ---
 
-# The Gemma 4 Local Setup Guide Nobody Wrote Yet
-
 *Every other article tells you Gemma 4 is amazing. This one tells you exactly what runs on your actual hardware — Mac mini, MacBook, RTX GPU, or phone — with real numbers, real commands, and the specific things that will break.*
-
----
-
-*Local AI | Practical Guide | April 2026*
-
-*~18 min read*
-
----
 
 | Hardware | Best Model | Speed | Size at Q4 |
 |----------|-----------|-------|------------|

@@ -9,10 +9,7 @@ tags:
 ogImage: “/images/blog/2m_lwh.webp”
 ---
 
-# Our $2M “Data Lakehouse” Is Just Postgres With Extra Steps
-
 *We spent two years building what marketing calls “The Future of Data Architecture.” It’s a database with more vendors.*
-
 
 Last year, our data architecture looked like this:
 - Data Warehouse : Snowflake ($200K/year)

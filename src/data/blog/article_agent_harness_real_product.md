@@ -1,6 +1,7 @@
 ---
 title: "The Agent Harness Is the Real Product, Not the Model"
 description: "A packaging error exposed 512,000 lines of Anthropic's source code. What it revealed wasn't the model -- it was the orchestration layer that changed how the industry thinks about where AI value lives."
+draft: true
 pubDatetime: 2026-04-09
 tags:
   - ai-agents
@@ -199,9 +200,6 @@ The Claude Code leak was an ops failure. The intellectual property damage was re
 ## Related articles
 
 - [The Harness Is Everything](/posts/article_harness_is_everything) -- the foundational argument for why environment design trumps model selection
-- [Claude Code Source Leak: 512K Lines Exposed](/posts/article_claude_code_source_leak) -- the incident that made this architecture public
-- [Claude Code's /ultraplan](/posts/article_claude_code_ultraplan) -- the planning feature hidden in the leaked source
-- [AutoAgent: The AI That Engineers Its Own Harness](/posts/article_autoagent_self_engineering) -- what happens when agents design their own harnesses
 
 ---
 

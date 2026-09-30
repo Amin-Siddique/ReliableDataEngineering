@@ -1,6 +1,7 @@
 ---
 title: "Karpathy Let an AI Agent Do ML Research While He Slept — It Ran 100 Experiments by Morning"
 description: "AutoResearch gives an AI agent one file, one GPU, and one metric. The agent modifies the code, trains for 5 minutes, checks if it improved, and repeats all night long. The results are surprisingly good."
+draft: true
 pubDatetime: 2026-03-22
 tags:
   - machine-learning

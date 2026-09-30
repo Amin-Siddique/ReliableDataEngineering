@@ -1,6 +1,7 @@
 ---
 title: "Someone Reverse-Engineered Apple's Neural Engine. Then Trained a 600M Parameter Model on It."
 description: "Apple locked down the ANE for inference only. A weekend project cracked it open for training. The results are real, the limitations are stated up front, and Apple probably isn't thrilled."
+draft: true
 pubDatetime: 2026-03-25
 tags:
   - apple-silicon

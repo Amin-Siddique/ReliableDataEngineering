@@ -1,6 +1,7 @@
 ---
 title: "An AI Agent Made $19,915 in 8 Hours. The Benchmark That Proved It Is Open Source."
 description: "ClawWork dropped 220 professional tasks across 44 job categories, gave AI agents $10 each, and told them to survive. One agent turned that into nearly twenty grand."
+draft: true
 pubDatetime: 2026-03-25
 tags:
   - ai-agents

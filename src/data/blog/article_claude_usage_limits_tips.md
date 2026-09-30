@@ -10,13 +10,7 @@ tags:
 ogImage: "/images/blog/unstable.webp"
 ---
 
-# I Stopped Hitting Claude's Limits. Here Are the 10 Things I Changed.
-
 *Most people blame Claude when they hit the wall. The real culprit is how they're using it. Tokens aren't counted per message — they're counted per token. Once you understand that, everything else follows.*
-
-**Staff Writer** · April 7, 2026 · 12 min read
-
----
 
 | Metric | Value |
 |--------|-------|

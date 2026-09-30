@@ -9,8 +9,7 @@ tags:
 ogImage: "/images/blog/2m.webp"
 ---
 
-## A controversial thesis on why ETL, data warehouses, and the entire modern data stack are about to become as obsolete as floppy disks — and what’s coming to replace them
-
+*A controversial thesis on why ETL, data warehouses, and the entire modern data stack are about to become as obsolete as floppy disks — and what’s coming to replace them*
 
 I’m about to make a career-limiting prediction: By 2030, the job “data engineer” as we know it today will no longer exist.
 

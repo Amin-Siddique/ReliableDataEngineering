@@ -1,6 +1,7 @@
 ---
 title: "Claude Code Source Leak: 512K Lines Exposed via Missing .npmignore Entry"
 description: "Complete incident analysis of the March 31, 2026 Claude Code npm source leak, the coincidental axios supply chain attack, and what it means for developers and Anthropic's security posture."
+draft: true
 pubDatetime: 2026-04-04
 tags:
   - security
@@ -165,8 +166,6 @@ The practical lesson for every developer team is the same one Anthropic learned:
 
 ## Related articles
 
-- [The Agent Harness Is the Real Product, Not the Model](/posts/article_agent_harness_real_product) -- the architectural analysis of what the leak revealed
-- [Claude Code's /ultraplan](/posts/article_claude_code_ultraplan) -- the hidden feature discovered in the leaked source
 - [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- how the tool works from a user perspective
 - [Vibe Coding Is Great. Vibe Reviewing Is Terrifying.](/posts/article_vibe_coding_vibe_reviewing) -- the security implications of AI-generated code
 

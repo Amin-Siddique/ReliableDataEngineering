@@ -11,16 +11,7 @@ tags:
 ogImage: "/images/blog/10_research_paper.webp"
 ---
 
-# 10 Research Papers Every AI Engineer Must Read Before Their Next Interview
-
 *Most AI engineers learn architectures through tutorials and blog posts. Interviewers at top labs read the original papers. Here is what each one actually says — and exactly what the interviewer is listening for.*
-
----
-
-*Interview Prep | Research Papers | Machine Learning | March 2026*
-*~15 min read*
-
----
 
 ## The gap between tutorials and interviews
 

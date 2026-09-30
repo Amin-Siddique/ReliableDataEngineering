@@ -10,17 +10,7 @@ tags:
 ogImage: "/images/blog/last-generation-data-engineers.webp"
 ---
 
-# The Last Generation of Data Engineers?
-
 *How agentic platforms are quietly making the pipeline-builder's job description obsolete -- and what survives the transition.*
-
----
-
-*Data Engineering | AI Agents | Opinion | April 2026*
-
-*~12 min read*
-
----
 
 > **Disclaimer:** This article is an independently written analysis inspired by themes from a LinkedIn piece on agentic AI and data engineering. All statistics cited are sourced from publicly available research as of early 2026. Projections about role displacement reflect industry research and are not guarantees of any specific outcome. Code examples are illustrative, not production-ready. Views expressed are analytical, not advisory.
 

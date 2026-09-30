@@ -1,6 +1,7 @@
 ---
 title: "Your AI Is Drowning in Its Own Memory — Google Just Threw It a Lifeline"
 description: "Shrink your LLM's memory footprint by 6x, speed up attention by 8x, and lose almost nothing in accuracy — no retraining required."
+draft: true
 pubDatetime: 2026-03-31
 tags:
   - quantization

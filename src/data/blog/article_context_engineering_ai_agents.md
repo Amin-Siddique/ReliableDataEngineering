@@ -10,16 +10,7 @@ tags:
 ogImage: "/images/blog/context-engineering.webp"
 ---
 
-# The AI Doesn't Need to Read Your Codebase. It Needs a Map.
-
 *Context Hub, Code Review Graph, and the emerging discipline of giving AI agents less to make them smarter.*
-
----
-
-*AI Tools | Context Engineering | Developer Productivity | March 2026*
-*~15 min read*
-
----
 
 ## The Most Expensive Mistake in AI-Assisted Development
 
@@ -274,7 +265,6 @@ Both are open source. Both are free. Both will probably save you more tokens in 
 - [The Harness Is Everything](/posts/article_harness_is_everything) -- how environment design determines agent capability
 - [How We Cut LLM Token Usage by 90% in SQL Migration](/posts/article_toon_sql_migration) -- a real-world application of context compression
 - [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the tool that pioneered CLAUDE.md context files
-- [Karpathy Stopped Using LLMs to Write Code — He's Using Them to Think](/posts/article_karpathy_llm_knowledge_base) -- a different approach to structuring knowledge for LLMs
 
 ---
 

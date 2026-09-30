@@ -11,16 +11,7 @@ tags:
 ogImage: "/images/blog/ducklake.webp"
 ---
 
-# Iceberg Built a Maze. DuckLake Just Handed You a Map.
-
 *The DuckDB team's new open table format ditches the files-on-files-on-files metadata architecture that's been quietly killing lakehouse performance since 2018 — and replaces it with something embarrassingly obvious in hindsight: a SQL database.*
-
----
-
-*Data Engineering | Open Table Formats | DuckLake | Iceberg | Delta Lake | April 2026*
-*~11 min read*
-
----
 
 ## The quiet tax data engineers have been paying
 

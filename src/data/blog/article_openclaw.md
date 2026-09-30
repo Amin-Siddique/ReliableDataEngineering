@@ -1,6 +1,7 @@
 ---
 title: "OpenClaw Is the New Computer — Jensen Huang Was Right, and 320K Developers Agree"
 description: "A lobster-themed open-source project just became the fastest-growing AI repository in GitHub history. It turns WhatsApp, Telegram, and Slack into an operating system. Here's why Jensen Huang compared it to a computer — and what people are actually doing with it"
+draft: true
 pubDatetime: 2026-03-22
 tags:
   - openclaw

@@ -1,6 +1,7 @@
 ---
 title: "Karpathy Stopped Using LLMs to Write Code — He's Using Them to Think"
 description: "Andrej Karpathy's LLM-powered personal knowledge base workflow: how he uses AI to compile, maintain, and query a 400K-word research wiki without vector databases or RAG."
+draft: true
 pubDatetime: 2026-04-04
 tags:
   - llm

@@ -1,6 +1,7 @@
 ---
 title: "The Claude Certified Architect Is Here -- And It's Unlike Any AI Certification Before It"
 description: "Anthropic launched its first official technical credential -- a proctored, architecture-level exam that separates people who use AI from people who build production systems with it."
+draft: true
 pubDatetime: 2026-03-18
 tags:
   - anthropic

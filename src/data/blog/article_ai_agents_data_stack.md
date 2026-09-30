@@ -12,16 +12,7 @@ tags:
 ogImage: "/images/blog/ai-agents-data-stack.webp"
 ---
 
-# Your Data Stack Wasn't Built for This. What Changes When AI Agents Become First-Class Consumers.
-
 *DuckDB has an MCP server. Databricks bakes LLM functions directly into ETL. AI agents are quietly becoming the most demanding query clients your infrastructure has ever seen — and they don't behave like Tableau or dbt.*
-
----
-
-*Architecture | AI-Native Data Engineering | DuckDB MCP | Lakeflow AI Functions | April 2026*
-*~14 min read*
-
----
 
 ## The query client is no longer human
 

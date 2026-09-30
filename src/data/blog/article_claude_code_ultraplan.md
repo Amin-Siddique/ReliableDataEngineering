@@ -1,6 +1,7 @@
 ---
 title: "Claude Code's /ultraplan Is the Feature That Was Hiding in 512,000 Lines of Leaked Code"
 description: "Anthropic just shipped the first major feature that security researchers spotted weeks ago in its accidentally exposed source code. And it turns out the leaked description wasn't hype."
+draft: true
 pubDatetime: 2026-04-12
 tags:
   - claude-code
@@ -154,7 +155,6 @@ claude
 ## Related articles
 
 - [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the full breakdown of the tool that houses ultraplan
-- [Claude Code Source Leak: 512K Lines Exposed](/posts/article_claude_code_source_leak) -- the incident that exposed ultraplan's existence
 - [The Harness Is Everything](/posts/article_harness_is_everything) -- the philosophy of why planning matters in agent systems
 - [I Stopped Hitting Claude's Limits — Here Are the 10 Things I Changed](/posts/article_claude_usage_limits_tips) -- practical tips for getting more from Claude
 

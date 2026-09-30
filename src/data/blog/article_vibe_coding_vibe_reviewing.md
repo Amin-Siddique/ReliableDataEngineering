@@ -11,16 +11,7 @@ tags:
 ogImage: "/images/blog/vibe-coding-vibe-reviewing.webp"
 ---
 
-# Vibe Coding Is Great. Vibe Reviewing Is Terrifying.
-
 *AI can write the code. The problem is the person approving it. And right now, that person is often working with a rapidly atrophying skill set, a backlog that doubles every quarter, and a mounting suspicion that they can't actually tell if what they're merging is safe.*
-
----
-
-*Software Engineering | Opinion | April 2026*
-*~14 min read*
-
----
 
 ## The anxiety nobody's discussing honestly
 
@@ -203,7 +194,6 @@ The AI code percentage where rework rates start accelerating meaningfully is aro
 ## Related articles
 
 - [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the tool that makes responsible AI coding practical
-- [Claude Code Source Leak: 512K Lines Exposed](/posts/article_claude_code_source_leak) -- a real supply chain security incident
 - [The Harness Is Everything](/posts/article_harness_is_everything) -- why guardrails and feedback loops prevent vibe reviewing
 - [AI Engineer vs Data Engineer vs MLE](/posts/article_ai_engineer_vs_data_engineer_vs_mle) -- how roles shift when AI writes the code
 

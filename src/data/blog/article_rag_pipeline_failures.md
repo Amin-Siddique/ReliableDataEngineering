@@ -12,16 +12,7 @@ tags:
 ogImage: "/images/blog/rag-pipeline-failures.webp"
 ---
 
-# RAG Is Lying to You: The Data Pipeline Failures Hiding Behind Your LLM
-
 *Your retrieval returns results. Your LLM generates an answer. Your users get confident nonsense. This isn't an AI problem — it's a data engineering problem, and it's been there since ingestion day one.*
-
----
-
-*Data Engineering | RAG Production Failures | Chunking | Embedding Drift | Debugging | April 2026*
-*~16 min read*
-
----
 
 ## The failures that return results and say nothing
 

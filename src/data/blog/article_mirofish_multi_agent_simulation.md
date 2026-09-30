@@ -1,6 +1,7 @@
 ---
 title: "What If You Could Run the Future Before It Happens? Meet MiroFish."
 description: "MiroFish spawns thousands of AI agents with memories, personalities, and opinions, then watches what breaks loose — 45k GitHub stars and counting."
+draft: true
 pubDatetime: 2026-03-31
 tags:
   - ai-agents

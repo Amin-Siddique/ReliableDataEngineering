@@ -10,16 +10,7 @@ tags:
 ogImage: "/images/blog/vectorless.webp"
 ---
 
-# Build a RAG System Without Embeddings or Vector Databases
-
 *PageIndex turns documents into navigable trees. An LLM reasons through the hierarchy to find answers — no embeddings, no similarity search, just structured retrieval.*
-
----
-
-*AI Tools | RAG Systems | Information Retrieval | March 2026*
-*~14 min read*
-
----
 
 ## The Problem With Vector Search
 
@@ -467,7 +458,6 @@ python main.py
 ## Related articles
 
 - [RAG Is Lying to You: The Data Pipeline Failures Hiding Behind Your LLM](/posts/article_rag_pipeline_failures) -- the pipeline failures that embedding-based RAG introduces
-- [Karpathy Stopped Using LLMs to Write Code — He's Using Them to Think](/posts/article_karpathy_llm_knowledge_base) -- another approach to LLM-powered knowledge retrieval
 - [Your Data Stack Wasn't Built for This](/posts/article_ai_agents_data_stack) -- how AI agents consume data differently
 - [The Database Endgame](/posts/article_the_database_endgame_why_everything_youre_building) -- the storage layer implications of retrieval systems
 

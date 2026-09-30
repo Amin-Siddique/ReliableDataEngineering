@@ -10,17 +10,7 @@ tags:
 ogImage: "/images/blog/harness-is-everything.webp"
 ---
 
-# The Harness Is Everything
-
 *What Cursor, Claude Code, and Perplexity actually built -- and why the model was never the real product.*
-
----
-
-*AI Engineering | Architecture | Developer Tools | April 2026*
-
-*~14 min read*
-
----
 
 > **Disclaimer:** This article is an independently written analysis of harness engineering in AI systems. All statistics and benchmarks cited are sourced from publicly available research (SWE-agent / NeurIPS 2024, Latent Space, Medium, and Coalesce 2026). Code examples are illustrative and not production-ready. No vendor endorsement is implied or intended.
 
@@ -252,8 +242,6 @@ The model is almost irrelevant. The harness is everything.
 
 ## Related articles
 
-- [The Agent Harness Is the Real Product, Not the Model](/posts/article_agent_harness_real_product) -- how the Claude Code leak proved this thesis
-- [The Engineer Who Made Claude Build a DAW in 4 Hours](/posts/article_anthropic_harness_design) -- a practical case study in harness design
 - [The AI Doesn't Need to Read Your Codebase. It Needs a Map.](/posts/article_context_engineering_ai_agents) -- context engineering as a harness pattern
 - [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the tool where these principles are most visible
 

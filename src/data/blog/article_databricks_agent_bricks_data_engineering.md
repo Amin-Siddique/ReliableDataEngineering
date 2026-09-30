@@ -10,16 +10,7 @@ tags:
 ogImage: "/images/blog/databricks-agent-bricks.webp"
 ---
 
-# Databricks Agent Bricks Is Quietly Changing How Data Engineers Work
-
 *Describe the task. Connect your data. Let the platform handle the rest. That is the promise of Agent Bricks — and for a specific, important set of data engineering problems, it is actually delivering on it.*
-
----
-
-*Data Engineering | Databricks | AI Agents | March 2026*
-*~18 min read*
-
----
 
 ## The Pain Every Data Engineer Knows
 

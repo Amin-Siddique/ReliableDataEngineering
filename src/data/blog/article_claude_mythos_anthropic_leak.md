@@ -1,6 +1,7 @@
 ---
 title: "Anthropic's 10-Trillion Parameter Model Just Leaked — And It Wasn't a Hack"
 description: "A misconfigured CMS exposed Claude Mythos, Anthropic's most powerful AI model ever built. Three thousand files. A new model tier. And a cybersecurity panic that moved markets."
+draft: true
 pubDatetime: 2026-03-29
 tags:
   - anthropic

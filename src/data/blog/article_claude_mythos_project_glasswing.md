@@ -1,6 +1,7 @@
 ---
 title: "The AI That Found More Bugs in Weeks Than Most Researchers Find in a Career"
 description: "Anthropic's Mythos model discovered thousands of zero-day vulnerabilities -- including a 27-year-old flaw in one of the most security-hardened systems on earth. It's so capable they refused to release it."
+draft: true
 pubDatetime: 2026-04-09
 tags:
   - anthropic

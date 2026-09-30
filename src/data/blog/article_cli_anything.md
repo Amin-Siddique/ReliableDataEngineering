@@ -1,6 +1,7 @@
 ---
 title: "CLI-Anything turns Photoshop into a terminal command"
 description: "One plugin scans a desktop app's source code and generates a complete command-line interface for it, so AI agents can use software that was built for humans."
+draft: true
 pubDatetime: 2026-03-22
 tags:
   - ai-agents

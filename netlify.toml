@@ -30,3 +30,19 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Duplicate-topic posts retired in favour of the main article on that topic
+[[redirects]]
+  from = "/posts/article_gemma_4_local"
+  to = "/posts/article_gemma_4_local_setup_guide"
+  status = 301
+
+[[redirects]]
+  from = "/posts/article_agent_harness_real_product"
+  to = "/posts/article_harness_is_everything"
+  status = 301
+
+[[redirects]]
+  from = "/posts/article_anthropic_harness_design"
+  to = "/posts/article_harness_is_everything"
+  status = 301

@@ -1,6 +1,7 @@
 ---
 title: "Gemma 4: The Pocket Rocket That Wants to Kill Your API Bill"
 description: "Google DeepMind's Gemma 4 brings frontier-level reasoning to local hardware under Apache 2.0: 89.2% AIME, 80% LiveCodeBench, runs on phones to Mac minis, with native function calling and 256K context."
+draft: true
 pubDatetime: 2026-04-05
 tags:
   - llm

@@ -1,6 +1,7 @@
 ---
 title: "Anthropic Just Made Building Production AI Agents Dramatically Easier"
 description: "Claude Managed Agents enters public beta — a fully managed infrastructure layer that handles the months of scaffolding work that used to block every production agent deployment."
+draft: true
 pubDatetime: 2026-04-08
 tags:
   - anthropic
@@ -181,8 +182,6 @@ The beta label means behaviors will be refined. Anthropic has committed to itera
 
 - [Claude Code Puts an AI Agent in Your Terminal](/posts/article_claude_code) -- the CLI tool that shares Managed Agents' harness architecture
 - [The Harness Is Everything](/posts/article_harness_is_everything) -- why the orchestration layer matters more than the model
-- [The Agent Harness Is the Real Product, Not the Model](/posts/article_agent_harness_real_product) -- what the Claude Code leak revealed about Anthropic's approach
-- [Claude Subconscious Gives Claude Code a Persistent Memory](/posts/article_claude_subconscious_persistent_memory) -- the memory system that feeds into managed agent sessions
 
 ---
 

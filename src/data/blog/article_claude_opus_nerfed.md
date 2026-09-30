@@ -1,6 +1,7 @@
 ---
 title: "Did Claude Code Opus 4.6 Get Nerfed?"
 description: "A senior AMD AI director's logs point to sharp regression in Claude's coding performance -- Anthropic says it's a product change, not a dumber model."
+draft: true
 pubDatetime: 2026-04-12
 tags:
   - anthropic

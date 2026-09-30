@@ -1,6 +1,7 @@
 ---
 title: "Your Codebase Has a Blind Spot — Oh-My-Mermaid Fixes It"
 description: "This open-source Claude Code plugin generates living architecture diagrams committed to git, drillable, and kept fresh by AI."
+draft: true
 pubDatetime: 2026-04-07
 tags:
   - open-source

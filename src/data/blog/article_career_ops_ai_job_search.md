@@ -1,6 +1,7 @@
 ---
 title: "He Stopped Applying to Jobs and Built a System That Did It For Him"
 description: "Career-Ops: an open-source multi-agent system built on Claude Code that evaluated 740+ job offers, generated 354 tailored CVs, and landed its creator a Head of Applied AI role. Now on GitHub."
+draft: true
 pubDatetime: 2026-04-06
 tags:
   - ai-agents

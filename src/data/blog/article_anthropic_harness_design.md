@@ -1,6 +1,7 @@
 ---
 title: "The Engineer Who Made Claude Build a DAW in 4 Hours — And What He Learned About Harness Design"
 description: "A solo agent costs $9 and ships broken software. A three-agent harness costs $200 and builds a retro game maker from one sentence. Here's how the engineering actually works."
+draft: true
 pubDatetime: 2026-04-02
 tags:
   - ai-agents

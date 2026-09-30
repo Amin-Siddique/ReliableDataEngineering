@@ -1,6 +1,7 @@
 ---
 title: "Why Quantum Computing Is More Relevant to AI Than You Think"
 description: "Most people have filed quantum computing under 'interesting but distant.' That instinct is understandable and increasingly wrong. The relationship between quantum hardware and AI is already happening -- on both sides."
+draft: true
 pubDatetime: 2026-04-09
 tags:
   - quantum-computing

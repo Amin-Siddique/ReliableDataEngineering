@@ -10,16 +10,7 @@ tags:
 ogImage: "/images/blog/claude.webp"
 ---
 
-# Claude Code Puts an AI Agent in Your Terminal — And It Actually Works
-
 *Anthropic's agentic CLI reads your codebase, edits files, runs commands, and commits changes. No IDE plugin. No web UI. Just a terminal that understands what you're building.*
-
----
-
-*Developer Tools | AI Agents | CLI | March 2026*
-*~12 min read*
-
----
 
 ## The IDE plugin problem
 
@@ -351,10 +342,9 @@ claude
 
 ## Related articles
 
-- [Claude Code's /ultraplan Is the Feature That Was Hiding in 512,000 Lines of Leaked Code](/posts/article_claude_code_ultraplan) -- the planning mode that makes complex tasks manageable
 - [The Harness Is Everything](/posts/article_harness_is_everything) -- why the environment around the model matters more than the model itself
-- [Claude Subconscious Gives Claude Code a Persistent Memory That Actually Works](/posts/article_claude_subconscious_persistent_memory) -- how memory changes the agent workflow
-- [Anthropic Just Made Building Production AI Agents Dramatically Easier](/posts/article_claude_managed_agents) -- the managed agent platform built on the same architecture
+- [The AI Doesn't Need to Read Your Codebase. It Needs a Map.](/posts/article_context_engineering_ai_agents) -- how CLAUDE.md-style context files make agents more accurate
+- [Vibe Coding Is Great. Vibe Reviewing Is Terrifying.](/posts/article_vibe_coding_vibe_reviewing) -- why reviewing agent-written code is the new bottleneck
 
 ---
 

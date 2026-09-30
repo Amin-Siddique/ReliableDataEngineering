@@ -1,6 +1,7 @@
 ---
 title: "GitNexus Gives AI Agents a Nervous System for Code"
 description: "AI coding agents are blind — they read files but don't see structure. A 16K-star open-source project is changing that by building knowledge graphs that make agents actually understand codebases."
+draft: true
 pubDatetime: 2026-03-22
 tags:
   - ai-agents

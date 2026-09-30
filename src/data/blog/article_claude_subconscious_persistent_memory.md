@@ -1,6 +1,7 @@
 ---
 title: "Claude Subconscious Gives Claude Code a Persistent Memory That Actually Works"
 description: "A background agent that runs silently after every Claude Code response, building and surfacing context across sessions without adding latency to your workflow."
+draft: true
 pubDatetime: 2026-03-27
 tags:
   - claude-code

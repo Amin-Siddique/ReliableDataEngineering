@@ -1,6 +1,7 @@
 ---
 title: "AutoAgent: The AI That Engineers Its Own Harness and Tops Benchmarks"
 description: "AutoAgent autonomously builds and optimizes agent harnesses without human engineering, achieving #1 on SpreadsheetBench (96.5%) and top GPT-5 score on TerminalBench (55.1%) in 24-hour runs."
+draft: true
 pubDatetime: 2026-04-05
 tags:
   - ai-agents

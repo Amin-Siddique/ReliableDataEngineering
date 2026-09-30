@@ -10,16 +10,7 @@ tags:
 ogImage: "/images/blog/ast.webp"
 ---
 
-# How We Cut LLM Token Usage by 90% in SQL Migration Using AST Compression
-
 *Feeding 200K-character SQL files to an LLM is expensive and unreliable. We built TOON — a compact AST notation that gives the model structural awareness at a fraction of the token cost.*
-
----
-
-*Data Engineering | SQL Migration | LLM Optimization | March 2026*
-*~12 min read*
-
----
 
 ## The problem: enterprise SQL doesn't fit in a context window
 

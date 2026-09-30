@@ -9,9 +9,7 @@ tags:
 ogImage: "/images/blog/f3.webp"
 ---
 
-
-## Why the open-source data world is buzzing about CMU’s new columnar format — and why Parquet’s decade-long reign might actually be ending
-
+*Why the open-source data world is buzzing about CMU’s new columnar format — and why Parquet’s decade-long reign might actually be ending*
 
 When I first heard about “yet another file format,” I rolled my eyes so hard I nearly sprained something. We’ve been here before. Every few years, someone announces the revolutionary format that will replace Parquet and save us all. I’ve watched Lance, Nimble, and a dozen others come through promising the moon.
 
