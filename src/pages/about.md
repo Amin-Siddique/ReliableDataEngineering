@@ -22,7 +22,7 @@ My day-to-day work involves migrating enterprise-scale data warehouses (Oracle, 
 
 Most data engineering content falls into two categories: vendor marketing or academic theory. Neither helps when your pipeline fails at 2 AM or when you need to migrate 500 stored procedures to a new platform.
 
-Reliable Data Engineering fills that gap. Every article is grounded in hands-on experience with production systems. I write about what actually works, what breaks, and what I wish someone had told me before I learned the hard way.
+Reliable Data Engineering tries to fill that gap. I write about what works, what breaks, and what I wish someone had told me before I learned it the hard way.
 
 The data engineering landscape is shifting fast. AI agents are starting to write SQL, manage pipelines, and automate the grunt work that used to define the job. I started this blog to document that transition honestly -- not with hype, but with benchmarks, code, and real-world results.
 
@@ -38,9 +38,9 @@ The data engineering landscape is shifting fast. AI agents are starting to write
 
 I believe data pipelines deserve the same engineering rigor as application code. Version control, testing, code review, and CI/CD are not optional -- they are the baseline. Before data engineering, I spent time in software development, which shaped this perspective.
 
-I do not write sponsored content. When I recommend a tool, it is because I have used it in production. When I criticize something, I explain why with specifics. Every article includes limitations and honest assessments.
+I do not write sponsored content. When I criticize something, I explain why with specifics. Every article includes a limitations section and an honest assessment.
 
-I test everything I write about. If an article includes a benchmark, I ran it. If it includes a code snippet, I executed it. If it covers a tool, I installed it and used it on real data before forming an opinion.
+Articles on this site are one of two kinds, and each one says which it is. Some are write-ups of my own production work, where the numbers come from systems I built. Others are researched analyses of new tools, papers, and platforms. Those link to their sources, and the disclaimer at the end states when benchmark figures come from a vendor or project and were not independently reproduced.
 
 Some articles on this site contain affiliate links to books I genuinely recommend. These are clearly disclosed and do not influence what I write.
 

@@ -40,12 +40,11 @@ tags:
 
 **Article flow:**
 
-1. H1 headline (expand on title)
-2. Italic deck + metadata + read time
-3. 8-12 H2 sections mixing problem/solution/examples/limitations
-4. "Try it" section with install commands and links
-5. Affiliate book recommendation (see below)
-6. Italicized disclaimer
+1. Italic deck (the layout already renders the title as H1, the date and the read time, so don't repeat them)
+2. 8-12 H2 sections mixing problem/solution/examples/limitations
+3. "Try it" section with install commands and links
+4. Affiliate book recommendation (see below)
+5. Italicized disclaimer
 
 **Affiliate links (add relevant one before disclaimer):**
 

@@ -21,12 +21,10 @@ ogImage: "/images/blog/your-image-name.webp"
 
 ### Document Flow
 
-1. **H1 Headline** — Restates the title, often with added context or sublist ("Blender too. And GIMP.")
-2. **Italic deck** — 1-2 sentence summary restating what it does and why it matters
-3. **Horizontal rule** (`---`)
-4. **Metadata line** — Category | Tags | Month Year, then `*~X min read*`
-5. **Horizontal rule** (`---`)
-6. **Sections** — 8-12 H2 sections, each self-contained
+The post layout already renders the title (as the page's only H1), the date, and the reading time. Do not repeat them in the body: no `# ` headline, no metadata line, no `*~X min read*`, no byline.
+
+1. **Italic deck** — 1-2 sentence summary of what it does and why it matters
+2. **Sections** — 8-12 H2 sections, each self-contained
 
 ### Section Types (Mix These)
 
@@ -123,16 +121,7 @@ End every article with an italicized disclaimer:
 ## Example Opening
 
 ```markdown
-# Tool-Name does X. Also Y. And Z.
-
 *One sentence explaining the core value prop and who benefits.*
-
----
-
-*Category | Topic1 | Topic2 | Month Year*
-*~X min read*
-
----
 
 ## The problem/context section
 
