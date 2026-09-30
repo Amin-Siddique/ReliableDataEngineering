@@ -9,9 +9,22 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
 const FROM_EMAIL = process.env.NEWSLETTER_FROM_EMAIL || "aminsiddique95@gmail.com";
 const FROM_NAME = process.env.NEWSLETTER_FROM_NAME || "Reliable Data Engineering";
 
+function buildWelcomeText(siteUrl: string, unsubscribeUrl: string): string {
+  return [
+    "Welcome to Reliable Data Engineering.",
+    "",
+    "You're in. New articles on data engineering, AI tools and modern infrastructure will arrive in your inbox.",
+    "",
+    `Start reading: ${siteUrl}/posts/`,
+    "",
+    `You're receiving this because you subscribed at ${siteUrl.replace("https://", "")}.`,
+    `Unsubscribe: ${unsubscribeUrl}`,
+  ].join("\n");
+}
+
 function buildWelcomeHtml(siteUrl: string, unsubscribeUrl: string): string {
   const articles = [
-    { slug: "article_context_engineering", title: "Context Engineering for AI Agents", desc: "Why the way you feed context to AI agents matters more than the model itself." },
+    { slug: "article_context_engineering_ai_agents", title: "Context Engineering for AI Agents", desc: "Why the way you feed context to AI agents matters more than the model itself." },
     { slug: "article_claude_code", title: "Claude Code: The AI Developer Tool", desc: "How Claude Code changes the way engineers ship software." },
     { slug: "article_our_2m_data_lakehouse_is_just_postgres_with_extra_", title: "Our $2M Data Lakehouse Is Just Postgres", desc: "Sometimes the boring choice is the right architecture." },
   ];
@@ -113,6 +126,12 @@ async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
   const unsubscribeUrl = `${siteUrl}/api/newsletter?action=unsubscribe&token=${unsubscribeToken}`;
   const subject = "Welcome to Reliable Data Engineering!";
   const html = buildWelcomeHtml(siteUrl, unsubscribeUrl);
+  const text = buildWelcomeText(siteUrl, unsubscribeUrl);
+  // One-click unsubscribe headers (RFC 8058); Gmail and Yahoo treat their absence as a spam signal
+  const unsubscribeHeaders = {
+    "List-Unsubscribe": `<${unsubscribeUrl}>`,
+    "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+  };
 
   try {
     // Prefer Brevo (no domain verification needed — just verify your sender email)
@@ -129,6 +148,8 @@ async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
           to: [{ email: toEmail }],
           subject,
           htmlContent: html,
+          textContent: text,
+          headers: unsubscribeHeaders,
         }),
       });
       const resBody = await res.text();
@@ -150,6 +171,8 @@ async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
           to: [toEmail],
           subject,
           html,
+          text,
+          headers: unsubscribeHeaders,
         }),
       });
       const resBody = await res.text();
@@ -166,11 +189,19 @@ async function sendWelcomeEmail(toEmail: string, unsubscribeToken: string) {
 export default async (req: Request) => {
   const url = new URL(req.url);
 
+  const token = url.searchParams.get("token");
+  const action = url.searchParams.get("action");
+
+  // One-click unsubscribe: mail clients POST to the List-Unsubscribe URL
+  if (req.method === "POST" && action === "unsubscribe" && token) {
+    await sql`
+      UPDATE newsletter_subscribers SET subscribed = FALSE WHERE unsubscribe_token = ${token}
+    `;
+    return new Response(null, { status: 200 });
+  }
+
   // GET: Handle unsubscribe
   if (req.method === "GET") {
-    const token = url.searchParams.get("token");
-    const action = url.searchParams.get("action");
-
     if (action === "unsubscribe" && token) {
       const [subscriber] = await sql`
         UPDATE newsletter_subscribers
