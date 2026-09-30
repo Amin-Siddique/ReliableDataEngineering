@@ -5,6 +5,9 @@ import {
   setSessionCookie,
   redirectResponse,
   jsonResponse,
+  createOAuthState,
+  isValidOAuthState,
+  clearOAuthStateCookie,
 } from "./auth-utils";
 
 const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || "";
@@ -17,19 +20,25 @@ export default async (req: Request) => {
   // Step 1: Redirect to GitHub OAuth
   if (!url.searchParams.has("code")) {
     const redirectUri = `${siteUrl}/api/auth/github/callback`;
+    const { state, cookie } = createOAuthState();
     const params = new URLSearchParams({
+      state,
       client_id: GITHUB_CLIENT_ID,
       redirect_uri: redirectUri,
       scope: "read:user user:email",
     });
 
-    return redirectResponse(`https://github.com/login/oauth/authorize?${params}`);
+    return redirectResponse(`https://github.com/login/oauth/authorize?${params}`, { "Set-Cookie": cookie });
   }
 
   // Step 2: Handle callback with authorization code
   const code = url.searchParams.get("code");
   if (!code) {
     return jsonResponse({ error: "Missing authorization code" }, 400);
+  }
+
+  if (!isValidOAuthState(req, url.searchParams.get("state"))) {
+    return redirectResponse(`${siteUrl}/?auth_error=github_state_mismatch`);
   }
 
   try {
@@ -97,9 +106,11 @@ export default async (req: Request) => {
 
     const sessionId = await createSession(user.id);
 
-    return redirectResponse(siteUrl + "/", {
+    const res = redirectResponse(siteUrl + "/", {
       "Set-Cookie": setSessionCookie(sessionId),
     });
+    res.headers.append("Set-Cookie", clearOAuthStateCookie());
+    return res;
   } catch {
     return redirectResponse(`${siteUrl}/?auth_error=github_failed`);
   }

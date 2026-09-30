@@ -5,22 +5,47 @@ const sql = neon();
 const SITE_URL = process.env.SITE_URL || "https://reliabledataengineering.com";
 const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
-export function generateSessionId(): string {
-  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let id = "";
-  for (let i = 0; i < 64; i++) {
-    id += chars[Math.floor(Math.random() * chars.length)];
+// Session ids and tokens grant access, so they come from the CSPRNG, not Math.random()
+function randomString(chars: string, length: number): string {
+  // Largest multiple of chars.length below 256, to avoid modulo bias
+  const limit = 256 - (256 % chars.length);
+  let out = "";
+  while (out.length < length) {
+    for (const byte of crypto.getRandomValues(new Uint8Array(length * 2))) {
+      if (byte < limit && out.length < length) out += chars[byte % chars.length];
+    }
   }
-  return id;
+  return out;
+}
+
+export function generateSessionId(): string {
+  return randomString("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 64);
 }
 
 export function generateToken(): string {
-  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
-  let token = "";
-  for (let i = 0; i < 64; i++) {
-    token += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return token;
+  return randomString("abcdefghijklmnopqrstuvwxyz0123456789", 64);
+}
+
+// OAuth `state`: a random value stored in a short-lived cookie and checked on the callback,
+// so a sign-in can only complete in the browser that started it (prevents login CSRF)
+const OAUTH_STATE_COOKIE = "oauth_state";
+
+export function createOAuthState(): { state: string; cookie: string } {
+  const state = generateToken();
+  return {
+    state,
+    cookie: `${OAUTH_STATE_COOKIE}=${state}; Path=/api/auth; HttpOnly; SameSite=Lax; Secure; Max-Age=600`,
+  };
+}
+
+export function isValidOAuthState(req: Request, state: string | null): boolean {
+  const cookie = req.headers.get("cookie") || "";
+  const match = cookie.match(new RegExp(`(?:^|;\\s*)${OAUTH_STATE_COOKIE}=([^;]+)`));
+  return !!state && !!match && match[1] === state;
+}
+
+export function clearOAuthStateCookie(): string {
+  return `${OAUTH_STATE_COOKIE}=; Path=/api/auth; HttpOnly; SameSite=Lax; Secure; Max-Age=0`;
 }
 
 export function getSiteUrl(): string {

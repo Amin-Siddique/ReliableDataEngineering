@@ -14,7 +14,7 @@ export default async (req: Request) => {
     SELECT post_slug, count
     FROM views
     ORDER BY count DESC
-    LIMIT 5
+    LIMIT 25
   `;
 
   return new Response(JSON.stringify({ trending: rows }), {

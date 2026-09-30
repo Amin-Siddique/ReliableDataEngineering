@@ -77,7 +77,7 @@ export default async (req: Request) => {
       return jsonResponse({ error: "Missing highlightId" }, 400);
     }
 
-    const [existing] = await sql`SELECT id, user_id FROM highlights WHERE id = ${highlightId}`;
+    const [existing] = await sql`SELECT id, user_id, note, color FROM highlights WHERE id = ${highlightId}`;
     if (!existing || existing.user_id !== user.id) {
       return jsonResponse({ error: "Not authorized" }, 403);
     }

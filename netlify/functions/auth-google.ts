@@ -5,6 +5,9 @@ import {
   setSessionCookie,
   redirectResponse,
   jsonResponse,
+  createOAuthState,
+  isValidOAuthState,
+  clearOAuthStateCookie,
 } from "./auth-utils";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
@@ -17,7 +20,9 @@ export default async (req: Request) => {
   // Step 1: Redirect to Google OAuth
   if (!url.searchParams.has("code")) {
     const redirectUri = `${siteUrl}/api/auth/google/callback`;
+    const { state, cookie } = createOAuthState();
     const params = new URLSearchParams({
+      state,
       client_id: GOOGLE_CLIENT_ID,
       redirect_uri: redirectUri,
       response_type: "code",
@@ -26,13 +31,17 @@ export default async (req: Request) => {
       prompt: "select_account",
     });
 
-    return redirectResponse(`https://accounts.google.com/o/oauth2/v2/auth?${params}`);
+    return redirectResponse(`https://accounts.google.com/o/oauth2/v2/auth?${params}`, { "Set-Cookie": cookie });
   }
 
   // Step 2: Handle callback with authorization code
   const code = url.searchParams.get("code");
   if (!code) {
     return jsonResponse({ error: "Missing authorization code" }, 400);
+  }
+
+  if (!isValidOAuthState(req, url.searchParams.get("state"))) {
+    return redirectResponse(`${siteUrl}/?auth_error=google_state_mismatch`);
   }
 
   try {
@@ -77,9 +86,11 @@ export default async (req: Request) => {
 
     const sessionId = await createSession(user.id);
 
-    return redirectResponse(siteUrl + "/", {
+    const res = redirectResponse(siteUrl + "/", {
       "Set-Cookie": setSessionCookie(sessionId),
     });
+    res.headers.append("Set-Cookie", clearOAuthStateCookie());
+    return res;
   } catch {
     return redirectResponse(`${siteUrl}/?auth_error=google_failed`);
   }
