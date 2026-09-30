@@ -6,7 +6,7 @@ description: "Terms of service for Reliable Data Engineering. Usage guidelines, 
 
 **Last updated:** April 24, 2026
 
-These Terms of Service ("Terms") govern your use of the Reliable Data Engineering website located at [reliable-data-engineering.netlify.app](https://reliable-data-engineering.netlify.app) ("the Site"). By accessing or using the Site, you agree to be bound by these Terms.
+These Terms of Service ("Terms") govern your use of the Reliable Data Engineering website located at [reliabledataengineering.com](https://reliabledataengineering.com) ("the Site"). By accessing or using the Site, you agree to be bound by these Terms.
 
 ## Use of the Site
 
