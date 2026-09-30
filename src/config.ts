@@ -1,5 +1,5 @@
 export const SITE = {
-  website: "https://reliable-data-engineering.netlify.app/",
+  website: "https://reliabledataengineering.com/",
   author: "Amin Siddique",
   profile: "https://medium.com/@amin-siddique",
   desc: "Building resilient data pipelines. Practical guides on data engineering, SQL migration, dbt, Spark, and modern data stack.",

@@ -6,7 +6,7 @@ description: "Privacy policy for Reliable Data Engineering. Learn how we handle 
 
 **Last updated:** April 8, 2026
 
-Reliable Data Engineering ("we," "us," or "our") operates the website [reliable-data-engineering.netlify.app](https://reliable-data-engineering.netlify.app). This page informs you of our policies regarding the collection, use, and disclosure of personal information when you visit our site.
+Reliable Data Engineering ("we," "us," or "our") operates the website [reliabledataengineering.com](https://reliabledataengineering.com). This page informs you of our policies regarding the collection, use, and disclosure of personal information when you visit our site.
 
 ## Information We Collect
 
