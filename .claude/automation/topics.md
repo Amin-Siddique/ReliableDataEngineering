@@ -2,7 +2,7 @@
 
 Backlog for the automated article task (see `auto-article.md`), which takes the first unchecked item. Generic data engineering with an AI angle, not overlapping published posts. Add, remove or reorder freely.
 
-- [ ] Snowflake and Databricks converged on AI agents in 2026: what actually changes for data engineers
+- [x] Snowflake and Databricks converged on AI agents in 2026: what actually changes for data engineers -> article_snowflake_databricks_ai_agents_2026
 - [ ] Postgres moves into the data platform: Databricks Lakebase vs Snowflake Postgres
 - [ ] MCP became the data platform connector: what it does and doesn't solve for agents
 - [ ] Iceberg v4 is being scoped: Parquet-only manifests and what they would change
