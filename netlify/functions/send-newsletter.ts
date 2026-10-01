@@ -1,12 +1,9 @@
 import { neon } from "@netlify/neon";
 import { jsonResponse, getSiteUrl } from "./auth-utils";
+import { sendBulkEmails } from "./email-utils";
 
 const sql = neon();
 
-const BREVO_API_KEY = process.env.BREVO_API_KEY || "";
-const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-const FROM_EMAIL = process.env.NEWSLETTER_FROM_EMAIL || "aminsiddique95@gmail.com";
-const FROM_NAME = process.env.NEWSLETTER_FROM_NAME || "Reliable Data Engineering";
 const ADMIN_SECRET = process.env.NEWSLETTER_ADMIN_SECRET || "";
 
 function escapeHtml(text: string): string {
@@ -68,46 +65,6 @@ function buildNewArticleHtml(
   `;
 }
 
-async function sendEmail(toEmail: string, subject: string, html: string): Promise<{ ok: boolean; status: number; body: string }> {
-  if (BREVO_API_KEY) {
-    const res = await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        "api-key": BREVO_API_KEY,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        sender: { name: FROM_NAME, email: FROM_EMAIL },
-        to: [{ email: toEmail }],
-        subject,
-        htmlContent: html,
-      }),
-    });
-    const body = await res.text();
-    return { ok: res.ok, status: res.status, body };
-  }
-
-  if (RESEND_API_KEY) {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from: `${FROM_NAME} <${FROM_EMAIL}>`,
-        to: [toEmail],
-        subject,
-        html,
-      }),
-    });
-    const body = await res.text();
-    return { ok: res.ok, status: res.status, body };
-  }
-
-  return { ok: false, status: 0, body: "No email provider configured" };
-}
-
 export default async (req: Request) => {
   if (req.method !== "POST") {
     return jsonResponse({ error: "Method not allowed" }, 405);
@@ -141,33 +98,18 @@ export default async (req: Request) => {
   }
 
   const subject = `New: ${title}`;
-  let sent = 0;
-  let failed = 0;
-  const errors: string[] = [];
 
-  // Send to each subscriber (with their unique unsubscribe link)
-  for (const sub of subscribers) {
+  // Each subscriber gets their own unsubscribe link
+  const emails = subscribers.map((sub: Record<string, any>) => {
     const unsubscribeUrl = `${siteUrl}/api/newsletter?action=unsubscribe&token=${sub.unsubscribe_token}`;
-    const html = buildNewArticleHtml(siteUrl, unsubscribeUrl, title, description, slug);
+    return {
+      to: sub.email as string,
+      subject,
+      html: buildNewArticleHtml(siteUrl, unsubscribeUrl, title, description, slug),
+    };
+  });
 
-    try {
-      const result = await sendEmail(sub.email, subject, html);
-      if (result.ok) {
-        sent++;
-      } else {
-        failed++;
-        errors.push(`${sub.email}: ${result.status} ${result.body}`);
-      }
-    } catch (err) {
-      failed++;
-      errors.push(`${sub.email}: ${err instanceof Error ? err.message : "Unknown error"}`);
-    }
-
-    // Small delay to avoid rate limiting (Brevo: 300/day on free)
-    if (sent % 10 === 0) {
-      await new Promise(r => setTimeout(r, 200));
-    }
-  }
+  const { sent, failed, errors } = await sendBulkEmails(emails, `manual-newsletter-${slug}`);
 
   console.log(`[send-newsletter] Sent: ${sent}, Failed: ${failed}, Total subscribers: ${subscribers.length}`);
   if (errors.length > 0) {
