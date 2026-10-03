@@ -17,6 +17,8 @@
  *   INTERVIEW_CONTENT_DIR=../data-eng-problems   use a local checkout instead of downloading
  *   INTERVIEW_CONTENT_URL=https://...tar.gz      download from a different URL
  *   INTERVIEW_CONTENT_OPTIONAL=1                 don't fail the build if the bundle is unavailable
+ *   INTERVIEW_CONTENT_TOKEN=github_pat_...       read token, required while data-eng-problems is private
+ *                                                (fine-grained PAT: that repo only, Contents: read-only)
  */
 import { execFileSync } from "node:child_process";
 import {
@@ -40,6 +42,10 @@ const REPO = "https://github.com/Amin-Siddique/data-eng-problems";
 const BUNDLE_URL =
   process.env.INTERVIEW_CONTENT_URL ||
   `${REPO}/releases/download/content-latest/content-bundle.tar.gz`;
+const RELEASE_API =
+  "https://api.github.com/repos/Amin-Siddique/data-eng-problems/releases/tags/content-latest";
+const ASSET_NAME = "content-bundle.tar.gz";
+const TOKEN = process.env.INTERVIEW_CONTENT_TOKEN || "";
 const CONTENT_DIRS = ["learn", "practice", "interview-qa"];
 const ROUTE = "/interview-prep";
 
@@ -53,19 +59,47 @@ export function toId(repoPath) {
     .toLowerCase();
 }
 
-async function download(url, dest, attempts = 4) {
+class HttpError extends Error {
+  constructor(status) {
+    super(`HTTP ${status}`);
+    this.status = status;
+  }
+}
+
+async function download(url, dest, headers = {}, attempts = 4) {
   for (let i = 1; i <= attempts; i++) {
     try {
-      const res = await fetch(url, { redirect: "follow" });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const res = await fetch(url, { redirect: "follow", headers });
+      if (!res.ok) throw new HttpError(res.status);
       writeFileSync(dest, Buffer.from(await res.arrayBuffer()));
       return;
     } catch (e) {
       log(`download attempt ${i}/${attempts} failed: ${e.message}`);
-      if (i === attempts) throw e;
+      // 401/403/404 won't fix themselves on retry
+      if (i === attempts || [401, 403, 404].includes(e.status)) throw e;
       await new Promise((r) => setTimeout(r, 2000 * 2 ** (i - 1)));
     }
   }
+}
+
+/** Private repo: resolve the release asset through the API and download it with the token. */
+async function downloadWithToken(dest) {
+  const auth = {
+    Authorization: `Bearer ${TOKEN}`,
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+  const res = await fetch(RELEASE_API, {
+    headers: { ...auth, Accept: "application/vnd.github+json" },
+  });
+  if (!res.ok) throw new HttpError(res.status);
+  const release = await res.json();
+  const asset = (release.assets || []).find((a) => a.name === ASSET_NAME);
+  if (!asset) throw new Error(`release content-latest has no ${ASSET_NAME}`);
+  // asset.url + octet-stream returns the binary (via a redirect to signed storage)
+  await download(asset.url, dest, {
+    ...auth,
+    Accept: "application/octet-stream",
+  });
 }
 
 async function obtainSource() {
@@ -76,8 +110,23 @@ async function obtainSource() {
   }
   const tmp = mkdtempSync(join(tmpdir(), "interview-"));
   const tarball = join(tmp, "bundle.tar.gz");
-  log(`downloading ${BUNDLE_URL}`);
-  await download(BUNDLE_URL, tarball);
+  try {
+    if (TOKEN && !process.env.INTERVIEW_CONTENT_URL) {
+      log(
+        "downloading content-latest bundle via the GitHub API (token provided)",
+      );
+      await downloadWithToken(tarball);
+    } else {
+      log(`downloading ${BUNDLE_URL}`);
+      await download(BUNDLE_URL, tarball);
+    }
+  } catch (e) {
+    if (e.status === 404 && !TOKEN) {
+      e.message +=
+        " (if data-eng-problems is private, set INTERVIEW_CONTENT_TOKEN to a read-only token, or make the repo public)";
+    }
+    throw e;
+  }
   execFileSync("tar", ["-xzf", tarball, "-C", tmp]);
   return tmp;
 }

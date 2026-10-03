@@ -105,5 +105,9 @@ INTERVIEW_CONTENT_DIR=../data-eng-problems npm run dev
 If the bundle can't be downloaded the build fails on purpose (Netlify keeps the previous deploy live).
 Set `INTERVIEW_CONTENT_OPTIONAL=1` to build without the section.
 
+**Private source repo:** data-eng-problems is private, so the build needs a read-only token in
+`INTERVIEW_CONTENT_TOKEN` (fine-grained PAT scoped to that repo, Contents: read-only), set in Netlify (and Cloudflare
+Pages) environment variables. The script then downloads the release asset through the GitHub API.
+
 **One-time setup:** in Netlify → Site configuration → Build & deploy → Build hooks, create a hook, then add its URL
 as the `NETLIFY_BUILD_HOOK` secret in the data-eng-problems GitHub repo (Settings → Secrets → Actions).
