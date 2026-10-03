@@ -8,8 +8,7 @@ Have a question, feedback, or want to collaborate? Here is how to reach me.
 
 ## Get in Touch
 
-- **Email:** [amin.siddique@outlook.com](mailto:amin.siddique@outlook.com)
-- **Medium:** [medium.com/@amin-siddique](https://medium.com/@amin-siddique)
+- **Email:** [aminsiddique95@gmail.com](mailto:aminsiddique95@gmail.com)
 
 ## What I Respond To
 

@@ -217,4 +217,4 @@ If you're building automation systems where multi-agent coordination and workflo
 
 ---
 
-*The views expressed in this article are my own and do not reflect those of my employer, Mercedes-Benz. I am not affiliated with any of the companies or products mentioned. This article is based on publicly reported information and independent analysis.*
+*The views expressed in this article are my own and do not reflect those of my employer. I am not affiliated with any of the companies or products mentioned. This article is based on publicly reported information and independent analysis.*
