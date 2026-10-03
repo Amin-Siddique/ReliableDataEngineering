@@ -1,12 +1,12 @@
 ---
 title: "Our $2M “Data Lakehouse” Is Just Postgres With Extra Steps"
-description: “We spent two years building what marketing calls the future of data architecture. It is a database with more vendors.”
+description: "We spent two years building what marketing calls the future of data architecture. It is a database with more vendors."
 pubDatetime: 2026-03-24
 tags:
   - postgres
   - lakehouse
   - data-architecture
-ogImage: “/images/blog/2m_lwh.webp”
+ogImage: "/images/blog/2m_lwh.webp"
 ---
 
 *We spent two years building what marketing calls “The Future of Data Architecture.” It’s a database with more vendors.*
