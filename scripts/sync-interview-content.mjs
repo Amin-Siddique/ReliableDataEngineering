@@ -18,6 +18,7 @@
  *   INTERVIEW_CONTENT_URL=https://...tar.gz      download from a different URL
  *   INTERVIEW_CONTENT_OPTIONAL=1                 don't fail the build if the bundle is unavailable
  *   INTERVIEW_CONTENT_TOKEN=github_pat_...       read token, required while data-eng-problems is private
+ *   INTERVIEW_GA_ID=G-XXXX                       analytics ID for the app ("" disables app analytics)
  *                                                (fine-grained PAT: that repo only, Contents: read-only)
  */
 import { execFileSync } from "node:child_process";
@@ -48,6 +49,12 @@ const ASSET_NAME = "content-bundle.tar.gz";
 const TOKEN = process.env.INTERVIEW_CONTENT_TOKEN || "";
 const CONTENT_DIRS = ["learn", "practice", "interview-qa"];
 const ROUTE = "/interview-prep";
+// The interactive app reuses the site's Google Analytics property and cookie-consent choice (opt-in).
+const APP_CONFIG = {
+  gaMeasurementId: process.env.INTERVIEW_GA_ID ?? "G-JHSDCEZ9EK",
+  consentKey: "cookie-consent",
+  cookiePolicyUrl: "/cookie-policy",
+};
 
 const log = (...a) => console.log("[interview-content]", ...a);
 
@@ -232,6 +239,11 @@ async function main() {
   if (existsSync(join(src, "platform")))
     cpSync(join(src, "platform"), join(OUT_PUBLIC, "app"), { recursive: true });
   rmSync(join(OUT_PUBLIC, "app", "README.md"), { force: true }); // developer notes, not for visitors
+  if (existsSync(join(OUT_PUBLIC, "app")))
+    writeFileSync(
+      join(OUT_PUBLIC, "app", "config.js"),
+      `window.APP_CONFIG = ${JSON.stringify(APP_CONFIG)};\n`,
+    );
   log(`synced ${pages} pages, assets and the interactive app`);
 }
 

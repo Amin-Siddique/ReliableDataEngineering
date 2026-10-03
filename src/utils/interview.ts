@@ -35,7 +35,7 @@ export const LEARN_TRACKS = [
   {
     id: "learn/spark-databricks",
     title: "Spark",
-    desc: "Internals, shuffle, spill and salting, serialization, performance tuning, Delta and streaming.",
+    desc: "Internals, memory and OOM debugging, joins and broadcast, caching, explain plans, shuffle, spill and skew, tuning.",
   },
   {
     id: "learn/cloud",
