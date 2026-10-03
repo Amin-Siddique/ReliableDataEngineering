@@ -172,11 +172,11 @@ function transformMarkdown(md, repoPath, srcRoot) {
               : all;
           if (abs.endsWith(".md"))
             return `[${text}](${ROUTE}/${toId(abs)}/${hash})`;
+          if (abs === "platform" || abs.startsWith("platform/"))
+            return `[${text}](${ROUTE}/app/)`;
           const dirReadme = posix.join(abs, "README.md");
           if (existsSync(join(srcRoot, dirReadme)))
             return `[${text}](${ROUTE}/${toId(dirReadme)}/${hash})`;
-          if (abs === "platform" || abs.startsWith("platform/"))
-            return `[${text}](${ROUTE}/app/)`;
           // the source repo is private: keep the text, drop links that have no page on this site
           return text;
         },
@@ -231,6 +231,7 @@ async function main() {
   cpSync(join(src, "assets"), join(OUT_PUBLIC, "assets"), { recursive: true });
   if (existsSync(join(src, "platform")))
     cpSync(join(src, "platform"), join(OUT_PUBLIC, "app"), { recursive: true });
+  rmSync(join(OUT_PUBLIC, "app", "README.md"), { force: true }); // developer notes, not for visitors
   log(`synced ${pages} pages, assets and the interactive app`);
 }
 
