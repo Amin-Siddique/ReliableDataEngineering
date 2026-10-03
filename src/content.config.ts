@@ -23,4 +23,35 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { blog };
+// Data Engineering Interview Prep: synced from github.com/Amin-Siddique/data-eng-problems
+// by scripts/sync-interview-content.mjs (runs before dev/build). Never edit src/data/interview by hand.
+export const INTERVIEW_PATH = "src/data/interview";
+
+const interview = defineCollection({
+  loader: glob({
+    pattern: "**/*.md",
+    base: `./${INTERVIEW_PATH}`,
+    // keep ids identical to the routes the sync script writes into links
+    generateId: ({ entry }) =>
+      entry
+        .replace(/\.md$/, "")
+        .replace(/\/README$/, "")
+        .toLowerCase(),
+  }),
+  schema: z
+    .object({
+      title: z.string(),
+      description: z.string(),
+      section: z.string(),
+      type: z.enum(["learn", "practice", "qa", "index"]),
+      difficulty: z.enum(["easy", "medium", "hard"]).optional(),
+      topics: z.array(z.string()).optional(),
+      tags: z.array(z.string()).optional(),
+      companies: z.array(z.string()).optional(),
+      order: z.number().optional(),
+      time_minutes: z.number().optional(),
+    })
+    .passthrough(),
+});
+
+export const collections = { blog, interview };

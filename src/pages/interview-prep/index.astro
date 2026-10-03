@@ -1,0 +1,104 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { SITE } from "@/config";
+import { INTERVIEW_APP, INTERVIEW_BASE, INTERVIEW_REPO, LEARN_TRACKS, PRACTICE_TRACKS } from "@/utils/interview";
+
+const all = await getCollection("interview");
+const inFolder = (id: string) => all.filter(e => e.id.startsWith(`${id}/`) && e.data.type !== "index");
+const count = (id: string) => inFolder(id).length;
+const qaBanks = all.filter(e => e.data.type === "qa");
+const questions = qaBanks.reduce((n, e) => n + (e.body?.match(/<details>/g)?.length ?? 0), 0);
+const featured = ["practice/system-design/clickstream-analytics", "practice/system-design/cdc-lakehouse",
+  "practice/system-design/rag-knowledge-platform", "practice/sql/11-seven-day-moving-average"]
+  .map(id => all.find(e => e.id === id))
+  .filter(e => e !== undefined);
+---
+
+<Layout
+  title={`Data Engineering Interview Prep | ${SITE.title}`}
+  description="Free, open interview preparation for senior data engineers: system design with diagrams, runnable SQL and Python problems, data modeling case studies and spaced-repetition Q&A."
+>
+  <Header />
+  <main id="main-content" class="app-layout pb-12" data-pagefind-body>
+    <section class="mt-8">
+      <h1 class="text-3xl font-bold sm:text-4xl">Data Engineering Interview Prep</h1>
+      <p class="mt-3 max-w-3xl text-foreground/80">
+        A free, open-source study platform for senior data engineering interviews. Learn the concepts, then practise
+        on {count("practice/sql")} SQL and {count("practice/python")} Python problems that run in your browser,
+        {count("practice/system-design")} system designs with diagrams and rubrics, and {questions}+ interview
+        questions as spaced-repetition flashcards.
+      </p>
+      <div class="mt-5 flex flex-wrap gap-3">
+        <a href={INTERVIEW_APP} class="rounded-lg bg-accent px-4 py-2 font-semibold text-background hover:opacity-90">
+          Open the interactive app
+        </a>
+        <a href={`${INTERVIEW_BASE}/learn/system-design/01-interview-framework/`} class="rounded-lg border border-border px-4 py-2 font-medium hover:border-accent hover:text-accent">
+          Start with the system design framework
+        </a>
+        <a href={INTERVIEW_REPO} target="_blank" rel="noopener noreferrer" class="rounded-lg border border-border px-4 py-2 font-medium hover:border-accent hover:text-accent">
+          Contribute on GitHub
+        </a>
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="border-b border-border pb-2 text-2xl font-semibold">1. Learn the concepts</h2>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {LEARN_TRACKS.map(t => (
+          <a href={`${INTERVIEW_BASE}/${t.id}/`} class="rounded-lg border border-border p-4 transition-colors hover:border-accent">
+            <h3 class="font-semibold">{t.title}</h3>
+            <p class="mt-1 text-sm text-foreground/70">{t.desc}</p>
+            <p class="mt-2 text-xs text-foreground/50">{count(t.id)} lessons</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-12">
+      <h2 class="border-b border-border pb-2 text-2xl font-semibold">2. Practise</h2>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {PRACTICE_TRACKS.map(t => (
+          <a href={`${INTERVIEW_BASE}/${t.id}/`} class="rounded-lg border border-border p-4 transition-colors hover:border-accent">
+            <h3 class="font-semibold">{t.title}</h3>
+            <p class="mt-1 text-sm text-foreground/70">{t.desc}</p>
+            <p class="mt-2 text-xs text-foreground/50">{count(t.id)} problems</p>
+          </a>
+        ))}
+      </div>
+      {featured.length > 0 && (
+        <p class="mt-4 text-sm text-foreground/70">
+          Popular:{" "}
+          {featured.map((e, i) => (
+            <>
+              {i > 0 && " · "}
+              <a class="text-accent hover:underline" href={`${INTERVIEW_BASE}/${e.id}/`}>{e.data.title}</a>
+            </>
+          ))}
+        </p>
+      )}
+    </section>
+
+    <section class="mt-12">
+      <h2 class="border-b border-border pb-2 text-2xl font-semibold">3. Drill interview questions</h2>
+      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+        {qaBanks
+          .filter(e => e.id.split("/").length === 2)
+          .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+          .map(e => (
+            <a href={`${INTERVIEW_BASE}/${e.id}/`} class="rounded-lg border border-border p-4 transition-colors hover:border-accent">
+              <h3 class="font-semibold">{e.data.title}</h3>
+              <p class="mt-1 text-sm text-foreground/70">{e.data.description}</p>
+            </a>
+          ))}
+      </div>
+      <p class="mt-4 text-sm text-foreground/70">
+        Also: <a class="text-accent hover:underline" href={`${INTERVIEW_BASE}/interview-qa/resume-grilling/sample-answers/`}>resume grilling worked example</a> ·
+        <a class="text-accent hover:underline" href={`${INTERVIEW_BASE}/interview-qa/behavioral/questions-by-category/`}>behavioral questions</a>
+      </p>
+    </section>
+  </main>
+  <Footer />
+</Layout>

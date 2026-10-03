@@ -1,0 +1,55 @@
+---
+// Renders <pre class="mermaid"> blocks (written by scripts/sync-interview-content.mjs) on the client.
+---
+
+<script>
+  const MERMAID_URL = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+
+  async function renderMermaid() {
+    const nodes = document.querySelectorAll<HTMLElement>("pre.mermaid:not([data-processed])");
+    if (!nodes.length) return;
+    try {
+      const mod = await import(/* @vite-ignore */ MERMAID_URL);
+      const mermaid = mod.default;
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: "default",
+        securityLevel: "strict",
+        themeVariables: { fontFamily: "Inter, Helvetica, Arial, sans-serif" },
+      });
+      await mermaid.run({ nodes: Array.from(nodes) });
+    } catch {
+      // Leave the diagram source visible as text if Mermaid cannot load (offline, blocked CDN).
+    }
+  }
+
+  document.addEventListener("astro:page-load", renderMermaid);
+</script>
+
+<style is:global>
+  pre.mermaid {
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid var(--color-border, #e5e7eb);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin: 1.25rem 0;
+    overflow-x: auto;
+    text-align: center;
+    white-space: pre;
+    font-family: Inter, Helvetica, Arial, sans-serif;
+  }
+  /* diagrams always sit on a light card; keep the site's dark-mode text colours out of the labels */
+  pre.mermaid[data-processed] {
+    white-space: normal;
+  }
+  pre.mermaid,
+  pre.mermaid * {
+    color: #1e293b !important;
+    font-family: Inter, Helvetica, Arial, sans-serif !important;
+  }
+  pre.mermaid p {
+    margin: 0 !important;
+    line-height: 1.4;
+  }
+</style>

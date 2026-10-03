@@ -3,7 +3,9 @@
   "type": "module",
   "version": "5.5.1",
   "scripts": {
+    "predev": "node scripts/sync-interview-content.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/sync-interview-content.mjs",
     "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
     "preview": "astro preview",
     "sync": "astro sync",
