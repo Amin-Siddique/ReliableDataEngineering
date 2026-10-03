@@ -5,8 +5,6 @@ export type InterviewEntry = CollectionEntry<"interview">;
 
 export const INTERVIEW_BASE = "/interview-prep";
 export const INTERVIEW_APP = `${INTERVIEW_BASE}/app/`;
-export const INTERVIEW_REPO =
-  "https://github.com/Amin-Siddique/data-eng-problems";
 
 export const LEARN_TRACKS = [
   {

@@ -177,7 +177,8 @@ function transformMarkdown(md, repoPath, srcRoot) {
             return `[${text}](${ROUTE}/${toId(dirReadme)}/${hash})`;
           if (abs === "platform" || abs.startsWith("platform/"))
             return `[${text}](${ROUTE}/app/)`;
-          return `[${text}](${REPO}/blob/main/${abs}${hash})`;
+          // the source repo is private: keep the text, drop links that have no page on this site
+          return text;
         },
       ),
     );
