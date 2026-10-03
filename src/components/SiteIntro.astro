@@ -1,0 +1,110 @@
+---
+// Homepage intro: tells first-time visitors what the site offers and where to start.
+---
+
+<section class="site-intro" aria-labelledby="site-intro-title">
+  <h1 id="site-intro-title" class="site-intro-title">
+    Practical data engineering, from production pipelines to your next interview
+  </h1>
+  <p class="site-intro-text">
+    Reliable Data Engineering is written by a senior data engineer for people who build data platforms. Read
+    in-depth articles on Databricks, Spark, dbt, SQL migration and AI for data, then prepare for senior interviews
+    with a free, hands-on study platform.
+  </p>
+
+  <div class="site-intro-grid">
+    <a href="#latest-articles" class="site-intro-card">
+      <span class="site-intro-kicker">Blog</span>
+      <span class="site-intro-card-title">Articles and deep dives</span>
+      <span class="site-intro-card-text">
+        Lakehouse architecture, Spark and Delta tuning, dbt at scale, legacy migrations and AI agents, written from
+        real projects.
+      </span>
+      <span class="site-intro-cta">Read the latest articles</span>
+    </a>
+    <a href="/interview-prep/" class="site-intro-card">
+      <span class="site-intro-kicker">Interview Prep</span>
+      <span class="site-intro-card-title">Free senior DE interview platform</span>
+      <span class="site-intro-card-text">
+        System design with diagrams, 41 SQL and 27 Python problems that run in your browser, data modeling cases and
+        flashcards. No account needed.
+      </span>
+      <span class="site-intro-cta">Start preparing</span>
+    </a>
+    <a href="/resources" class="site-intro-card">
+      <span class="site-intro-kicker">Resources</span>
+      <span class="site-intro-card-title">Books and tools worth your time</span>
+      <span class="site-intro-card-text">
+        The books, tools and databases I use and recommend, with honest notes on where each one falls short.
+      </span>
+      <span class="site-intro-cta">Browse resources</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .site-intro {
+    padding: 2rem 0 1.5rem;
+  }
+  .site-intro-title {
+    font-size: 1.75rem;
+    line-height: 1.25;
+    font-weight: 700;
+    max-width: 48rem;
+  }
+  @media (min-width: 640px) {
+    .site-intro-title {
+      font-size: 2.1rem;
+    }
+  }
+  .site-intro-text {
+    margin-top: 0.75rem;
+    max-width: 48rem;
+    opacity: 0.8;
+  }
+  .site-intro-grid {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 768px) {
+    .site-intro-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .site-intro-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+  }
+  .site-intro-card:hover {
+    border-color: var(--color-accent);
+  }
+  .site-intro-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+  .site-intro-card-title {
+    font-weight: 700;
+  }
+  .site-intro-card-text {
+    font-size: 0.9rem;
+    opacity: 0.75;
+  }
+  .site-intro-cta {
+    margin-top: auto;
+    padding-top: 0.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+</style>
