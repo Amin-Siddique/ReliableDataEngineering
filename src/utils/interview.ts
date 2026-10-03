@@ -10,12 +10,12 @@ export const LEARN_TRACKS = [
   {
     id: "learn/system-design",
     title: "System Design",
-    desc: "Interview framework, estimation, building blocks and reliability patterns.",
+    desc: "Interview framework, estimation, building blocks, reliability, hot keys and design patterns.",
   },
   {
     id: "learn/architecture",
     title: "Data Architecture",
-    desc: "Lakehouse, streaming, CDC, table formats, orchestration, quality, governance, AI and data mesh.",
+    desc: "Lakehouse, streaming, CDC, table formats, orchestration, quality, governance, AI, mesh and the big picture.",
   },
   {
     id: "learn/sql",
@@ -25,7 +25,7 @@ export const LEARN_TRACKS = [
   {
     id: "learn/python",
     title: "Python",
-    desc: "How data engineering coding rounds work, plus the recurring patterns.",
+    desc: "The coding round, 16 algorithm patterns, and production Python: decorators, OOP, generators, testing.",
   },
   {
     id: "learn/data-modeling",
@@ -34,8 +34,13 @@ export const LEARN_TRACKS = [
   },
   {
     id: "learn/spark-databricks",
-    title: "Spark and Databricks",
-    desc: "Spark internals and tuning, Delta Lake, Lakeflow and Unity Catalog.",
+    title: "Spark",
+    desc: "Internals, shuffle, spill and salting, serialization, performance tuning, Delta and streaming.",
+  },
+  {
+    id: "learn/cloud",
+    title: "Cloud Platforms",
+    desc: "Databricks in depth: compute and cost, Delta internals, Unity Catalog, pipelines, jobs, DevOps and security.",
   },
 ] as const;
 
@@ -43,27 +48,32 @@ export const PRACTICE_TRACKS = [
   {
     id: "practice/system-design",
     title: "System Design",
-    desc: "16 full designs with diagrams, trade-offs, follow-ups and rubrics.",
+    desc: "Full designs with diagrams, trade-offs, failure modes, follow-ups and rubrics.",
   },
   {
     id: "practice/sql",
     title: "SQL",
-    desc: "41 problems verified in CI, runnable in the browser.",
+    desc: "Problems verified in CI and auto-checked in your browser.",
   },
   {
     id: "practice/python",
     title: "Python",
-    desc: "27 coding problems with tests, runnable in the browser.",
+    desc: "Data engineering coding problems with tests, a step debugger and per-test feedback.",
+  },
+  {
+    id: "practice/algorithms",
+    title: "Algorithms",
+    desc: "Classic DSA problems grouped by pattern: sliding window, two pointers, heaps, monotonic stacks, DP and more.",
   },
   {
     id: "practice/data-modeling",
     title: "Data Modeling",
-    desc: "10 case studies with ER diagrams and rubrics.",
+    desc: "Case studies with ER diagrams and rubrics.",
   },
   {
     id: "practice/spark",
-    title: "Spark",
-    desc: "Hands-on PySpark and Delta Lake problems.",
+    title: "Spark and Databricks",
+    desc: "Query plans, executor sizing, skew, UDFs, partitioning, DPP and an end-to-end Databricks design.",
   },
 ] as const;
 
