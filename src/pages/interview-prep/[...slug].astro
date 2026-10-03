@@ -7,11 +7,9 @@ import MermaidRenderer from "@/components/interview/MermaidRenderer.astro";
 import { SITE } from "@/config";
 import {
   INTERVIEW_BASE,
-  INTERVIEW_REPO,
   appUrl,
   entryUrl,
   parentIndexId,
-  repoPath,
   siblings,
   type InterviewEntry,
 } from "@/utils/interview";
@@ -46,7 +44,6 @@ const cta =
       : data.type === "practice"
         ? "Practise with timer, notes and rubric"
         : "Open in the interactive app";
-const sourceUrl = `${INTERVIEW_REPO}/blob/main/${repoPath(entry)}`;
 ---
 
 <Layout title={`${data.title} | Interview Prep | ${SITE.title}`} description={data.description}>
@@ -87,14 +84,6 @@ const sourceUrl = `${INTERVIEW_REPO}/blob/main/${repoPath(entry)}`;
           {cta}
         </a>
       )}
-      <a
-        href={sourceUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:border-accent hover:text-accent"
-      >
-        Suggest an improvement on GitHub
-      </a>
     </div>
 
     <article data-pagefind-body class="app-prose mt-8 w-full max-w-app prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)">
