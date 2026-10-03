@@ -376,4 +376,4 @@ If you're building local inference infrastructure where hardware optimization an
 
 ---
 
-*The views expressed in this article are my own and do not reflect those of my employer, Mercedes-Benz. I am not affiliated with any of the companies or products mentioned. This article is based on publicly reported information and independent analysis.*
+*The views expressed in this article are my own and do not reflect those of my employer. I am not affiliated with any of the companies or products mentioned. This article is based on publicly reported information and independent analysis.*

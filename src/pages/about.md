@@ -1,18 +1,18 @@
 ---
 layout: ../layouts/AboutLayout.astro
 title: "About"
-description: "Amin Siddique is a Senior Data Engineer at Mercedes-Benz with 6+ years building production data systems. This blog covers data engineering, AI tools, and practical pipeline architecture."
+description: "Amin Siddique is a Senior Data Engineer with 6+ years building production data systems. This blog covers data engineering, AI tools, and practical pipeline architecture."
 ---
 
 ## About the Author
 
-I am **Amin Siddique**, a Senior Data Engineer at Mercedes-Benz with over 6 years of experience building production data systems. I specialize in large-scale SQL migrations, pipeline architecture on Databricks, and integrating AI tooling into real engineering workflows.
+I am **Amin Siddique**, a Senior Data Engineer with over 6 years of experience building production data systems. I specialize in large-scale SQL migrations, pipeline architecture on Databricks, and integrating AI tooling into real engineering workflows.
 
 My day-to-day work involves migrating enterprise-scale data warehouses (Oracle, Exasol) to modern lakehouse architectures on Databricks, building dbt models that serve thousands of downstream consumers, and optimizing Spark jobs processing billions of rows under tight SLAs.
 
 ## Credentials and Experience
 
-- **Current role:** Senior Data Engineer at Mercedes-Benz, working on enterprise data platform modernization
+- **Current role:** Senior Data Engineer, working on enterprise data platform modernization
 - **Specialization:** SQL dialect migration (Oracle, Exasol, Databricks), dbt at scale, Spark optimization, lakehouse architecture
 - **Certifications:** Databricks Certified Data Engineer, Azure Data Engineer Associate
 - **Tools in daily use:** Databricks, Apache Spark, dbt, Python, Azure Data Factory, Delta Lake
@@ -47,7 +47,6 @@ Some articles on this site contain affiliate links to books I genuinely recommen
 ## Connect
 
 - **LinkedIn:** [linkedin.com/in/amin-siddique](https://www.linkedin.com/in/amin-siddique)
-- **Medium:** [medium.com/@amin-siddique](https://medium.com/@amin-siddique)
-- **Email:** [amin.siddique@outlook.com](mailto:amin.siddique@outlook.com)
+- **Email:** [aminsiddique95@gmail.com](mailto:aminsiddique95@gmail.com)
 
 Have questions or feedback? Visit the [Contact](/contact) page.
