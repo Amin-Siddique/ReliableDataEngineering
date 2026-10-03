@@ -7,3 +7,7 @@ dist/
 .astro/
 public/pagefind/
 .DS_Store
+
+# Interview prep content synced from data-eng-problems on every build
+src/data/interview/
+public/interview-prep/

@@ -78,3 +78,32 @@ npm run build
 - File naming: `article_slug.md` (snake_case with `article_` prefix)
 - Tags: lowercase, hyphenated (e.g., `ai-agents`, `developer-tools`)
 - Dates: ISO format `YYYY-MM-DD`
+
+## Interview Prep section (`/interview-prep`)
+
+Content is **not** authored in this repo. It comes from
+[data-eng-problems](https://github.com/Amin-Siddique/data-eng-problems) and is synced on every build:
+
+1. A push to `main` in data-eng-problems runs its CI (every SQL/Python solution executed, links and
+   Mermaid diagrams validated). Only if green, CI uploads `content-bundle.tar.gz` to the rolling
+   `content-latest` release and calls this site's Netlify build hook.
+2. `npm run build` / `npm run dev` run `scripts/sync-interview-content.mjs` first (npm `prebuild`/`predev`).
+   It downloads the bundle, rewrites repo links to `/interview-prep/...` routes, converts Mermaid fences
+   to client-rendered blocks, and writes:
+   - `src/data/interview/` → `interview` content collection (`src/content.config.ts`)
+   - `public/interview-prep/app/` → the interactive app (SQL/Python in the browser, flashcards)
+   - `public/interview-prep/assets/` → diagrams
+   All three are gitignored. Never edit them by hand.
+3. Pages: `src/pages/interview-prep/index.astro` (landing) and `[...slug].astro` (every page).
+
+Local development against a local checkout:
+
+```bash
+INTERVIEW_CONTENT_DIR=../data-eng-problems npm run dev
+```
+
+If the bundle can't be downloaded the build fails on purpose (Netlify keeps the previous deploy live).
+Set `INTERVIEW_CONTENT_OPTIONAL=1` to build without the section.
+
+**One-time setup:** in Netlify → Site configuration → Build & deploy → Build hooks, create a hook, then add its URL
+as the `NETLIFY_BUILD_HOOK` secret in the data-eng-problems GitHub repo (Settings → Secrets → Actions).
